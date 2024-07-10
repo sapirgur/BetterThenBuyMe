@@ -270,3 +270,119 @@ footer {
         margin-bottom: 20px;
     }
 }
+
+/* CSS FOR BranchPage.ejs*/
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    text-align: right;
+}
+
+.brand-header {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+    text-align: center;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.brand-logo {
+    max-width: 100px;
+    margin-bottom: 20px;
+}
+
+.brand-title {
+    font-size: 2rem;
+    color: #333;
+}
+
+.search-section {
+    background-color: #fff;
+    padding: 20px;
+    border-bottom: 1px solid #e2e2e2;
+    text-align: center;
+}
+
+.search-bar {
+    display: inline-block;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar-title {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.search-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-inputs input[type="text"],
+.search-inputs select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.search-inputs input[type="text"]::placeholder {
+    color: #aaa;
+}
+
+.search-button {
+    background-color: #ffa500;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.search-button:hover {
+    background-color: #e69500;
+}
+
+.search-reset {
+    background-color: #ccc;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.search-reset:hover {
+    background-color: #aaa;
+}
+
+@media (max-width: 768px) {
+    .search-inputs {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-inputs input[type="text"],
+    .search-inputs select,
+    .search-button,
+    .search-reset {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
