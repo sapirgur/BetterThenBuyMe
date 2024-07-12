@@ -24,6 +24,9 @@ app.get('/register', (req, res) => {
     res.render('registration'); // Render the registration.ejs view
 });
 
+app.get('/login', (req, res) => {
+    res.render('login'); // Render the login.ejs view
+});
 
 // Start the server
 app.listen(port, () => {
