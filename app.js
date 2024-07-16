@@ -33,6 +33,10 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+app.get('/login.ejs', (req, res) => {
+    res.render('login');
+});
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
