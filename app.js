@@ -26,6 +26,7 @@ app.get('/login', (req, res) => {
     res.render('login'); // Render the login.ejs view
 });
 
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
