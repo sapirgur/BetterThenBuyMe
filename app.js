@@ -37,6 +37,10 @@ app.get('/login.ejs', (req, res) => {
     res.render('login');
 });
 
+app.get('/Views/registration.ejs', (req, res) => {
+    res.render('registration');
+});
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
