@@ -29,7 +29,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-    res.render('userProfile'); // Render the userProfile.ejs view
+    res.render('userProfile');
 });
 
 // Start the server
