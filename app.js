@@ -16,9 +16,7 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/brand', (req, res) => {
-    res.render('brandPage');
-});
+
 
 app.get('/register', (req, res) => {
     res.render('registration'); // Render the registration.ejs view
@@ -28,9 +26,6 @@ app.get('/login', (req, res) => {
     res.render('login'); // Render the login.ejs view
 });
 
-app.get('/profile', (req, res) => {
-    res.render('userProfile');
-});
 
 // Start the server
 app.listen(port, () => {
