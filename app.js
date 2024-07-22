@@ -57,6 +57,28 @@ app.get('/registration', (req, res) => {
     res.render('registration');
 });
 
+app.post('/register', async (req, res) => {
+    const { id_number, first_name, last_name, email, password, address, phone_number } = req.body;
+    try {
+        const newUser = {
+            id_number,
+            name: `${first_name} ${last_name}`,
+            email,
+            password, 
+            address,
+            phone_number,
+            payment_methods: [], // Initialize with empty array
+            order_history: []    // Initialize with empty array
+        };
+        await db.collection('users').insertOne(newUser);
+        req.session.user = { name: newUser.name, email: newUser.email };
+        res.redirect('/');
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
