@@ -13,53 +13,27 @@
     <div class="registration-modal">
         <div class="modal-content">
             <h2>הרשמה</h2>
-            <form>
+            <form action="/register" method="post">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="id-number">ת.ז</label>
-                        <input type="text" class="form-control" id="id-number" placeholder="הכנס ת.ז">
+                        <input type="text" class="form-control" id="id-number" name="id_number" placeholder="הכנס ת.ז" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="first-name">שם פרטי</label>
-                        <input type="text" class="form-control" id="first-name" placeholder="הכנס שם פרטי">
+                        <input type="text" class="form-control" id="first-name" name="first_name" placeholder="הכנס שם פרטי" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="last-name">שם משפחה</label>
-                        <input type="text" class="form-control" id="last-name" placeholder="הכנס שם משפחה">
+                        <input type="text" class="form-control" id="last-name" name="last_name" placeholder="הכנס שם משפחה" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="email">כתובת מייל</label>
-                        <input type="email" class="form-control" id="email" placeholder="הכנס כתובת מייל">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="הכנס כתובת מייל" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="password">ססמא</label>
-                        <input type="password" class="form-control" id="password" placeholder="הכנס ססמא">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="address">כתובת מגורים</label>
-                        <input type="text" class="form-control" id="address" placeholder="הכנס כתובת מגורים">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="phone-number">מספר טלפון</label>
-                    <input type="tel" class="form-control" id="phone-number" placeholder="הכנס מספר טלפון">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">הירשם</button>
-            </form>
-            <div class="footer">
-                <a href="/login">כבר רשום? התחבר</a>
-            </div>
-        </div>
-    </div>
-
-    <%- include('partials/footer') %>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+                      
