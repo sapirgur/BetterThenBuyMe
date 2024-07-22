@@ -33,11 +33,27 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/login.ejs', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.get('/registration.ejs', (req, res) => {
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await db.collection('users').findOne({ email, password }); // Ideally, password should be hashed and compared securely
+        if (user) {
+            req.session.user = { name: user.name, email: user.email };
+            res.redirect('/');
+        } else {
+            res.send('Invalid email or password');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+app.get('/registration', (req, res) => {
     res.render('registration');
 });
 

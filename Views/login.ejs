@@ -13,24 +13,23 @@
     <div class="login-modal">
         <div class="modal-content">
             <h2>התחברות</h2>
-            <form>
+            <form action="/login" method="post">
                 <div class="form-group">
                     <label for="email">כתובת מייל</label>
-                    <input type="email" class="form-control" id="email" placeholder="הכנס כתובת מייל">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="הכנס כתובת מייל" required>
                 </div>
                 <div class="form-group">
                     <label for="password">סיסמה</label>
-                    <input type="password" class="form-control" id="password" placeholder="הכנס סיסמה">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="הכנס סיסמה" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">התחבר</button>
             </form>
             <div class="footer">
-                <a href="#">שכחת סיסמה?</a> | <a href="/registration.ejs">הרשם עכשיו</a>
+                <a href="#">שכחת סיסמה?</a> | <a href="/registration">הרשם עכשיו</a>
             </div>
         </div>
     </div>
 
-    
     <%- include('partials/footer') %>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
