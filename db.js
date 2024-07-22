@@ -1,12 +1,13 @@
-const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
-const url = 'mongodb+srv://sapir8220:@buymeproject.d6fiunn.mongodb.net/';
+const { MongoClient } = require('mongodb');
+const uri = process.env.mongoDB_URI;  
 const dbName = 'BuyMe'; 
 
 let db;
 
 async function connectToDB(callback) {
-    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         db = client.db(dbName);
