@@ -28,6 +28,12 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (e.g., CSS) from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware to pass session user to views
+app.use((req, res, next) => {
+    res.locals.user = req.session.user;
+    next();
+});
+
 // Define routes
 app.get('/', (req, res) => {
     res.render('index');
