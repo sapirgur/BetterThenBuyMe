@@ -7,14 +7,38 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kit.fontawesome.com/a076d05399.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .categories-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .category-card {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .category-card .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
     <%- include('partials/header') %>
 
     <div class="container my-5">
         <h2 class="mb-4">Shop</h2>
-        <div class="row" id="category-section">
-            <%- include('partials/giftCards', { items: categories }) %>
+        <div class="categories-nav">
+            <% categories.forEach(category => { %>
+                <div class="card category-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= category.name %></h5>
+                        <p class="card-text"><%= category.description %></p>
+                        <a href="/shop/<%= category._id %>" class="btn btn-primary">View Businesses</a>
+                    </div>
+                </div>
+            <% }) %>
         </div>
         <div class="row <%= businesses.length > 0 ? '' : 'd-none' %>" id="business-section">
             <%- include('partials/giftCards', { items: businesses }) %>
