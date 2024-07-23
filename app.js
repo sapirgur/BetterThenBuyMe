@@ -99,6 +99,31 @@ app.post('/register', async (req, res) => {
     }
 });
 
+//routes for the shop feature
+app.get('/shop', async (req, res) => {
+    try {
+        const categories = await db.collection('categories').find().toArray();
+        res.render('shop', { categories, businesses: [] });
+    } catch (err) {
+        console.error('Error fetching categories:', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+app.get('/shop/:categoryId', async (req, res) => {
+    try {
+        const categoryId = req.params.categoryId;
+        const category = await db.collection('categories').findOne({ _id: mongoose.Types.ObjectId(categoryId) });
+        const businesses = await db.collection('businesses').find({ categories: category.name }).toArray();
+        const categories = await db.collection('categories').find().toArray();
+        res.render('shop', { categories, businesses });
+    } catch (err) {
+        console.error('Error fetching businesses:', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
