@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById} = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews} = require('./db');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -49,8 +49,14 @@ app.use((req, res, next) => {
 });
 
 // Define routes
-app.get('/', (req, res) => {
-    res.render('index');
+app.get('/', async (req, res) => {
+    try {
+        const topReviews = await getTopReviews();
+        res.render('index', { topReviews });
+    } catch (err) {
+        console.error('Error fetching top reviews:', err);
+        res.status(500).send('Internal server error');
+    }
 });
 
 app.get('/login', (req, res) => {

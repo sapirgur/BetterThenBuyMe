@@ -43,5 +43,14 @@ async function getCategoryById(categoryId) {
     return await db.collection('categories').findOne({ _id: ObjectId.createFromHexString(categoryId) }); // Use ObjectId.createFromHexString here
 }
 
+// Fetch top 5 highest-rated reviews
+async function getTopReviews() {
+    const db = getDB();
+    return await db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
+}
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById };
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews };
+
+
+
+
