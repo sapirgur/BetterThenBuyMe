@@ -84,14 +84,20 @@ app.get('/registration', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-    const { id_number, first_name, last_name, email, password, address, phone_number } = req.body;
+    const { id_number, first_name, last_name, email, password, street, street_number, city, phone_number } = req.body;
     try {
         const newUser = {
             id_number,
             name: `${first_name} ${last_name}`,
             email,
-            password, 
-            address,
+            password,
+            address: [
+                {
+                    street,
+                    "street-number": street_number,
+                    city
+                }
+            ],
             phone_number,
             payment_methods: [], // Initialize with empty array
             order_history: []    // Initialize with empty array
