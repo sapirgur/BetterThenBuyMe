@@ -68,3 +68,18 @@ buyme-website/
 - **CSS**: Add your custom styles in `public/css/styles.css`.
 - **EJS Partials**: Modify the partials in `views/partials/` to change the structure of different sections of the website.
 
+## Creating the .env File
+To set up the environment variables needed for our project, follow these steps:
+
+1. Create a .env file in the root directory of the project.
+2. Add the following environment variables to the .env file:
+   mongoDB_URI=our_mongodb_uri_here
+   SESSION_SECRET=our_session_secret_here
+## Steps:
+1. Navigate to the root directory of the project.
+2. Create a new file named .env.
+3. Open the .env file in a text editor.
+4. Replace the variables values with the actual values.
+## Notes:
+Ensure the .env file is listed in your .gitignore file to avoid committing sensitive information to the repository.
+Each team member should create their own .env file with the provided values.
