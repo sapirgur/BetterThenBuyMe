@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const { connectToDB, getDB } = require('./db');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3001; // Use an available port
@@ -28,6 +29,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files (e.g., CSS) from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Body-parser middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Session middleware
 app.use(session({
