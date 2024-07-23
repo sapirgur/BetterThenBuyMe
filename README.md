@@ -75,11 +75,11 @@ To set up the environment variables needed for our project, follow these steps:
 2. Add the following environment variables to the .env file:
    mongoDB_URI=our_mongodb_uri_here
    SESSION_SECRET=our_session_secret_here
-Steps:
+## Steps:
 1. Navigate to the root directory of the project.
 2. Create a new file named .env.
 3. Open the .env file in a text editor.
 4. Replace the variables values with the actual values.
-Notes:
+## Notes:
 Ensure the .env file is listed in your .gitignore file to avoid committing sensitive information to the repository.
 Each team member should create their own .env file with the provided values.
