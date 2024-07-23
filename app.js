@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB, getDB } = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById} = require('./db');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -102,7 +102,7 @@ app.post('/register', async (req, res) => {
 //routes for the shop feature
 app.get('/shop', async (req, res) => {
     try {
-        const categories = await db.collection('categories').find().toArray();
+        const categories = await getCategories();
         res.render('shop', { categories, businesses: [] });
     } catch (err) {
         console.error('Error fetching categories:', err);
@@ -113,16 +113,15 @@ app.get('/shop', async (req, res) => {
 app.get('/shop/:categoryId', async (req, res) => {
     try {
         const categoryId = req.params.categoryId;
-        const category = await db.collection('categories').findOne({ _id: mongoose.Types.ObjectId(categoryId) });
-        const businesses = await db.collection('businesses').find({ categories: category.name }).toArray();
-        const categories = await db.collection('categories').find().toArray();
+        const category = await getCategoryById(categoryId);
+        const businesses = await getBusinessesByCategory(category.name);
+        const categories = await getCategories();
         res.render('shop', { categories, businesses });
     } catch (err) {
         console.error('Error fetching businesses:', err);
         res.status(500).send('Internal server error');
     }
 });
-
 
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {

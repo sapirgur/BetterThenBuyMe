@@ -14,10 +14,10 @@
     <div class="container my-5">
         <h2 class="mb-4">Shop</h2>
         <div class="row" id="category-section">
-            <%- include('partials/cards', { items: categories }) %>
+            <%- include('partials/giftCards', { items: categories }) %>
         </div>
         <div class="row <%= businesses.length > 0 ? '' : 'd-none' %>" id="business-section">
-            <%- include('partials/cards', { items: businesses }) %>
+            <%- include('partials/giftCards', { items: businesses }) %>
         </div>
     </div>
 

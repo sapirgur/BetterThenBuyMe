@@ -1,6 +1,5 @@
 require('dotenv').config();
-
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb'); // Ensure ObjectId is imported
 const uri = process.env.mongoDB_URI;  
 const dbName = 'BuyMe'; 
 
@@ -26,4 +25,23 @@ function getDB() {
     return db;
 }
 
-module.exports = { connectToDB, getDB };
+// Fetch all categories
+async function getCategories() {
+    const db = getDB();
+    return await db.collection('categories').find().toArray();
+}
+
+// Fetch businesses by category name
+async function getBusinessesByCategory(categoryName) {
+    const db = getDB();
+    return await db.collection('businesses').find({ categories: categoryName }).toArray();
+}
+
+// Fetch category by ID
+async function getCategoryById(categoryId) {
+    const db = getDB();
+    return await db.collection('categories').findOne({ _id: ObjectId.createFromHexString(categoryId) }); // Use ObjectId.createFromHexString here
+}
+
+
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById };
