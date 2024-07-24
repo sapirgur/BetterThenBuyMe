@@ -11,6 +11,13 @@ async function connectToDB(callback) {
         await client.connect();
         db = client.db(dbName);
         console.log('Connected to database');
+
+         // Create indexes for filters
+         await db.collection('businesses').createIndex({ name: "text", description: "text" });
+         await db.collection('businesses').createIndex({ categories: 1 });
+         await db.collection('businesses').createIndex({ price: 1 });
+         await db.collection('businesses').createIndex({ geoRegion: 1 });
+
         callback(null);
     } catch (error) {
         console.error('Failed to connect to the database:', error);
