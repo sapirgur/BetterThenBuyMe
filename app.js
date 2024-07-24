@@ -164,15 +164,14 @@ app.get('/search', async (req, res) => {
     }
 });
 
-app.get('/terms', (req, res) => {
-    res.render('terms');
-});
-
-app.use(express.static('public'));
 
 
 app.get('/aboutUs', (req, res) => {
     res.render('aboutUs');
+});
+
+app.get('/terms', (req, res) => {
+    res.render('terms');
 });
 
 
