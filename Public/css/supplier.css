@@ -45,6 +45,13 @@ body, html {
 
 }
 
+.priceCardContainer{
+    margin-left: 20px;
+    border: 1px solid black;
+    height: 250px;
+    position: relative;
+}
+
 .detailsContactInfo:hover{
     text-decoration: underline; 
     cursor: pointer;
@@ -52,9 +59,22 @@ body, html {
 
 .priceInput{
     text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .priceInput::placeholder {
-    color: lightgray; /* Desired placeholder color */
-    opacity: 1;  /* Ensures placeholder text is fully visible */
+    color: lightgray; 
+    opacity: 1;  
+  }
+
+  .priceCard-confirmButton{
+    width:90%;
+    border-radius: 5px;
+    color: white;
+    background-color: orange;
+    border: none;
+    position: absolute;
+    margin-bottom: 5px;
+    bottom: 0;
   }
