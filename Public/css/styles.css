@@ -169,3 +169,45 @@ footer {
         margin-bottom: 20px;
     }
 }
+
+
+.card {
+    width: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: #fff;
+    position: relative;
+    
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.card:hover .card-content {
+    height: 100px;
+    padding-top: 20px;
+}
+
+.card-content p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
