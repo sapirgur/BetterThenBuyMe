@@ -135,6 +135,7 @@ app.get('/shop/:categoryId', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 //route for the searchBar feature
 app.get('/search', async (req, res) => {
     const { keywords, category, maxPrice, geoRegion } = req.query;
@@ -166,6 +167,13 @@ app.get('/search', async (req, res) => {
 
 
 
+=======
+app.get('/aboutUs', (req, res) => {
+    res.render('aboutUs');
+});
+
+
+>>>>>>> about-us
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
