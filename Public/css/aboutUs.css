@@ -7,12 +7,7 @@ body {
     direction: rtl; /* כדי לתמוך בכיוון כתיבה מימין לשמאל */
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-}
+
 
 main {
     padding: 2rem;
@@ -28,12 +23,3 @@ p {
     line-height: 1.6;
 }
 
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
