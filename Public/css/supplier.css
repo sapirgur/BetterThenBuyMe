@@ -11,11 +11,41 @@ body, html {
     align-items: center;    /* Centers vertically */
   }
 
-.detailsCard{
+  div{
+    padding: 10px 5px 10px 5px;
+  }
+  
+.detailsContainer{
     border: 1px solid black;
-    position: absolute;
-  right: 0;
-  transform: translateX(50%);
-  padding: 20px;
-  background-color: lightblue;
+    display: flex;
+    width: 90%;
+    height: 100%;
+    padding-right: 10px; 
+}
+
+.detailsBody{
+    text-align: left;
+}
+
+.detailsCard{
+    margin-top: 100px;
+}
+
+.homeLink:hover{
+    text-decoration: underline; 
+    cursor: pointer;
+}
+
+.detailsDescription{
+   border-top: 1px solid lightgray;
+   border-bottom: 1px solid lightgray;
+}
+
+.detailsContact{
+
+}
+
+.detailsContactInfo:hover{
+    text-decoration: underline; 
+    cursor: pointer;
 }
