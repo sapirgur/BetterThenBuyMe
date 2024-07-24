@@ -14,10 +14,11 @@
         <div class="user-account d-flex">
             <% if (user) { %>
                 <span class="nav-link">Hello, <%= user.name %></span>
+                <a class="nav-link" href="/cart">Cart</a> <!-- Add Cart link for logged-in users -->
                 <a class="nav-link" href="/logout">Logout</a>
             <% } else { %>
                 <a class="nav-link" href="/login">Login</a>
-                <a class="nav-link" href="#">Cart (0)</a>
+                <a class="nav-link" href="/cart">Cart (0)</a> <!-- Keep Cart link for non-logged-in users -->
             <% } %>
         </div>
     </div>
