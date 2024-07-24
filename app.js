@@ -49,6 +49,7 @@ app.use((req, res, next) => {
 });
 
 // Define routes
+//homepage route
 app.get('/', async (req, res) => {
     try {
         const topReviews = await getTopReviews();
@@ -59,6 +60,7 @@ app.get('/', async (req, res) => {
     }
 });
 
+// login routes
 app.get('/login', (req, res) => {
     res.render('login');
 });
@@ -68,7 +70,8 @@ app.post('/login', async (req, res) => {
     try {
         const user = await db.collection('users').findOne({ email, password }); // Ideally, password should be hashed and compared securely
         if (user) {
-            req.session.user = { name: user.name, email: user.email };
+            const cartItemCount = await db.collection('carts').countDocuments({ userId: user._id }); // Assuming you have a carts collection
+            req.session.user = { name: user.name, email: user.email, cartItemCount: cartItemCount };
             res.redirect('/');
         } else {
             res.send('Invalid email or password');
@@ -79,6 +82,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
+//registration routes
 app.get('/registration', (req, res) => {
     res.render('registration');
 });
