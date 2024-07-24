@@ -1,7 +1,7 @@
 /* CSS for Supplier Page */
 
 @import url('styles.css');
-@import url('footerHeaderStyles.css');
+
 
 body, html {
     height: 100%;
@@ -102,4 +102,18 @@ body, html {
   .priceAndButton-container{
     border: 1px solid black;
     border-radius: 5px;
+  }
+
+  footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  header{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
   }
