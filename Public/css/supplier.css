@@ -53,3 +53,8 @@ body, html {
 .priceInput{
     text-align: center;
 }
+
+.priceInput::placeholder {
+    color: lightgray; /* Desired placeholder color */
+    opacity: 1;  /* Ensures placeholder text is fully visible */
+  }
