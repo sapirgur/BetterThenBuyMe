@@ -164,6 +164,9 @@ app.get('/search', async (req, res) => {
     }
 });
 
+app.get('/terms', (req, res) => {
+    res.render('terms');
+});
 
 
 app.get('/aboutUs', (req, res) => {
