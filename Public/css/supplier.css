@@ -47,8 +47,8 @@ body, html {
 .detailsDescription{
    border-top: 1px solid lightgray;
    border-bottom: 1px solid lightgray;
-   overflow-wrap: break-word !important; /* Ensures text wraps within the container */
-   word-break: keep-all !important; /* For older browsers */
+   overflow-wrap: break-word ; /* Ensures text wraps within the container */
+   word-break: keep-all ; /* For older browsers */
    white-space: normal; /* Ensures that text wraps */
 }
 
@@ -76,7 +76,7 @@ body, html {
     cursor: pointer;
 }
 
-.priceInput{
+#priceInput{
     width:100%;
     text-align: center;
     margin-top: 5px;
@@ -88,7 +88,7 @@ body, html {
     opacity: 1;  
   }
 
-  .priceCard-confirmButton{
+  #priceCard-confirmButton{
     width:100%;
     border-radius: 5px;
     color: white;

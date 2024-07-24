@@ -1,11 +1,33 @@
 <div class="priceCardContainer">
     <div><img></div>
     <div class="priceAndButton-container">
-    <div>
-        <form action="/payment" method="post">
-        <input class="priceInput" type="text" placeholder="Enter Amount">
-        <a href='/payment'><button class="priceCard-confirmButton">Confirm</button></a>
-    </form>
+        <div>
+            <form id="inputForm" action="/payment" method="get">
+                <input id="priceInput" name="value" type="text" placeholder="Enter Amount">
+                <button id="priceCard-confirmButton" type="button">Confirm</button>
+                <p id="errorMessage" style="color: red;"></p>
+            </form>
+        </div>
     </div>
 </div>
-</div>
+
+<!-- Check if input value is a number -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputField = document.getElementById('priceInput');
+        const submitButton = document.getElementById('priceCard-confirmButton');
+        const errorMessage = document.getElementById('errorMessage');
+
+        submitButton.addEventListener('click', () => {
+            const inputValue = inputField.value;
+
+            // Check if the input is a number and greater than zero
+            if (isNaN(inputValue) || inputValue.trim() === '' || parseFloat(inputValue) <= 0) {
+                errorMessage.textContent = 'Please enter a valid positive number greater than zero.';
+            } else {
+                errorMessage.textContent = ''; // Clear any previous error messages
+                window.location.href = `payment?value=${encodeURIComponent(inputValue)}`;
+            }
+        });
+    });
+</script>

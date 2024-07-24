@@ -148,6 +148,10 @@ app.get('/payment',(req,res)=>{
     res.render('payment')
 });
 
+app.get('/payment.ejs',(req,res)=>{
+    res.render('payment')
+});
+
 app.post('/payment',async (req,res)=>{
     res.render('payment')
 });
