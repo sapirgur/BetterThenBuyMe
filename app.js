@@ -166,6 +166,11 @@ app.get('/search', async (req, res) => {
 
 
 
+app.get('/aboutUs', (req, res) => {
+    res.render('aboutUs');
+});
+
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
