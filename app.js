@@ -139,6 +139,10 @@ app.get('/supplier',(req,res)=>{
     res.render('supplier')
 });
 
+app.get('/payment',(req,res)=>{
+    res.render('payment')
+});
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
