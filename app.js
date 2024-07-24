@@ -135,6 +135,10 @@ app.get('/shop/:categoryId', async (req, res) => {
     }
 });
 
+app.get('/supplier',(req,res)=>{
+    res.render('supplier')
+});
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
