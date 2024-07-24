@@ -31,6 +31,10 @@ body, html {
     margin-top: 100px;
 }
 
+.homeLink a{
+    color: black;
+}
+
 .homeLink:hover{
     text-decoration: underline; 
     cursor: pointer;
