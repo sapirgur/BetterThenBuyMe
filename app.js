@@ -174,6 +174,10 @@ app.get('/terms', (req, res) => {
     res.render('terms');
 });
 
+app.get('/whyGiveGifts', (req, res) => {
+    res.render('whyGiveGifts');
+});
+
 
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
