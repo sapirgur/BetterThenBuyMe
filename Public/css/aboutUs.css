@@ -10,12 +10,19 @@ body {
 
 
 main {
-    padding: 2rem;
+    padding: 2rem 2rem 2rem;
+    padding-top: 120px; 
     max-width: 800px;
     margin: 0 auto;
 }
 
-h1, h2 {
+h1 {
+    font-size: 1.8rem; 
+    color: #555;
+}
+
+h2 {
+    font-size: 1.5rem; 
     color: #555;
 }
 
