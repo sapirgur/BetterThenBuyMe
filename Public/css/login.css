@@ -1,45 +1,47 @@
-/* CSS for Login Page */
-
-@import url('styles.css');
-@import url('footerHeaderStyles.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, #FDFDFD, #FCFCFD);
     direction: rtl;
     text-align: right;
 }
 
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
 
 .login-modal {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .modal-content {
     padding: 20px;
+    border-radius: 20px;
 }
 
 .modal-content h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 10px;
     text-align: center;
     color: #333;
 }
 
+.modal-content p {
+    font-size: 1rem;
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
@@ -50,18 +52,78 @@ body {
 .form-group input {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 100%;
     font-size: 1rem;
     color: #333;
 }
 
-.btn-block {
+.btn-login {
     width: 100%;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 1rem;
     font-weight: bold;
+    background-color: #E87A6E;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
 }
 
+.btn-login:hover {
+    background-color: #D96B5F;
+    box-shadow: 0 4px 15px rgba(232, 122, 110, 0.5);
+    transform: translateY(-3px);
+    color: #fff;
+}
 
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer a {
+    color: #E87A6E;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.image-container {
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    border-radius: 20px;
+}
+
+.btn-outline-primary {
+    border: 2px solid #E87A6E;
+    color: #fff;
+    background-color: #E87A6E;
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #D96B5F;
+    box-shadow: 0 4px 15px rgba(232, 122, 110, 0.5);
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+.btn-text {
+    display: inline;
+    color: inherit;
+}
