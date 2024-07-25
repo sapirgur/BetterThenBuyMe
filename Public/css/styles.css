@@ -7,23 +7,6 @@ body {
     text-align: right;
 }
 
-.header {
-    background-color: #172B4D; /* Dark blue background */
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-}
-
-.header a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    transition: color 0.3s;
-}
-
-.header a:hover {
-    color: #FF6F61; /* Light orange on hover */
-}
 
 .hero {
     background-image: url('https://example.com/hero-image.jpg');
