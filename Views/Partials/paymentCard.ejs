@@ -1,0 +1,44 @@
+<!-- views/paymentCard.ejs -->
+<div class="paymentCard-Container">
+    <div class="paymentCard-Header">
+        Adding A Credit Card
+    </div>
+    <div class="paymentCard-Body">
+        <div class="form-group">
+            <label for="cardName">Name on Card</label>
+            <div class="name-group">
+                <input type="text" id="lastName" placeholder="Last Name" name="cardName" required>
+                <input type="text" id="firstName" placeholder="First Name" name="cardName" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" name="cardNumber" required>
+        </div>
+        <div class="form-group">
+            <label>Expiry Date</label>
+            <div class="expiry-cvv-group">
+                <input type="text" id="expiryMonth" name="expiryMonth" placeholder="MM" maxlength="2" required>
+                <input type="text" id="expiryYear" name="expiryYear" placeholder="YYYY" maxlength="4" required>
+                <input type="text" id="cvv" name="cvv" placeholder="CVV" maxlength="3" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Address To Send</label>
+            <div class="adress-group">
+                <input type="text" id="city" name="city" placeholder="City">
+                <input type="text" id="street" name="street" placeholder="Street">
+                <input type="text" id="number" name="number" placeholder="Number">
+            </div>
+        </div>
+        <div>
+            <div class="checkbox-group">
+                <label for="saveCardInfo" class="checkbox-label">
+                    Save this credit card for future use
+                </label>
+                <input type="checkbox" id="saveCardInfo" name="saveCardInfo" class="checkbox-input">
+            </div>
+        </div>
+    </div>
+    <button class="paymentButton" type="submit">Pay Now</button>
+</div>
