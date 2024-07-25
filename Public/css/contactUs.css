@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: auto;
-    padding-top: 120px; /* To ensure content is not hidden behind the fixed header */
+
 }
 
 /* Contact Us Page Specific Styles */
@@ -54,18 +54,6 @@ body {
     color: #333;
 }
 
-.contact-container p {
-    color: #555;
-}
-
-.contact-container p a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.contact-container p a:hover {
-    text-decoration: underline;
-}
 
 /* Map container */
 #map {
