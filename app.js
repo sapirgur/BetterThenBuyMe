@@ -182,6 +182,12 @@ app.get('/contact', (req, res) => {
     res.render('contactUs');
 });
 
+
+app.get('/profile', (req, res) => {
+    res.render('profile');
+});
+
+
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
     try {
