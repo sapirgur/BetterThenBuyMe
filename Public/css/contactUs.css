@@ -14,7 +14,6 @@ body {
 .container {
     max-width: 1200px;
     margin: auto;
-
 }
 
 /* Contact Us Page Specific Styles */
@@ -30,6 +29,7 @@ body {
     margin-bottom: 20px;
     color: #333;
     font-size: 1.8rem;
+    
 }
 
 .contact-container .row {
