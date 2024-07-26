@@ -50,13 +50,26 @@ async function getCategoryById(categoryId) {
     return await db.collection('categories').findOne({ _id: ObjectId.createFromHexString(categoryId) }); // Use ObjectId.createFromHexString here
 }
 
+async function getBusinessById(businessId) {
+    try {
+        const db = getDB();
+        console.log(`Querying for business with ID: ${businessId}`);
+        const business = await db.collection('businesses').findOne({ _id: new ObjectId(businessId) });
+        console.log('Query result:', business);
+        return business;
+    } catch (err) {
+        console.error('Error in getBusinessById:', err);
+        throw err;
+    }
+}
+
 // Fetch top 5 highest-rated reviews
 async function getTopReviews() {
     const db = getDB();
     return await db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
 }
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews };
+module.exports = { connectToDB, getDB, ObjectId , getCategories, getBusinessesByCategory, getCategoryById, getTopReviews,getBusinessById };
 
 
 

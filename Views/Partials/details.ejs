@@ -4,16 +4,16 @@
             <div>
                 <span class="homeLink"><a href="/">Home</a></span>
                 >
-                <span>Businnes name</span>
+                <span><%= supplier.name %></span>
             </div>
             <div>
-                <img src=""> <span>Businnes name</span>
+                <img src=""> <span><%= supplier.name %></span>
             </div>
             <div class="detailsDescription">
-                Long Description about the businnes aaaaaaaaaa aaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa
+                <%= supplier.description %>
             </div>
             <div class="detailsContact">
-                <div class="detailsContactInfo">Branch List</div>
+                <div class="detailsContactInfo"><%= supplier.contact_info %></div>
                 <div class="detailsContactInfo">Phone Number</div>
                 <div class="detailsContactInfo">Mail</div>
                 <div class="detailsContactInfo">WebSite</div>

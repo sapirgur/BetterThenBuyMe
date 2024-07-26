@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews} = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, ObjectId, getBusinessById} = require('./db');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -148,12 +148,38 @@ app.get('/payment',(req,res)=>{
     res.render('payment')
 });
 
-app.get('/payment.ejs',(req,res)=>{
+app.get('/payment/:businessId',(req,res)=>{
     res.render('payment')
 });
 
-app.post('/payment',async (req,res)=>{
+app.get('/payment.ejs/:businessId',(req,res)=>{
     res.render('payment')
+});
+
+app.post('/payment/:businessId',async (req,res)=>{
+    res.render('payment')
+});
+
+app.get('/supplier/:businessId', async (req, res) => {
+    try {
+        const businessId = req.params.businessId;
+        console.log('Fetching supplier with ID:', businessId);
+        
+        // Validate the businessId format
+        if (!ObjectId.isValid(businessId)) {
+            return res.status(400).send('Invalid business ID format');
+        }
+
+        const business = await getBusinessById(businessId);
+        if (!business) {
+            return res.status(404).send('Supplier not found');
+        }
+
+        res.render('supplier', { supplier: business });
+    } catch (err) {
+        console.error('Error fetching business:', err);
+        res.status(500).send('Internal server error');
+    }
 });
 
 //route for the searchBar feature
