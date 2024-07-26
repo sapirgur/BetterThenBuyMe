@@ -12,7 +12,16 @@
 </head>
 <body>
     <%- include('partials/header') %>
-    <%- include('partials/hero') %>
+
+     <!-- Logo and Introduction -->
+     <section class="intro text-center py-5">
+        <img src="/path/to/logo.png" alt="BuyMe Logo" class="img-fluid mb-3" style="max-width: 150px;">
+        <h1>ברוכים הבאים ל-BuyMe</h1>
+        <p>החנות שלך לכל מה שצריך!</p>
+        <p>גלה מבצעים מדהימים ומוצרים חדשים בכל יום.</p>
+    </section>
+    <!--
+    <%- include('partials/hero') %>-->
     <%- include('partials/searchBar') %>
     <%- include('partials/specialOffers') %>
     <%- include('partials/testimonials') %>
