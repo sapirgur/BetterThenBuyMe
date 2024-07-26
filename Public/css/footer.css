@@ -124,3 +124,26 @@ footer {
         margin-bottom: 20px;
     }
 }
+
+.footer-bottom {
+    background-color: #1D2437; /* Dark blue background */
+    padding: 20px 0;
+    text-align: center;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icon img {
+    width: 40px;
+    height: 40px;
+    filter: invert(100%); /* Make icons white */
+    transition: filter 0.3s;
+}
+
+.social-icon img:hover {
+    filter: invert(62%) sepia(86%) saturate(748%) hue-rotate(329deg) brightness(95%) contrast(101%); /* Light orange on hover */
+}
