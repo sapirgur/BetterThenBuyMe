@@ -134,16 +134,17 @@ footer {
 .social-icons {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
 }
 
 .social-icon img {
-    width: 40px;
-    height: 40px;
-    filter: invert(100%); /* Make icons white */
-    transition: filter 0.3s;
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s, box-shadow 0.3s; 
 }
 
+
 .social-icon img:hover {
-    filter: invert(62%) sepia(86%) saturate(748%) hue-rotate(329deg) brightness(95%) contrast(101%); /* Light orange on hover */
+    transform: scale(1.1); /* Slightly enlarge the icon on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }
