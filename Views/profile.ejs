@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרופיל - Gifty</title>
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="profile">
+            <h1>פרופיל</h1>
+            <div class="profile-info">
+                <label for="first-name">שם פרטי:</label>
+                <input type="text" id="first-name" name="first-name" value="ישראל" readonly>
+                
+                <label for="last-name">שם משפחה:</label>
+                <input type="text" id="last-name" name="last-name" value="ישראלי" readonly>
+            </div>
+            <div class="history">
+                <h2>היסטוריית רכישות</h2>
+                <ul class="purchase-history">
+                    <li>כרטיס מתנה מרשת א - ₪50</li>
+                    <li>כרטיס מתנה מרשת ב - ₪100</li>
+                </ul>
+                <h2>היסטוריית ניצול</h2>
+                <ul class="usage-history">
+                    <li>כרטיס מתנה מרשת א - ניצול ₪30</li>
+                    <li>כרטיס מתנה מרשת ב - ניצול ₪50</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
