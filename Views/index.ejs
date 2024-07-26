@@ -23,30 +23,25 @@
         <!-- Search Bar Section -->
         <div class="search-bar mt-4">
             <h2 class="text-center mb-4">Find What You're Looking For</h2>
-            <div class="d-flex justify-content-center">
-                <form class="row g-3 col-md-8 justify-content-center" method="GET" action="/search">
+            <div class="search-bar-container">
+                <form class="d-flex w-100" method="GET" action="/search">
                     <!-- Search by Category -->
-                    <div class="col-md-6">
-                        <select class="form-control" name="category">
-                            <option value="">Category</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Food">Food</option>
-                            <option value="Sport">Sport</option>
-                            <option value="Spa">Spa</option>
-                        </select>
-                    </div>
+                    <select class="form-control me-2" name="category">
+                        <option value="">Category</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Food">Food</option>
+                        <option value="Sport">Sport</option>
+                        <option value="Spa">Spa</option>
+                    </select>
                     <!-- Search by Business Name -->
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="businessName" placeholder="Business Name">
-                    </div>
-                    <div class="col-12 text-center mt-3">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+                    <input type="text" class="form-control me-2" name="businessName" placeholder="Business Name">
+                    <button type="submit" class="btn btn-primary search-btn">Search</button>
                 </form>
             </div>
         </div>
     </section>
+
 
     <!-- Special Offers Section -->
     <section class="special-offers py-5">

@@ -5,7 +5,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #FDFCFD, #FCFCFD);
+    background: linear-gradient(135deg, #FDFAF9, #FDFAF9);
     direction: rtl;
     text-align: right;
 }
@@ -14,23 +14,55 @@ body {
 .intro {
     text-align: center;
     padding: 60px 0;
-    background-image: url('\css\Images\gifty\background-image.jpg');
+    background-image: url('/css/Images/gifty/background-image_2.jpg'); 
     background-size: cover;
     background-position: center;
-    color: rgb(0, 0, 0);
+    color: rgb(51, 51, 51);
 }
+
 
 /* Search Bar Section */
 .search-bar {
     text-align: center;
     padding: 10px 0;
+}
 
+.search-bar .search-bar-container {
+    border: 1px solid #ccc; /* Border */
+    padding: 15px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #fff; /* Background color */
+    max-width: 800px; /* Limit width */
+    margin: 0 auto; /* Center align */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute space between elements */
 }
 
 .search-bar .form-control {
-    margin-bottom: 10px;
-    text-align: center;
+    margin-bottom: 5px;
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Increase padding for larger input fields */
+    flex: 1; /* Make input fields take up available space */
 }
+
+.search-bar .search-btn {
+    border-radius: 10px; /* Rounded corners */
+    padding: 5px 20px; /* Increase padding for larger button */
+    font-size: 1.2rem; /* Increase font size */
+    background-color: #fff; /* White background color */
+    color: #000; /* Black text color */
+    border: 1px solid #ccc; /* Border to match the container */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.search-bar .search-btn:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    color: #333; /* Darker text color on hover */
+}
+
+
+
 
 /* Special Offers Section */
 .special-offers {
@@ -51,14 +83,14 @@ body {
 }
 
 .special-offers .btn {
-    background-color: #007bff;
+    background-color: #71777e;
     color: white;
     border: none;
     transition: background-color 0.3s;
 }
 
 .special-offers .btn:hover {
-    background-color: #0056b3;
+    background-color: #647281;
 }
 
 /* Testimonials Section */
