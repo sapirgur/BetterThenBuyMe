@@ -3,34 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BuyMe - Home</title>
+    <title>Gifty - Home</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kit.fontawesome.com/a076d05399.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
     <%- include('partials/header') %>
 
-     <!-- Logo and Introduction -->
-     <section class="intro text-center py-5">
-        <img src="/path/to/logo.png" alt="BuyMe Logo" class="img-fluid mb-3" style="max-width: 150px;">
-        <h1>ברוכים הבאים ל-BuyMe</h1>
+     <!-- Logo and Introduction with Search Bar -->
+    <section class="intro text-center py-5">
+        <img src="\css\Images\gifty\gifty_card.png" alt="Gifry Logo" class="img-fluid mb-3" style="max-width: 150px;">
+        <h1>ברוכים הבאים ל-Gifty</h1>
         <p>החנות שלך לכל מה שצריך!</p>
         <p>גלה מבצעים מדהימים ומוצרים חדשים בכל יום.</p>
+
+        <!-- Search Bar Section -->
+        <div class="search-bar mt-4">
+            <h2 class="text-center mb-4">Find What You're Looking For</h2>
+            <div class="d-flex justify-content-center">
+                <form class="row g-3 col-md-8 justify-content-center" method="GET" action="/search">
+                    <!-- Search by Category -->
+                    <div class="col-md-6">
+                        <select class="form-control" name="category">
+                            <option value="">Category</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Food">Food</option>
+                            <option value="Sport">Sport</option>
+                            <option value="Spa">Spa</option>
+                        </select>
+                    </div>
+                    <!-- Search by Business Name -->
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="businessName" placeholder="Business Name">
+                    </div>
+                    <div class="col-12 text-center mt-3">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
-    <!--
-    <%- include('partials/hero') %>-->
-    <%- include('partials/searchBar') %>
-    <%- include('partials/specialOffers') %>
-    <%- include('partials/testimonials') %>
-    <%- include('partials/socialIcons') %>
+
+    <!-- Special Offers Section -->
+    <section class="special-offers py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Special Offers</h2>
+            <div class="row">
+                <!-- Offer 1 -->
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Special Offer 1</h5>
+                            <p class="card-text">This is a description of the first special offer. It includes great discounts and amazing deals.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Offer 2 -->
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Special Offer 2</h5>
+                            <p class="card-text">This is a description of the second special offer. Don't miss out on these exclusive deals.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Offer 3 -->
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Special Offer 3</h5>
+                            <p class="card-text">This is a description of the third special offer. Hurry up and take advantage of these offers.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">What Our Customers Are Saying</h2>
+            <div class="row justify-content-center">
+                <% topReviews.forEach(review => { %>
+                    <div class="col-md-2 mb-4">
+                        <div class="testimonial-card">
+                            <div class="card-body">
+                                <p class="card-text">"<%= review.comment %>"</p>
+                                <footer class="blockquote-footer">
+                                    <span>Rating: <%= review.rating %></span>
+                                    <i class="fas fa-star"></i>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+
     <%- include('partials/footer') %>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
 </body>
 </html>
+
+
