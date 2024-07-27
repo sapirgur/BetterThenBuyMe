@@ -5,9 +5,9 @@
       align-items: center;
       height: 30vh; /* Full viewport height */
     }
-  </style>
-  
-  <div class="full-height-container">
+</style>
+
+<div class="full-height-container">
     <section class="search-bar container py-5">
         <h2 class="text-center mb-4">Find What You're Looking For</h2>
         <div class="d-flex justify-content-center">
@@ -18,18 +18,32 @@
                 <div class="col-md-3">
                     <select class="form-control" name="category">
                         <option value="">Category</option>
-                        <option value="Fashion">Fashion</option>
-                        <option value="Electronics">Electronics</option>
-                        <option value="Food">Food</option>
-                        <option value="Sport">Sport</option>
-                        <option value="Spa">Spa</option>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category.name %>"><%= category.name %></option>
+                        <% }) %>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <input type="text" class="form-control" name="maxPrice" placeholder="Max Price">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" name="geoRegion" placeholder="Geo Region">
+                    <select class="form-control" name="geoRegion">
+                        <option value="">Geo Region</option>
+                        <option value="תל אביב">תל אביב</option>
+                        <option value="נס ציונה">נס ציונה</option>
+                        <option value="ראשון לציון">ראשון לציון</option>
+                        <option value="באר שבע">באר שבע</option>
+                        <option value="רחובות">רחובות</option>
+                        <option value="הרצליה">הרצליה</option>
+                        <option value="נתניה">נתניה</option>
+                        <option value="טבריה">טבריה</option>
+                        <option value="קיסריה">קיסריה</option>
+                        <option value="ירושלים">ירושלים</option>
+                        <option value="כל הארץ">כל הארץ</option>
+                        <option value="מרכז הארץ">מרכז הארץ</option>
+                        <option value="צפון הארץ">צפון הארץ</option>
+                        <option value="אור יהודה">אור יהודה</option>
+                    </select>
                 </div>
                 <div class="col-12 text-center mt-3">
                     <button type="submit" class="btn btn-primary">Search</button>
