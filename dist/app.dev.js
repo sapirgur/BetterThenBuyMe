@@ -98,9 +98,10 @@ app.get('/', function _callee(req, res) {
 });
 app.get('/login', function (req, res) {
   res.render('login');
-});
+}); // Updated login route
+
 app.post('/login', function _callee2(req, res) {
-  var _req$body, email, password, user;
+  var _req$body, email, password, user, cart;
 
   return regeneratorRuntime.async(function _callee2$(_context2) {
     while (1) {
@@ -117,32 +118,163 @@ app.post('/login', function _callee2(req, res) {
         case 4:
           user = _context2.sent;
 
-          // Ideally, password should be hashed and compared securely
-          if (user) {
-            req.session.user = {
-              name: user.name,
-              email: user.email
-            };
-            res.redirect('/');
-          } else {
-            res.send('Invalid email or password');
+          if (!user) {
+            _context2.next = 19;
+            break;
           }
 
-          _context2.next = 12;
+          req.session.user = {
+            id: user._id,
+            name: user.name,
+            email: user.email
+          }; // Retrieve the user's cart
+
+          _context2.next = 9;
+          return regeneratorRuntime.awrap(db.collection('cart').findOne({
+            user_id: user._id
+          }));
+
+        case 9:
+          cart = _context2.sent;
+
+          if (cart) {
+            _context2.next = 14;
+            break;
+          }
+
+          // If no cart exists, create a new one
+          cart = {
+            user_id: user._id,
+            items: [],
+            created_at: new Date(),
+            updated_at: new Date()
+          };
+          _context2.next = 14;
+          return regeneratorRuntime.awrap(db.collection('cart').insertOne(cart));
+
+        case 14:
+          console.log(cart);
+          req.session.cart = cart; // Save the cart in the session
+
+          res.redirect('/');
+          _context2.next = 20;
           break;
 
-        case 8:
-          _context2.prev = 8;
+        case 19:
+          res.send('Invalid email or password');
+
+        case 20:
+          _context2.next = 26;
+          break;
+
+        case 22:
+          _context2.prev = 22;
           _context2.t0 = _context2["catch"](1);
           console.error('Login error:', _context2.t0);
           res.status(500).send('Internal server error');
 
-        case 12:
+        case 26:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[1, 8]]);
+  }, null, null, [[1, 22]]);
+}); // Route to add items to the cart
+
+app.post('/add-to-cart', function _callee3(req, res) {
+  var _req$body2, product_id, quantity, user_id, cart, result, itemIndex;
+
+  return regeneratorRuntime.async(function _callee3$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          if (req.session.user) {
+            _context3.next = 2;
+            break;
+          }
+
+          return _context3.abrupt("return", res.status(401).send('You need to log in first'));
+
+        case 2:
+          _req$body2 = req.body, product_id = _req$body2.product_id, quantity = _req$body2.quantity;
+          user_id = req.session.user.id;
+          _context3.prev = 4;
+          _context3.next = 7;
+          return regeneratorRuntime.awrap(db.collection('cart').findOne({
+            user_id: ObjectId(user_id)
+          }));
+
+        case 7:
+          cart = _context3.sent;
+
+          if (cart) {
+            _context3.next = 14;
+            break;
+          }
+
+          // If no cart exists, create a new one
+          cart = {
+            user_id: ObjectId(user_id),
+            items: [],
+            created_at: new Date(),
+            updated_at: new Date()
+          };
+          _context3.next = 12;
+          return regeneratorRuntime.awrap(db.collection('cart').insertOne(cart));
+
+        case 12:
+          result = _context3.sent;
+          cart._id = result.insertedId;
+
+        case 14:
+          // Add the item to the cart
+          itemIndex = cart.items.findIndex(function (item) {
+            return item.product_id === product_id;
+          });
+
+          if (itemIndex > -1) {
+            // If the item already exists in the cart, update the quantity
+            cart.items[itemIndex].quantity += quantity;
+          } else {
+            // Otherwise, add the new item to the cart
+            cart.items.push({
+              product_id: product_id,
+              quantity: quantity
+            });
+          }
+
+          cart.updated_at = new Date(); // Update the cart in the database
+
+          _context3.next = 19;
+          return regeneratorRuntime.awrap(db.collection('cart').updateOne({
+            _id: ObjectId(cart._id)
+          }, {
+            $set: {
+              items: cart.items,
+              updated_at: cart.updated_at
+            }
+          }));
+
+        case 19:
+          req.session.cart = cart; // Update the cart in the session
+
+          res.redirect('/cart'); // Redirect to the cart page or another appropriate page
+
+          _context3.next = 27;
+          break;
+
+        case 23:
+          _context3.prev = 23;
+          _context3.t0 = _context3["catch"](4);
+          console.error('Error adding item to cart:', _context3.t0);
+          res.status(500).send('Internal server error');
+
+        case 27:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, null, null, [[4, 23]]);
 }); // Logout route
 
 app.get('/logout', function (req, res) {
@@ -159,15 +291,15 @@ app.get('/logout', function (req, res) {
 app.get('/registration', function (req, res) {
   res.render('registration');
 });
-app.post('/register', function _callee3(req, res) {
-  var _req$body2, id_number, first_name, last_name, email, password, street, street_number, city, phone_number, newUser;
+app.post('/register', function _callee4(req, res) {
+  var _req$body3, id_number, first_name, last_name, email, password, street, street_number, city, phone_number, newUser;
 
-  return regeneratorRuntime.async(function _callee3$(_context3) {
+  return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
-      switch (_context3.prev = _context3.next) {
+      switch (_context4.prev = _context4.next) {
         case 0:
-          _req$body2 = req.body, id_number = _req$body2.id_number, first_name = _req$body2.first_name, last_name = _req$body2.last_name, email = _req$body2.email, password = _req$body2.password, street = _req$body2.street, street_number = _req$body2.street_number, city = _req$body2.city, phone_number = _req$body2.phone_number;
-          _context3.prev = 1;
+          _req$body3 = req.body, id_number = _req$body3.id_number, first_name = _req$body3.first_name, last_name = _req$body3.last_name, email = _req$body3.email, password = _req$body3.password, street = _req$body3.street, street_number = _req$body3.street_number, city = _req$body3.city, phone_number = _req$body3.phone_number;
+          _context4.prev = 1;
           newUser = {
             id_number: id_number,
             name: "".concat(first_name, " ").concat(last_name),
@@ -184,7 +316,7 @@ app.post('/register', function _callee3(req, res) {
             order_history: [] // Initialize with empty array
 
           };
-          _context3.next = 5;
+          _context4.next = 5;
           return regeneratorRuntime.awrap(db.collection('users').insertOne(newUser));
 
         case 5:
@@ -193,144 +325,144 @@ app.post('/register', function _callee3(req, res) {
             email: newUser.email
           };
           res.redirect('/');
-          _context3.next = 13;
+          _context4.next = 13;
           break;
 
         case 9:
-          _context3.prev = 9;
-          _context3.t0 = _context3["catch"](1);
-          console.error('Registration error:', _context3.t0);
+          _context4.prev = 9;
+          _context4.t0 = _context4["catch"](1);
+          console.error('Registration error:', _context4.t0);
           res.status(500).send('Internal server error');
 
         case 13:
         case "end":
-          return _context3.stop();
+          return _context4.stop();
       }
     }
   }, null, null, [[1, 9]]);
 }); //routes for the shop feature
 
-app.get('/shop', function _callee4(req, res) {
+app.get('/shop', function _callee5(req, res) {
   var categories;
-  return regeneratorRuntime.async(function _callee4$(_context4) {
-    while (1) {
-      switch (_context4.prev = _context4.next) {
-        case 0:
-          _context4.prev = 0;
-          _context4.next = 3;
-          return regeneratorRuntime.awrap(getCategories());
-
-        case 3:
-          categories = _context4.sent;
-          res.render('shop', {
-            categories: categories,
-            businesses: []
-          });
-          _context4.next = 11;
-          break;
-
-        case 7:
-          _context4.prev = 7;
-          _context4.t0 = _context4["catch"](0);
-          console.error('Error fetching categories:', _context4.t0);
-          res.status(500).send('Internal server error');
-
-        case 11:
-        case "end":
-          return _context4.stop();
-      }
-    }
-  }, null, null, [[0, 7]]);
-});
-app.get('/shop/:categoryId', function _callee5(req, res) {
-  var categoryId, category, businesses, categories;
   return regeneratorRuntime.async(function _callee5$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
-          categoryId = req.params.categoryId;
-          _context5.next = 4;
-          return regeneratorRuntime.awrap(getCategoryById(categoryId));
-
-        case 4:
-          category = _context5.sent;
-          _context5.next = 7;
-          return regeneratorRuntime.awrap(getBusinessesByCategory(category.name));
-
-        case 7:
-          businesses = _context5.sent;
-          _context5.next = 10;
+          _context5.next = 3;
           return regeneratorRuntime.awrap(getCategories());
 
-        case 10:
+        case 3:
           categories = _context5.sent;
           res.render('shop', {
             categories: categories,
-            businesses: businesses
+            businesses: []
           });
-          _context5.next = 18;
+          _context5.next = 11;
           break;
 
-        case 14:
-          _context5.prev = 14;
+        case 7:
+          _context5.prev = 7;
           _context5.t0 = _context5["catch"](0);
-          console.error('Error fetching businesses:', _context5.t0);
+          console.error('Error fetching categories:', _context5.t0);
           res.status(500).send('Internal server error');
 
-        case 18:
+        case 11:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[0, 14]]);
+  }, null, null, [[0, 7]]);
 });
-app.get('/shop/item/:itemId', function _callee6(req, res) {
-  var itemId, Business;
+app.get('/shop/:categoryId', function _callee6(req, res) {
+  var categoryId, category, businesses, categories;
   return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.prev = 0;
+          categoryId = req.params.categoryId;
+          _context6.next = 4;
+          return regeneratorRuntime.awrap(getCategoryById(categoryId));
+
+        case 4:
+          category = _context6.sent;
+          _context6.next = 7;
+          return regeneratorRuntime.awrap(getBusinessesByCategory(category.name));
+
+        case 7:
+          businesses = _context6.sent;
+          _context6.next = 10;
+          return regeneratorRuntime.awrap(getCategories());
+
+        case 10:
+          categories = _context6.sent;
+          res.render('shop', {
+            categories: categories,
+            businesses: businesses
+          });
+          _context6.next = 18;
+          break;
+
+        case 14:
+          _context6.prev = 14;
+          _context6.t0 = _context6["catch"](0);
+          console.error('Error fetching businesses:', _context6.t0);
+          res.status(500).send('Internal server error');
+
+        case 18:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, null, null, [[0, 14]]);
+});
+app.get('/shop/item/:itemId', function _callee7(req, res) {
+  var itemId, Business;
+  return regeneratorRuntime.async(function _callee7$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          _context7.prev = 0;
           itemId = req.params.itemId;
           console.log(itemId);
-          _context6.next = 5;
+          _context7.next = 5;
           return regeneratorRuntime.awrap(getBusinessById(itemId));
 
         case 5:
-          Business = _context6.sent;
+          Business = _context7.sent;
           console.log(Business);
           res.render('itemDetail', {
             item: Business
           });
-          _context6.next = 14;
+          _context7.next = 14;
           break;
 
         case 10:
-          _context6.prev = 10;
-          _context6.t0 = _context6["catch"](0);
-          console.error('Error fetching business:', _context6.t0);
+          _context7.prev = 10;
+          _context7.t0 = _context7["catch"](0);
+          console.error('Error fetching business:', _context7.t0);
           res.status(500).send('Internal Server Error');
 
         case 14:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
     }
   }, null, null, [[0, 10]]);
 }); // Route for the search bar feature
 
-app.get('/search', function _callee7(req, res) {
+app.get('/search', function _callee8(req, res) {
   var _req$query, keywords, category, maxPrice, geoRegion, query, businesses, categories;
 
-  return regeneratorRuntime.async(function _callee7$(_context7) {
+  return regeneratorRuntime.async(function _callee8$(_context8) {
     while (1) {
-      switch (_context7.prev = _context7.next) {
+      switch (_context8.prev = _context8.next) {
         case 0:
           _req$query = req.query, keywords = _req$query.keywords, category = _req$query.category, maxPrice = _req$query.maxPrice, geoRegion = _req$query.geoRegion;
           console.log('Search Parameters:', req.query); // Log the search parameters
 
-          _context7.prev = 2;
+          _context8.prev = 2;
           query = {}; // Search for keywords in all indexed text fields
 
           if (keywords) {
@@ -353,40 +485,40 @@ app.get('/search', function _callee7(req, res) {
 
 
           if (!geoRegion) {
-            _context7.next = 21;
+            _context8.next = 21;
             break;
           }
 
-          _context7.t0 = geoRegion;
-          _context7.next = _context7.t0 === 'כל הארץ' ? 11 : _context7.t0 === 'מרכז הארץ' ? 12 : _context7.t0 === 'דרום הארץ' ? 14 : _context7.t0 === 'צפון הארץ' ? 16 : _context7.t0 === 'אזור ירושלים' ? 18 : 20;
+          _context8.t0 = geoRegion;
+          _context8.next = _context8.t0 === 'כל הארץ' ? 11 : _context8.t0 === 'מרכז הארץ' ? 12 : _context8.t0 === 'דרום הארץ' ? 14 : _context8.t0 === 'צפון הארץ' ? 16 : _context8.t0 === 'אזור ירושלים' ? 18 : 20;
           break;
 
         case 11:
-          return _context7.abrupt("break", 21);
+          return _context8.abrupt("break", 21);
 
         case 12:
           query.geographical_location = {
             $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה', 'חולון']
           };
-          return _context7.abrupt("break", 21);
+          return _context8.abrupt("break", 21);
 
         case 14:
           query.geographical_location = {
             $in: ['באר שבע']
           };
-          return _context7.abrupt("break", 21);
+          return _context8.abrupt("break", 21);
 
         case 16:
           query.geographical_location = {
             $in: ['קצרין', 'קיסריה', 'זכרון יעקב', 'מיני ישראל', 'שוני', 'טבריה']
           };
-          return _context7.abrupt("break", 21);
+          return _context8.abrupt("break", 21);
 
         case 18:
           query.geographical_location = {
             $in: ['ירושלים', 'מודיעין']
           };
-          return _context7.abrupt("break", 21);
+          return _context8.abrupt("break", 21);
 
         case 20:
           query.geographical_location = geoRegion;
@@ -394,34 +526,34 @@ app.get('/search', function _callee7(req, res) {
         case 21:
           console.log('Database Query:', query); // Log the query being sent to the database
 
-          _context7.next = 24;
+          _context8.next = 24;
           return regeneratorRuntime.awrap(db.collection('businesses').find(query).toArray());
 
         case 24:
-          businesses = _context7.sent;
+          businesses = _context8.sent;
           console.log('Search Results:', businesses); // Log the search results
 
-          _context7.next = 28;
+          _context8.next = 28;
           return regeneratorRuntime.awrap(getCategories());
 
         case 28:
-          categories = _context7.sent;
+          categories = _context8.sent;
           res.render('shop', {
             categories: categories,
             businesses: businesses
           });
-          _context7.next = 36;
+          _context8.next = 36;
           break;
 
         case 32:
-          _context7.prev = 32;
-          _context7.t1 = _context7["catch"](2);
-          console.error('Error performing search:', _context7.t1);
+          _context8.prev = 32;
+          _context8.t1 = _context8["catch"](2);
+          console.error('Error performing search:', _context8.t1);
           res.status(500).send('Internal server error');
 
         case 36:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
   }, null, null, [[2, 32]]);
@@ -442,20 +574,20 @@ app.get('/profile', function (req, res) {
   res.render('profile');
 }); // Test route to check DB connection
 
-app.get('/test-connection', function _callee8(req, res) {
+app.get('/test-connection', function _callee9(req, res) {
   var testCollection, documents;
-  return regeneratorRuntime.async(function _callee8$(_context8) {
+  return regeneratorRuntime.async(function _callee9$(_context9) {
     while (1) {
-      switch (_context8.prev = _context8.next) {
+      switch (_context9.prev = _context9.next) {
         case 0:
-          _context8.prev = 0;
+          _context9.prev = 0;
 
           if (db) {
-            _context8.next = 3;
+            _context9.next = 3;
             break;
           }
 
-          return _context8.abrupt("return", res.status(500).json({
+          return _context9.abrupt("return", res.status(500).json({
             error: 'Database not initialized'
           }));
 
@@ -467,27 +599,27 @@ app.get('/test-connection', function _callee8(req, res) {
           }
 
           console.log(testCollection);
-          _context8.next = 8;
+          _context9.next = 8;
           return regeneratorRuntime.awrap(testCollection.find({}).toArray());
 
         case 8:
-          documents = _context8.sent;
+          documents = _context9.sent;
           console.log('Documents fetched:', documents);
           res.json(documents);
-          _context8.next = 17;
+          _context9.next = 17;
           break;
 
         case 13:
-          _context8.prev = 13;
-          _context8.t0 = _context8["catch"](0);
-          console.error('Error fetching documents:', _context8.t0);
+          _context9.prev = 13;
+          _context9.t0 = _context9["catch"](0);
+          console.error('Error fetching documents:', _context9.t0);
           res.status(500).json({
             error: 'An error occurred while fetching documents.'
           });
 
         case 17:
         case "end":
-          return _context8.stop();
+          return _context9.stop();
       }
     }
   }, null, null, [[0, 13]]);
