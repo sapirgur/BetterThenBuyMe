@@ -225,6 +225,9 @@ app.get('/whyGiveGifts', (req, res) => {
     res.render('whyGiveGifts');
 });
 
+app.get('/contact', (req, res) => {
+    res.render('contactUs');
+});
 
 
 // Test route to check DB connection
