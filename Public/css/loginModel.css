@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #FDFDFD, #FCFCFD);
+    direction: rtl;
+    text-align: right;
+}
+
+.login-modal {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.modal-content h5 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #333;
+}
+
+.modal-content .small {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.modal-content p {
+    font-size: 1rem;
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 1rem;
+    color: #333;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 1rem;
+    color: #333;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #E87A6E;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #D96B5F;
+    box-shadow: 0 4px 15px rgba(232, 122, 110, 0.5);
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer a {
+    color: #E87A6E;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}

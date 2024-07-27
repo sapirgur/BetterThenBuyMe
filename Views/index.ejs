@@ -14,9 +14,11 @@
     <link rel="stylesheet" href="/css/hero.css">
     <link rel="stylesheet" href="/css/searchBar.css">
     <link rel="stylesheet" href="/css/specialOffers.css">
+    <link rel="stylesheet" href="/css/loginModal.css">
 </head>
 <body>
     <%- include('partials/header') %>
+
     <%- include('partials/hero') %>
     <%- include('partials/searchBar', { categories: categories }) %> <!-- Pass categories here -->
     <%- include('partials/specialOffers') %>
@@ -27,5 +29,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $('#loginLink').click(function(e) {
+                e.preventDefault();
+                $('#loginModal').modal('show');
+            });
+        });
+    </script>
 </body>
 </html>
