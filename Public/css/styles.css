@@ -9,14 +9,6 @@ body {
 
 
 
-.search-bar {
-    margin: 40px 0;
-}
-
-.search-bar input, .search-bar select {
-    margin-bottom: 10px;
-}
-
 .social-icons a {
     font-size: 2rem;
     margin: 0 15px;
