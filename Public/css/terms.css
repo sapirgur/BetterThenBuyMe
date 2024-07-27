@@ -1,0 +1,20 @@
+.terms-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+
+.terms-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.terms-container p, .terms-container h2 {
+    line-height: 1.6;
+    margin-bottom: 10px;
+}

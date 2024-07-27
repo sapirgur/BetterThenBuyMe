@@ -7,14 +7,6 @@ body {
     text-align: right;
 }
 
-.header {
-    background-color: #343a40;
-    color: white;
-}
-
-.header a {
-    color: white;
-}
 
 .hero {
     background-image: url('https://example.com/hero-image.jpg');

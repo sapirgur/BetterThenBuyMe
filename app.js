@@ -217,6 +217,14 @@ app.get('/aboutUs', (req, res) => {
     res.render('aboutUs');
 });
 
+app.get('/terms', (req, res) => {
+    res.render('terms');
+});
+
+app.get('/whyGiveGifts', (req, res) => {
+    res.render('whyGiveGifts');
+});
+
 
 
 // Test route to check DB connection
