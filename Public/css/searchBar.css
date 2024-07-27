@@ -1,0 +1,47 @@
+.full-height-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh; 
+}
+
+.search-bar {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.search-bar h2 {
+    color: #0D1B2A; 
+    font-family: 'Assistant', sans-serif; /* פונט לכותרת */
+    margin-top: 4rem; /* ריווח עליון גדול יותר לכותרת */
+    margin-bottom: 2rem; /* ריווח תחתון לכותרת */
+}
+
+.search-bar .form-control, .search-bar .form-control:focus {
+    color: #0D1B2A; 
+    font-family: 'Assistant', sans-serif; /* פונט לטקסט בשדה החיפוש */
+    margin-bottom: 0.5rem; /* ריווח תחתון קטן יותר לשדות החיפוש */
+}
+
+.search-bar .form-control:hover {
+    border: 1px solid #70A9A1; 
+}
+
+.search-bar .search-btn {
+    width: 30%; 
+    background-color: #0D1B2A; 
+    color: white;
+    border: none;
+    font-family: 'Assistant', sans-serif; /* פונט לכפתור */
+    margin-top: 0.5rem; /* ריווח עליון קטן יותר לכפתור */
+}
+
+.search-bar .search-btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל לכפתור בעת ה-HOVER */
+    background-color: #0D1B2A; /* שמירת צבע הרקע */
+    color: white; /* שמירת צבע הטקסט */
+}
+
+.search-bar-container {
+    margin-bottom: 4rem; /* ריווח תחתון גדול יותר לקונטיינר של ה-Search Bar */
+}
