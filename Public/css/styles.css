@@ -7,6 +7,23 @@ body {
     text-align: right;
 }
 
+.header {
+    background-color: #172B4D; /* Dark blue background */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    transition: color 0.3s;
+}
+
+.header a:hover {
+    color: #FF6F61; /* Light orange on hover */
+}
 
 .hero {
     background-image: url('https://example.com/hero-image.jpg');
@@ -46,21 +63,23 @@ body {
 }
 
 .footer {
-    background-color: #343a40;
+    background-color: #172B4D; /* Dark blue background */
     color: white;
     padding: 40px 0;
 }
 
 .footer a {
     color: white;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
 .footer a:hover {
-    text-decoration: underline;
+    color: #FF6F61; /* Light orange on hover */
 }
 
 footer {
-    background-color: #2c3e50;
+    background-color: #172B4D; /* Dark blue background */
     padding: 40px 0;
     color: #fff;
 }
@@ -90,25 +109,33 @@ footer {
 }
 
 .footer-column ul li a, .footer-links ul li a {
-    color: #fff;
+    color: white;
     text-decoration: none;
+    transition: color 0.3s;
 }
 
 .footer-column ul li a:hover, .footer-links ul li a:hover {
-    text-decoration: underline;
+    color: #FF6F61; /* Light orange on hover */
 }
 
 .footer-contact h4, .footer-links h4, .footer-newsletter h4 {
     margin-bottom: 20px;
+    color: #36B8AF; /* Turquoise color */
 }
 
 .footer-contact p a, .footer-contact p {
     display: block;
     margin: 5px 0;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-.footer-contact p a:hover {
-    color: yellow;
+.footer-contact p a:nth-child(2), .footer-contact p a:nth-child(3) {
+    color: #36B8AF; /* Turquoise color for specific links */
+}
+
+.footer-contact p a:nth-child(2):hover, .footer-contact p a:nth-child(3):hover {
+    color: #FF6F61; /* Light orange on hover */
 }
 
 .footer-newsletter form {
@@ -127,7 +154,7 @@ footer {
 }
 
 .footer-newsletter form button {
-    background-color: #ffa500;
+    background-color: #36B8AF; /* Turquoise button */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -138,7 +165,7 @@ footer {
 }
 
 .footer-newsletter form button:hover {
-    background-color: #e69500;
+    background-color: #FF6F61; /* Light orange on hover */
 }
 
 .footer-newsletter label {
