@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BuyMe - Home</title>
+    <title>Gifty - Home</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kit.fontawesome.com/a076d05399.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Arsenal:wght@700&family=Sacramento&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">  
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/hero.css">
+    <link rel="stylesheet" href="/css/searchBar.css">
+    <link rel="stylesheet" href="/css/specialOffers.css">
 </head>
 <body>
     <%- include('partials/header') %>
@@ -16,7 +21,6 @@
     <%- include('partials/searchBar', { categories: categories }) %> <!-- Pass categories here -->
     <%- include('partials/specialOffers') %>
     <%- include('partials/testimonials') %>
-    <%- include('partials/socialIcons') %>
     <%- include('partials/footer') %>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
