@@ -1,0 +1,11 @@
+.full-height-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh; /* Full viewport height */
+}
+
+.search-bar {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
