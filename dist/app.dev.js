@@ -284,19 +284,53 @@ app.get('/shop/:categoryId', function _callee5(req, res) {
       }
     }
   }, null, null, [[0, 14]]);
-}); // Route for the search bar feature
-
-app.get('/search', function _callee6(req, res) {
-  var _req$query, keywords, category, maxPrice, geoRegion, query, businesses, categories;
-
+});
+app.get('/shop/item/:itemId', function _callee6(req, res) {
+  var itemId, Business;
   return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
+          _context6.prev = 0;
+          itemId = req.params.itemId;
+          console.log(itemId);
+          _context6.next = 5;
+          return regeneratorRuntime.awrap(getBusinessById(itemId));
+
+        case 5:
+          Business = _context6.sent;
+          console.log(Business);
+          res.render('itemDetail', {
+            item: Business
+          });
+          _context6.next = 14;
+          break;
+
+        case 10:
+          _context6.prev = 10;
+          _context6.t0 = _context6["catch"](0);
+          console.error('Error fetching business:', _context6.t0);
+          res.status(500).send('Internal Server Error');
+
+        case 14:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, null, null, [[0, 10]]);
+}); // Route for the search bar feature
+
+app.get('/search', function _callee7(req, res) {
+  var _req$query, keywords, category, maxPrice, geoRegion, query, businesses, categories;
+
+  return regeneratorRuntime.async(function _callee7$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
           _req$query = req.query, keywords = _req$query.keywords, category = _req$query.category, maxPrice = _req$query.maxPrice, geoRegion = _req$query.geoRegion;
           console.log('Search Parameters:', req.query); // Log the search parameters
 
-          _context6.prev = 2;
+          _context7.prev = 2;
           query = {}; // Search for keywords in all indexed text fields
 
           if (keywords) {
@@ -319,40 +353,40 @@ app.get('/search', function _callee6(req, res) {
 
 
           if (!geoRegion) {
-            _context6.next = 21;
+            _context7.next = 21;
             break;
           }
 
-          _context6.t0 = geoRegion;
-          _context6.next = _context6.t0 === 'כל הארץ' ? 11 : _context6.t0 === 'מרכז הארץ' ? 12 : _context6.t0 === 'דרום הארץ' ? 14 : _context6.t0 === 'צפון הארץ' ? 16 : _context6.t0 === 'אזור ירושלים' ? 18 : 20;
+          _context7.t0 = geoRegion;
+          _context7.next = _context7.t0 === 'כל הארץ' ? 11 : _context7.t0 === 'מרכז הארץ' ? 12 : _context7.t0 === 'דרום הארץ' ? 14 : _context7.t0 === 'צפון הארץ' ? 16 : _context7.t0 === 'אזור ירושלים' ? 18 : 20;
           break;
 
         case 11:
-          return _context6.abrupt("break", 21);
+          return _context7.abrupt("break", 21);
 
         case 12:
           query.geographical_location = {
             $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה', 'חולון']
           };
-          return _context6.abrupt("break", 21);
+          return _context7.abrupt("break", 21);
 
         case 14:
           query.geographical_location = {
             $in: ['באר שבע']
           };
-          return _context6.abrupt("break", 21);
+          return _context7.abrupt("break", 21);
 
         case 16:
           query.geographical_location = {
             $in: ['קצרין', 'קיסריה', 'זכרון יעקב', 'מיני ישראל', 'שוני', 'טבריה']
           };
-          return _context6.abrupt("break", 21);
+          return _context7.abrupt("break", 21);
 
         case 18:
           query.geographical_location = {
             $in: ['ירושלים', 'מודיעין']
           };
-          return _context6.abrupt("break", 21);
+          return _context7.abrupt("break", 21);
 
         case 20:
           query.geographical_location = geoRegion;
@@ -360,34 +394,34 @@ app.get('/search', function _callee6(req, res) {
         case 21:
           console.log('Database Query:', query); // Log the query being sent to the database
 
-          _context6.next = 24;
+          _context7.next = 24;
           return regeneratorRuntime.awrap(db.collection('businesses').find(query).toArray());
 
         case 24:
-          businesses = _context6.sent;
+          businesses = _context7.sent;
           console.log('Search Results:', businesses); // Log the search results
 
-          _context6.next = 28;
+          _context7.next = 28;
           return regeneratorRuntime.awrap(getCategories());
 
         case 28:
-          categories = _context6.sent;
+          categories = _context7.sent;
           res.render('shop', {
             categories: categories,
             businesses: businesses
           });
-          _context6.next = 36;
+          _context7.next = 36;
           break;
 
         case 32:
-          _context6.prev = 32;
-          _context6.t1 = _context6["catch"](2);
-          console.error('Error performing search:', _context6.t1);
+          _context7.prev = 32;
+          _context7.t1 = _context7["catch"](2);
+          console.error('Error performing search:', _context7.t1);
           res.status(500).send('Internal server error');
 
         case 36:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
     }
   }, null, null, [[2, 32]]);
@@ -408,20 +442,20 @@ app.get('/profile', function (req, res) {
   res.render('profile');
 }); // Test route to check DB connection
 
-app.get('/test-connection', function _callee7(req, res) {
+app.get('/test-connection', function _callee8(req, res) {
   var testCollection, documents;
-  return regeneratorRuntime.async(function _callee7$(_context7) {
+  return regeneratorRuntime.async(function _callee8$(_context8) {
     while (1) {
-      switch (_context7.prev = _context7.next) {
+      switch (_context8.prev = _context8.next) {
         case 0:
-          _context7.prev = 0;
+          _context8.prev = 0;
 
           if (db) {
-            _context7.next = 3;
+            _context8.next = 3;
             break;
           }
 
-          return _context7.abrupt("return", res.status(500).json({
+          return _context8.abrupt("return", res.status(500).json({
             error: 'Database not initialized'
           }));
 
@@ -433,27 +467,27 @@ app.get('/test-connection', function _callee7(req, res) {
           }
 
           console.log(testCollection);
-          _context7.next = 8;
+          _context8.next = 8;
           return regeneratorRuntime.awrap(testCollection.find({}).toArray());
 
         case 8:
-          documents = _context7.sent;
+          documents = _context8.sent;
           console.log('Documents fetched:', documents);
           res.json(documents);
-          _context7.next = 17;
+          _context8.next = 17;
           break;
 
         case 13:
-          _context7.prev = 13;
-          _context7.t0 = _context7["catch"](0);
-          console.error('Error fetching documents:', _context7.t0);
+          _context8.prev = 13;
+          _context8.t0 = _context8["catch"](0);
+          console.error('Error fetching documents:', _context8.t0);
           res.status(500).json({
             error: 'An error occurred while fetching documents.'
           });
 
         case 17:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
   }, null, null, [[0, 13]]);

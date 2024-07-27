@@ -147,7 +147,19 @@ app.get('/shop/:categoryId', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+app.get('/shop/item/:itemId', async (req, res) => {
+    try {        
+        const itemId = req.params.itemId;
+        console.log(itemId);
+        const Business = await getBusinessById(itemId);
+        console.log(Business);
 
+        res.render('itemDetail', { item: Business });
+    } catch (error) {
+        console.error('Error fetching business:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 // Route for the search bar feature
 app.get('/search', async (req, res) => {
