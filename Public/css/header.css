@@ -20,17 +20,24 @@ header {
     position: relative;
     top: 0;
     z-index: 1000;
+    height: 80px;
 }
 
 .header a {
     color: #FCFCFD; /* almost white */
     text-decoration: none;
 }
-
-.header .logo h1 {
-    margin: 0;
-    font-size: 2rem;
+.header .logo a {
+    display: flex;
+    align-items: center;
 }
+
+.header .logo img {
+    max-height: 50px; /* הגובה המקורי של הלוגו */
+    transform: scale(2.8); /* הגדלת הלוגו */
+    transform-origin: center; /* שמירה על מרכז הלוגו כנקודת ייחוס */
+}
+
 
 .header nav .nav-link {
     color: #FCFCFD; /* almost white */
