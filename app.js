@@ -52,12 +52,14 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
     try {
         const topReviews = await getTopReviews();
-        res.render('index', { topReviews });
+        const categories = await getCategories();
+        res.render('index', { topReviews, categories });
     } catch (err) {
-        console.error('Error fetching top reviews:', err);
+        console.error('Error fetching top reviews and categories:', err);
         res.status(500).send('Internal server error');
     }
 });
+
 
 app.get('/login', (req, res) => {
     res.render('login');
@@ -147,15 +149,16 @@ app.get('/shop/:categoryId', async (req, res) => {
 });
 
 // Route for the search bar feature
+// Route for the search bar feature
 app.get('/search', async (req, res) => {
     const { keywords, category, maxPrice, geoRegion } = req.query;
 
     try {
         const query = {};
         
-        // Search for keywords in all product values
+        // Search for keywords in all indexed text fields
         if (keywords) {
-            query.$text = { $search: keywords }; 
+            query.$text = { $search: keywords };
         }
 
         // Filter by category
@@ -177,6 +180,7 @@ app.get('/search', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
 
 
 

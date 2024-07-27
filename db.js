@@ -12,11 +12,11 @@ async function connectToDB(callback) {
         db = client.db(dbName);
         console.log('Connected to database');
 
-         // Create indexes for filters
-         await db.collection('businesses').createIndex({ name: "text", description: "text" });
-         await db.collection('businesses').createIndex({ categories: 1 });
-         await db.collection('businesses').createIndex({ price: 1 });
-         await db.collection('businesses').createIndex({ geoRegion: 1 });
+        // Create indexes for filters
+        await db.collection('businesses').createIndex({ name: "text", description: "text" });
+        await db.collection('businesses').createIndex({ categories: 1 });
+        await db.collection('businesses').createIndex({ price: 1 });
+        await db.collection('businesses').createIndex({ geographical_location: 1 });
 
         callback(null);
     } catch (error) {
@@ -47,7 +47,7 @@ async function getBusinessesByCategory(categoryName) {
 // Fetch category by ID
 async function getCategoryById(categoryId) {
     const db = getDB();
-    return await db.collection('categories').findOne({ _id: ObjectId.createFromHexString(categoryId) }); // Use ObjectId.createFromHexString here
+    return await db.collection('categories').findOne({ _id: new ObjectId(categoryId) }); // Use ObjectId.createFromHexString here
 }
 
 // Fetch top 5 highest-rated reviews
@@ -57,7 +57,3 @@ async function getTopReviews() {
 }
 
 module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews };
-
-
-
-
