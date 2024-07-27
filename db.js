@@ -56,7 +56,13 @@ async function getTopReviews() {
     return await db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
 }
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews };
+// Fetch business by ID
+async function getBusinessById(businessId) {
+    const db = getDB();
+    return await db.collection('businesses').findOne({ _id: ObjectId.createFromHexString(businessId) });
+}
+
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById };
 
 
 
