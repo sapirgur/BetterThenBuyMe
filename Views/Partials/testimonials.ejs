@@ -3,11 +3,24 @@
         <h2 class="text-center mb-4">What Our Customers Are Saying</h2>
         <div class="row">
             <% topReviews.forEach(review => { %>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">"<%= review.comment %>"</p>
-                            <footer class="blockquote-footer">Rating: <%= review.rating %> stars</footer>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text text-center flex-grow-1">"<%= review.comment %>"</p>
+                            <footer class="blockquote-footer mt-3 text-center">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <div class="stars">
+                                        <% for (let i = 0; i < 5; i++) { %>
+                                            <% if (i < review.rating) { %>
+                                                <i class="fas fa-star text-warning fa-2x"></i>
+                                            <% } else { %>
+                                                <i class="far fa-star text-warning fa-2x"></i>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                    <span class="ms-2">(<%= review.rating %> stars)</span>
+                                </div>
+                            </footer>
                         </div>
                     </div>
                 </div>
@@ -15,3 +28,6 @@
         </div>
     </div>
 </section>
+
+<!-- Add this line to include Font Awesome for the star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
