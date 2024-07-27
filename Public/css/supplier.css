@@ -1,7 +1,8 @@
 /* CSS for Supplier Page */
 
 @import url('styles.css');
-
+@import url('footer.css');
+@import url('header.css');
 
 body, html {
     height: 100%;
