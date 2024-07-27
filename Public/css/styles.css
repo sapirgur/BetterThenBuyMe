@@ -8,23 +8,6 @@ body {
 }
 
 
-.hero {
-    background-image: url('https://example.com/hero-image.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    padding: 100px 0;
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 1.5rem;
-}
 
 .search-bar {
     margin: 40px 0;
@@ -44,5 +27,4 @@ body {
 .social-icons a:hover {
     color: #007bff;
 }
-
 
