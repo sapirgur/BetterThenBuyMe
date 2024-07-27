@@ -1,56 +1,23 @@
-
-.hero {
-    background-size: cover;
-    background-position: center;
-    color: white;
-    padding: 100px 0;
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 1.5rem;
-}
-
 .hero-section {
-    background-color: #1D2437; 
-    padding: 50px 0;
-    color: #ffffff;
-}
-
-.hero-section .container {
+    width: 100%;
+    height: 100vh; /* הגדרת הגובה לגובה המסך כולו */
+    overflow: hidden; /* מניעת גלילה במקרה של תמונה גדולה יותר מהמסך */
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-.hero-section .text-content {
-    max-width: 50%;
-}
-
-.hero-section .hero-title {
-    color: #6FB3B8; /* הצבע הכחול בהיר */
-    font-size: 4rem;
-    margin: 0;
-}
-
-.hero-section .hero-subtitle {
-    color: #ffffff;
-    font-size: 1.5rem;
-    margin: 10px 0 0;
+    justify-content: center;
+    background-color: #0D1B2A; /* צבע רקע למקרה שהתמונה לא נטענת */
 }
 
 .hero-section .image-content {
-    max-width: 50%;
+    width: auto;
+    height: auto;
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-section .hero-image {
-    max-width: 300px;
-    height: auto;
+    width: 100%;
+    height: 90%;
+    object-fit: contain; /* הכנת התמונה כך שתתאים לגודל החלק */
 }
