@@ -9,25 +9,17 @@
     <link rel="stylesheet" href="/css/supplier.css">
 </head>
 <body>
+    
     <%- include('partials/header') %>
 
-
     <%- include('partials/paymentCard') %>
-    <p id="displayValue"></p>
+
+    <%- include('partials/valueDecoder') %>
 
     <%- include('partials/footer') %>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const displayValue = document.getElementById('displayValue');
-            const params = new URLSearchParams(window.location.search);
-            const value = params.get('value');
 
-            if (value) {
-                displayValue.textContent = `Received value: ${decodeURIComponent(value)}`;
-            }
-        });
-    </script>
+    <!-- <script src="/Views/Partials/valueDecoder.ejs"></script> -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

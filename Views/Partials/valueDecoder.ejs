@@ -1,0 +1,13 @@
+
+<p id="displayValue"></p>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const displayValue = document.getElementById('displayValue');
+        const params = new URLSearchParams(window.location.search);
+        const value = params.get('value');
+
+        if (value) {
+            displayValue.textContent = `Received value: ${decodeURIComponent(value)}`;
+        }
+    });
+</script>
