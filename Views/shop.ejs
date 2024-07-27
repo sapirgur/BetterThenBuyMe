@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <style>
-        .categories-nav {
+          .categories-nav {
             display: flex;
             justify-content: space-around;
             margin-bottom: 20px;
@@ -24,6 +24,11 @@
             flex-direction: column;
             align-items: center;
         }
+        .category-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +40,7 @@
             <% categories.forEach(category => { %>
                 <div class="card category-card">
                     <div class="card-body">
+                        <img src="/<%= category.imgPath %>" alt="<%= category.name %> Logo">
                         <h5 class="card-title"><%= category.name %></h5>
                         <p class="card-text"><%= category.description %></p>
                         <a href="/shop/<%= category._id %>" class="btn btn-primary">View Businesses</a>
