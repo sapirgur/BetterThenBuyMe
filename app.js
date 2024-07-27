@@ -172,9 +172,27 @@ app.get('/search', async (req, res) => {
             query.price = { $lte: parseFloat(maxPrice) };
         }
 
-        // Filter by geographical location
-        if (geoRegion) {
-            query.geographical_location = geoRegion;
+         // Filter by geographical location
+         if (geoRegion) {
+            switch (geoRegion) {
+                case 'כל הארץ':
+                    // No additional filter needed, as we want to load all cards
+                    break;
+                case 'מרכז הארץ':
+                    query.geographical_location = { $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה'] };
+                    break;
+                case 'דרום הארץ':
+                    query.geographical_location = 'באר שבע';
+                    break;
+                case 'צפון הארץ':
+                    query.geographical_location = { $in: ['קצרין', 'קיסריה'] };
+                    break;
+                case 'אזור ירושלים':
+                    query.geographical_location = 'ירושלים';
+                    break;
+                default:
+                    query.geographical_location = geoRegion;
+            }
         }
 
         console.log('Database Query:', query); // Log the query being sent to the database
