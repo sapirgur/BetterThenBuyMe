@@ -1,6 +1,5 @@
 
 .hero {
-    background-image: url('https://example.com/hero-image.jpg');
     background-size: cover;
     background-position: center;
     color: white;
@@ -18,7 +17,7 @@
 }
 
 .hero-section {
-    background-color: #0D1B2A; /* הצבע הכחול כהה */
+    background-color: #1D2437; 
     padding: 50px 0;
     color: #ffffff;
 }
