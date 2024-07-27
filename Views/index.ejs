@@ -13,7 +13,7 @@
 <body>
     <%- include('partials/header') %>
     <%- include('partials/hero') %>
-    <%- include('partials/searchBar') %>
+    <%- include('partials/searchBar', { categories: categories }) %> <!-- Pass categories here -->
     <%- include('partials/specialOffers') %>
     <%- include('partials/testimonials') %>
     <%- include('partials/socialIcons') %>

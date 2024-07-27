@@ -52,12 +52,14 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
     try {
         const topReviews = await getTopReviews();
-        res.render('index', { topReviews });
+        const categories = await getCategories();
+        res.render('index', { topReviews, categories });
     } catch (err) {
-        console.error('Error fetching top reviews:', err);
+        console.error('Error fetching top reviews and categories:', err);
         res.status(500).send('Internal server error');
     }
 });
+
 
 app.get('/login', (req, res) => {
     res.render('login');
@@ -146,26 +148,58 @@ app.get('/shop/:categoryId', async (req, res) => {
     }
 });
 
-//route for the searchBar feature
+
+// Route for the search bar feature
 app.get('/search', async (req, res) => {
     const { keywords, category, maxPrice, geoRegion } = req.query;
+    console.log('Search Parameters:', req.query); // Log the search parameters
 
     try {
         const query = {};
+
+        // Search for keywords in all indexed text fields
         if (keywords) {
-            query.$text = { $search: keywords }; 
+            query.$text = { $search: keywords };
         }
+
+        // Filter by category
         if (category) {
             query.categories = category;
         }
+
+        // Filter by maximum price
         if (maxPrice) {
             query.price = { $lte: parseFloat(maxPrice) };
         }
+
+        // Filter by geographical location
         if (geoRegion) {
-            query.geoRegion = geoRegion; 
+            switch (geoRegion) {
+                case 'כל הארץ':
+                    // No additional filter needed, as we want to load all cards
+                    break;
+                case 'מרכז הארץ':
+                    query.geographical_location = { $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה','חולון'] };
+                    break;
+                case 'דרום הארץ':
+                    query.geographical_location = { $in: ['באר שבע'] };
+                    break;
+                case 'צפון הארץ':
+                    query.geographical_location = { $in: ['קצרין', 'קיסריה','זכרון יעקב','מיני ישראל', 'שוני','טבריה'] };
+                    break;
+                case 'אזור ירושלים':
+                    query.geographical_location = { $in: ['ירושלים','מודיעין'] };
+                    break;
+                default:
+                    query.geographical_location = geoRegion;
+            }
         }
 
+        console.log('Database Query:', query); // Log the query being sent to the database
+
         const businesses = await db.collection('businesses').find(query).toArray();
+        console.log('Search Results:', businesses); // Log the search results
+        
         const categories = await getCategories();
         
         res.render('shop', { categories, businesses });
@@ -174,6 +208,8 @@ app.get('/search', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
+
 
 
 
