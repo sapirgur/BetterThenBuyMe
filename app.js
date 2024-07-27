@@ -79,6 +79,17 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Logout route
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.redirect('/'); // If there's an error, redirect to home
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.redirect('/'); // Redirect to the homepage
+    });
+});
+
 app.get('/registration', (req, res) => {
     res.render('registration');
 });
