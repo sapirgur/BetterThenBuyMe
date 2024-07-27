@@ -184,9 +184,12 @@ app.get('/supplier/:businessId', async (req, res) => {
 
 //route for update-payment
 app.post('/update-payment-method', async (req, res) => {
-    const { id_number, card_number, expiry_month, expiry_year, cvv, billing_city, billing_street, billing_number } = req.body;
+    console.log('Received data:', req.body); // Log the data received
+
+    const { id_number, card_number, expiry_month, expiry_year, cvv, billing_city, billing_street, billing_number, saveCardInfo } = req.body;
 
     try {
+        // Prepare the payment method data
         const paymentMethod = {
             card_number,
             card_type: 'Unknown', // You can derive this or remove if not used
@@ -194,10 +197,16 @@ app.post('/update-payment-method', async (req, res) => {
             billing_address: `${billing_city}, ${billing_street}, ${billing_number}`
         };
 
+        // Add payment method
         const addSuccess = await addPaymentMethod(id_number, paymentMethod);
 
         if (!addSuccess) {
             return res.status(404).send('User not found or update failed.');
+        }
+
+        // Optionally, handle the saveCardInfo checkbox
+        if (saveCardInfo) {
+            console.log('User opted to save card info for future use.');
         }
 
         res.send('Payment method added successfully.');
