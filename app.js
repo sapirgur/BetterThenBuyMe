@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, ObjectId, getBusinessById} = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, ObjectId, getBusinessById ,getUserById, addPaymentMethod} = require('./db');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -181,6 +181,32 @@ app.get('/supplier/:businessId', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
+//route for update-payment
+app.post('/update-payment-method', async (req, res) => {
+    const { id_number, card_number, expiry_month, expiry_year, cvv, billing_city, billing_street, billing_number } = req.body;
+
+    try {
+        const paymentMethod = {
+            card_number,
+            card_type: 'Unknown', // You can derive this or remove if not used
+            expiry_date: `${expiry_month}/${expiry_year}`,
+            billing_address: `${billing_city}, ${billing_street}, ${billing_number}`
+        };
+
+        const addSuccess = await addPaymentMethod(id_number, paymentMethod);
+
+        if (!addSuccess) {
+            return res.status(404).send('User not found or update failed.');
+        }
+
+        res.send('Payment method added successfully.');
+    } catch (error) {
+        console.error('Error adding payment method:', error);
+        res.status(500).send('Error adding payment method.');
+    }
+});
+
 
 //route for the searchBar feature
 app.get('/search', async (req, res) => {
