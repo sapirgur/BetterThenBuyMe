@@ -2,10 +2,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30vh; /* Full viewport height */
+    height: 30vh; 
 }
 
 .search-bar {
     padding-top: 5rem;
     padding-bottom: 5rem;
+}
+
+.search-bar h2 {
+    color: #0D1B2A; 
+}
+
+.search-bar .form-control, .search-bar .form-control:focus {
+    color: #0D1B2A; 
+}
+
+.search-bar .form-control:hover {
+    border: 1px solid #70A9A1; 
+}
+
+.search-bar .search-btn {
+    width: 30%; 
+    background-color: #0D1B2A; 
+    color: white;
+    border: none;
+}
+
+.search-bar .search-btn:hover {
+    border: 1px solid #70A9A1; 
+    background-color: white; 
+    color: #0D1B2A; 
 }
