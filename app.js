@@ -65,6 +65,9 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
+
+let user_id = null; // Define user_id variable outside
+
 // Updated login route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -72,9 +75,12 @@ app.post('/login', async (req, res) => {
         const user = await db.collection('users').findOne({ email, password }); // Ideally, password should be hashed and compared securely
         if (user) {
             req.session.user = { id: user._id, name: user.name, email: user.email };
+            user_id = user._id; // Set the user_id
 
             // Retrieve the user's cart
             let cart = await db.collection('cart').findOne({ user_id: user._id });
+            console.log(cart);
+
             if (!cart) {
                 // If no cart exists, create a new one
                 cart = {
@@ -84,8 +90,8 @@ app.post('/login', async (req, res) => {
                     updated_at: new Date()
                 };
                 await db.collection('cart').insertOne(cart);
-            }
-            console.log(cart)
+            } 
+            console.log(cart);
 
             req.session.cart = cart; // Save the cart in the session
             res.redirect('/');
@@ -98,57 +104,38 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Route to add items to the cart
-app.post('/add-to-cart', async (req, res) => {
+// Route to add an item with quantity 10 to the cart
+app.post('/add-item-to-cart', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send('You need to log in first');
     }
 
-    const { product_id, quantity } = req.body;
-    const user_id = req.session.user.id;
+    const { itemName, price } = req.body;
 
-    try {
-        // Retrieve the user's cart
-        let cart = await db.collection('cart').findOne({ user_id: ObjectId(user_id) });
-        if (!cart) {
-            // If no cart exists, create a new one
-            cart = {
-                user_id: ObjectId(user_id),
-                items: [],
-                created_at: new Date(),
-                updated_at: new Date()
-            };
-            const result = await db.collection('cart').insertOne(cart);
-            cart._id = result.insertedId;
-        }
+    if (!itemName || !price || isNaN(price) || price <= 0) {
+        return res.status(400).send('Invalid item name or price');
+    }
 
-        // Add the item to the cart
-        const itemIndex = cart.items.findIndex(item => item.product_id === product_id);
-        if (itemIndex > -1) {
-            // If the item already exists in the cart, update the quantity
-            cart.items[itemIndex].quantity += quantity;
+    if (user_id) {
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
+        if (cart) {
+            cart.items.push({ product_id: itemName, quantity: price });
+            cart.updated_at = new Date();
+
+            // Update the cart in the database
+            await db.collection('cart').updateOne(
+                { _id: cart._id },
+                { $set: { items: cart.items, updated_at: cart.updated_at } }
+            );
+
+            res.json({ success: true, cart });
         } else {
-            // Otherwise, add the new item to the cart
-            cart.items.push({ product_id, quantity });
+            res.status(404).send('Cart not found');
         }
-
-        cart.updated_at = new Date();
-
-        // Update the cart in the database
-        await db.collection('cart').updateOne(
-            { _id: ObjectId(cart._id) },
-            { $set: { items: cart.items, updated_at: cart.updated_at } }
-        );
-
-        req.session.cart = cart; // Update the cart in the session
-
-        res.redirect('/cart'); // Redirect to the cart page or another appropriate page
-    } catch (error) {
-        console.error('Error adding item to cart:', error);
-        res.status(500).send('Internal server error');
-    }
+    } else {
+        res.status(500).send('User ID not found');
+    }
 });
-
 
 // Logout route
 app.get('/logout', (req, res) => {

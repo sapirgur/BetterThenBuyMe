@@ -98,7 +98,9 @@ app.get('/', function _callee(req, res) {
 });
 app.get('/login', function (req, res) {
   res.render('login');
-}); // Updated login route
+});
+var user_id = null; // Define user_id variable outside
+// Updated login route
 
 app.post('/login', function _callee2(req, res) {
   var _req$body, email, password, user, cart;
@@ -119,7 +121,7 @@ app.post('/login', function _callee2(req, res) {
           user = _context2.sent;
 
           if (!user) {
-            _context2.next = 19;
+            _context2.next = 21;
             break;
           }
 
@@ -127,18 +129,21 @@ app.post('/login', function _callee2(req, res) {
             id: user._id,
             name: user.name,
             email: user.email
-          }; // Retrieve the user's cart
+          };
+          user_id = user._id; // Set the user_id
+          // Retrieve the user's cart
 
-          _context2.next = 9;
+          _context2.next = 10;
           return regeneratorRuntime.awrap(db.collection('cart').findOne({
             user_id: user._id
           }));
 
-        case 9:
+        case 10:
           cart = _context2.sent;
+          console.log(cart);
 
           if (cart) {
-            _context2.next = 14;
+            _context2.next = 16;
             break;
           }
 
@@ -149,40 +154,40 @@ app.post('/login', function _callee2(req, res) {
             created_at: new Date(),
             updated_at: new Date()
           };
-          _context2.next = 14;
+          _context2.next = 16;
           return regeneratorRuntime.awrap(db.collection('cart').insertOne(cart));
 
-        case 14:
+        case 16:
           console.log(cart);
           req.session.cart = cart; // Save the cart in the session
 
           res.redirect('/');
-          _context2.next = 20;
+          _context2.next = 22;
           break;
 
-        case 19:
+        case 21:
           res.send('Invalid email or password');
 
-        case 20:
-          _context2.next = 26;
+        case 22:
+          _context2.next = 28;
           break;
 
-        case 22:
-          _context2.prev = 22;
+        case 24:
+          _context2.prev = 24;
           _context2.t0 = _context2["catch"](1);
           console.error('Login error:', _context2.t0);
           res.status(500).send('Internal server error');
 
-        case 26:
+        case 28:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[1, 22]]);
-}); // Route to add items to the cart
+  }, null, null, [[1, 24]]);
+}); // Route to add an item with quantity 10 to the cart
 
-app.post('/add-to-cart', function _callee3(req, res) {
-  var _req$body2, product_id, quantity, user_id, cart, result, itemIndex;
+app.post('/add-item-to-cart', function _callee3(req, res) {
+  var _req$body2, itemName, price, cart;
 
   return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
@@ -196,58 +201,43 @@ app.post('/add-to-cart', function _callee3(req, res) {
           return _context3.abrupt("return", res.status(401).send('You need to log in first'));
 
         case 2:
-          _req$body2 = req.body, product_id = _req$body2.product_id, quantity = _req$body2.quantity;
-          user_id = req.session.user.id;
-          _context3.prev = 4;
-          _context3.next = 7;
-          return regeneratorRuntime.awrap(db.collection('cart').findOne({
-            user_id: ObjectId(user_id)
-          }));
+          _req$body2 = req.body, itemName = _req$body2.itemName, price = _req$body2.price;
 
-        case 7:
-          cart = _context3.sent;
-
-          if (cart) {
-            _context3.next = 14;
+          if (!(!itemName || !price || isNaN(price) || price <= 0)) {
+            _context3.next = 5;
             break;
           }
 
-          // If no cart exists, create a new one
-          cart = {
-            user_id: ObjectId(user_id),
-            items: [],
-            created_at: new Date(),
-            updated_at: new Date()
-          };
-          _context3.next = 12;
-          return regeneratorRuntime.awrap(db.collection('cart').insertOne(cart));
+          return _context3.abrupt("return", res.status(400).send('Invalid item name or price'));
 
-        case 12:
-          result = _context3.sent;
-          cart._id = result.insertedId;
-
-        case 14:
-          // Add the item to the cart
-          itemIndex = cart.items.findIndex(function (item) {
-            return item.product_id === product_id;
-          });
-
-          if (itemIndex > -1) {
-            // If the item already exists in the cart, update the quantity
-            cart.items[itemIndex].quantity += quantity;
-          } else {
-            // Otherwise, add the new item to the cart
-            cart.items.push({
-              product_id: product_id,
-              quantity: quantity
-            });
+        case 5:
+          if (!user_id) {
+            _context3.next = 20;
+            break;
           }
 
+          _context3.next = 8;
+          return regeneratorRuntime.awrap(db.collection('cart').findOne({
+            user_id: user_id
+          }));
+
+        case 8:
+          cart = _context3.sent;
+
+          if (!cart) {
+            _context3.next = 17;
+            break;
+          }
+
+          cart.items.push({
+            product_id: itemName,
+            quantity: price
+          });
           cart.updated_at = new Date(); // Update the cart in the database
 
-          _context3.next = 19;
+          _context3.next = 14;
           return regeneratorRuntime.awrap(db.collection('cart').updateOne({
-            _id: ObjectId(cart._id)
+            _id: cart._id
           }, {
             $set: {
               items: cart.items,
@@ -255,26 +245,30 @@ app.post('/add-to-cart', function _callee3(req, res) {
             }
           }));
 
-        case 19:
-          req.session.cart = cart; // Update the cart in the session
-
-          res.redirect('/cart'); // Redirect to the cart page or another appropriate page
-
-          _context3.next = 27;
+        case 14:
+          res.json({
+            success: true,
+            cart: cart
+          });
+          _context3.next = 18;
           break;
 
-        case 23:
-          _context3.prev = 23;
-          _context3.t0 = _context3["catch"](4);
-          console.error('Error adding item to cart:', _context3.t0);
-          res.status(500).send('Internal server error');
+        case 17:
+          res.status(404).send('Cart not found');
 
-        case 27:
+        case 18:
+          _context3.next = 21;
+          break;
+
+        case 20:
+          res.status(500).send('User ID not found');
+
+        case 21:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[4, 23]]);
+  });
 }); // Logout route
 
 app.get('/logout', function (req, res) {
