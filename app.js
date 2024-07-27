@@ -146,23 +146,26 @@ app.get('/shop/:categoryId', async (req, res) => {
     }
 });
 
-//route for the searchBar feature
+// Route for the search bar feature
 app.get('/search', async (req, res) => {
     const { keywords, category, maxPrice, geoRegion } = req.query;
 
     try {
         const query = {};
+        
+        // Search for keywords in all product values
         if (keywords) {
             query.$text = { $search: keywords }; 
         }
+
+        // Filter by category
         if (category) {
             query.categories = category;
         }
-        if (maxPrice) {
-            query.price = { $lte: parseFloat(maxPrice) };
-        }
+
+        // Filter by geographical location
         if (geoRegion) {
-            query.geoRegion = geoRegion; 
+            query.geographical_location = geoRegion;
         }
 
         const businesses = await db.collection('businesses').find(query).toArray();
@@ -174,6 +177,7 @@ app.get('/search', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
 
 
 
