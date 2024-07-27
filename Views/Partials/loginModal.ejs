@@ -1,12 +1,14 @@
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h5 class="modal-title" id="loginModalLabel">התחברות</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="text-center small">כדי לתת ולקבל מתנות צריך להתחבר או להרשם</p>
+                <p>כדי לתת ולקבל מתנות צריך להתחבר או להרשם</p>
                 <form action="/login" method="post">
                     <div class="form-group">
                         <label for="email">כתובת מייל</label>
@@ -16,18 +18,15 @@
                         <label for="password">סיסמה</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="הכנס סיסמה" required>
                     </div>
-                    <button type="submit" class="btn btn-login btn-block">התחבר</button>
+                    <button type="submit" class="btn btn-primary btn-block">התחבר</button>
                 </form>
-                <p class="text-center">או התחבר באמצעות</p>
-                <button class="btn btn-login btn-block"><span class="btn-text">התחבר עם Google</span></button>
-                <button class="btn btn-login btn-block"><span class="btn-text">התחבר עם Facebook</span></button>
-                <div class="footer text-center">
+                <p class="text-center mt-3">או התחבר באמצעות</p>
+                <button class="btn btn-primary btn-block">התחבר עם Google</button>
+                <button class="btn btn-primary btn-block">התחבר עם Facebook</button>
+                <div class="text-center mt-3">
                     <a href="#">שכחת סיסמה?</a> | <a href="/registration">הרשם עכשיו</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
