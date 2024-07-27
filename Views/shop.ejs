@@ -30,6 +30,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            height: 100%; /* Ensure card body takes up full height */
         }
         .category-card img {
             width: 150px; /* Set a fixed width */
@@ -37,6 +38,12 @@
             object-fit: cover; /* Ensure the image covers the specified dimensions */
             margin-bottom: 10px;
             border-radius: 10px;
+        }
+        .category-card .card-title, .category-card .card-text {
+            flex-grow: 1; /* Allow title and text to grow and push the button to the bottom */
+        }
+        .category-card .btn {
+            margin-top: auto; /* Push the button to the bottom of the card */
         }
     </style>
 </head>
