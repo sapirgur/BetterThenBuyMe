@@ -156,7 +156,7 @@ app.get('/search', async (req, res) => {
 
     try {
         const query = {};
-        
+
         // Search for keywords in all indexed text fields
         if (keywords) {
             query.$text = { $search: keywords };
@@ -172,23 +172,23 @@ app.get('/search', async (req, res) => {
             query.price = { $lte: parseFloat(maxPrice) };
         }
 
-         // Filter by geographical location
-         if (geoRegion) {
+        // Filter by geographical location
+        if (geoRegion) {
             switch (geoRegion) {
                 case 'כל הארץ':
                     // No additional filter needed, as we want to load all cards
                     break;
                 case 'מרכז הארץ':
-                    query.geographical_location = { $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה'] };
+                    query.geographical_location = { $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה','חולון'] };
                     break;
                 case 'דרום הארץ':
-                    query.geographical_location = 'באר שבע';
+                    query.geographical_location = { $in: ['באר שבע'] };
                     break;
                 case 'צפון הארץ':
-                    query.geographical_location = { $in: ['קצרין', 'קיסריה'] };
+                    query.geographical_location = { $in: ['קצרין', 'קיסריה','זכרון יעקב','מיני ישראל', 'שוני','טבריה'] };
                     break;
                 case 'אזור ירושלים':
-                    query.geographical_location = 'ירושלים';
+                    query.geographical_location = { $in: ['ירושלים','מודיעין'] };
                     break;
                 default:
                     query.geographical_location = geoRegion;
@@ -208,7 +208,6 @@ app.get('/search', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
-
 
 
 
