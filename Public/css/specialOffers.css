@@ -1,83 +1,85 @@
-.special-offers {
-    background-color: #f8f9fa; /* צבע רקע כללי */
-    color: #0D1B2A; /* צבע טקסט כללי כחול כהה */
-    font-family: 'Assistant', sans-serif; /* פונט כללי */
-}
+    .special-offers {
+        background-color: #f8f9fa; /* צבע רקע כללי */
+        color: #0D1B2A; /* צבע טקסט כללי כחול כהה */
+        font-family: 'Assistant', sans-serif; /* פונט כללי */
+        font-size: 2.5rem;
+    }
 
-.special-offers h2 {
-    color: #0D1B2A; /* צבע כותרת כחול כהה */
-    font-size: 2.5rem; /* גודל כותרת */
-    margin-bottom: 2rem; /* מרווח תחתון */
-    font-family: 'Assistant', sans-serif; /* פונט לכותרת */
-}
+    .special-offers h2 {
+        color: #0D1B2A; /* צבע כותרת כחול כהה */
+        font-size: 2rem; /* גודל כותרת */
+        margin-top: 4rem; /* ריווח עליון גדול יותר לכותרת */
+        margin-bottom: 2rem; /* מרווח תחתון */
+        font-family: 'Assistant', sans-serif; /* פונט לכותרת */
+    }
 
-.card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 15px; /* פינות מעוגלות */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
-    transition: transform 0.3s, box-shadow 0.3s; /* אנימציית מעבר */
-    max-width: 300px; /* גודל הכרטיס */
-    margin: 0 auto 20px auto; /* מרווחים מסביב לכרטיס */
-    text-decoration: none; /* ללא קו תחתון */
-    color: inherit; /* צבע טקסט כמו הכרטיס */
-}
+    .card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px; /* פינות מעוגלות */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
+        transition: transform 0.3s, box-shadow 0.3s; /* אנימציית מעבר */
+        max-width: 300px; /* גודל הכרטיס */
+        margin: 0 auto 20px auto; /* מרווחים מסביב לכרטיס */
+        text-decoration: none; /* ללא קו תחתון */
+        color: inherit; /* צבע טקסט כמו הכרטיס */
+    }
 
-.card img {
-    width: 100%;
-    height: auto;
-    border-radius: 15px; /* פינות מעוגלות של התמונה */
-}
+    .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px; /* פינות מעוגלות של התמונה */
+    }
 
-.card-body-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: white;
-    border-bottom-left-radius: 15px; /* פינות מעוגלות של החלק התחתון */
-    border-bottom-right-radius: 15px; /* פינות מעוגלות של החלק התחתון */
-    border-top-left-radius: 15px; /* פינות מעוגלות של החלק העליון */
-    border-top-right-radius: 15px; /* פינות מעוגלות של החלק העליון */
-    transition: all 0.3s ease-in-out; /* אנימציה */
-    font-family: 'Assistant', sans-serif; /* פונט לכרטיסים */
-}
+    .card-body-wrapper {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border-bottom-left-radius: 15px; /* פינות מעוגלות של החלק התחתון */
+        border-bottom-right-radius: 15px; /* פינות מעוגלות של החלק התחתון */
+        border-top-left-radius: 15px; /* פינות מעוגלות של החלק העליון */
+        border-top-right-radius: 15px; /* פינות מעוגלות של החלק העליון */
+        transition: all 0.3s ease-in-out; /* אנימציה */
+        font-family: 'Assistant', sans-serif; /* פונט לכרטיסים */
+    }
 
-.card:hover .card-body-wrapper {
-    padding: 10px 10px; /* הגדלת הרקע הלבן */
-}
+    .card:hover .card-body-wrapper {
+        padding: 10px 10px; /* הגדלת הרקע הלבן */
+    }
 
-.card-title {
-    color: #0D1B2A; /* צבע כותרת הכרטיס */
-    font-size: 1.2rem; /* גודל כותרת הכרטיס */
-    margin-bottom: 0.5rem; /* מרווח תחתון */
-    font-family: 'Assistant', sans-serif; /* פונט לכותרת */
-}
+    .card-title {
+        color: #0D1B2A; /* צבע כותרת הכרטיס */
+        font-size: 1.2rem; /* גודל כותרת הכרטיס */
+        margin-bottom: 0.5rem; /* מרווח תחתון */
+        font-family: 'Assistant', sans-serif; /* פונט לכותרת */
+    }
 
-.card-text {
-    color: #0D1B2A; /* צבע טקסט הכרטיס */
-    font-size: 0.9rem; /* גודל טקסט הכרטיס */
-    margin-bottom: 1rem; /* מרווח תחתון */
-    font-family: 'Assistant', sans-serif; /* פונט לטקסט */
-}
+    .card-text {
+        color: #0D1B2A; /* צבע טקסט הכרטיס */
+        font-size: 0.9rem; /* גודל טקסט הכרטיס */
+        margin-bottom: 1rem; /* מרווח תחתון */
+        font-family: 'Assistant', sans-serif; /* פונט לטקסט */
+    }
 
-.btn-primary {
-    background-color: #0D1B2A !important; /* צבע כפתור כחול כהה עם חשיבות גבוהה */
-    border: 2px solid transparent; /* גבול שקוף כברירת מחדל */
-    color: #ffffff !important; /* צבע טקסט לבן עם חשיבות גבוהה */
-    padding: 0.3rem 1rem; /* ריווח פנימי */
-    font-size: 0.9rem; /* גודל טקסט */
-    border-radius: 5px; /* פינות מעוגלות */
-    transition: background-color 0.3s, color 0.3s, border 0.3s; /* אנימציית מעבר */
-    font-family: 'Assistant', sans-serif; /* פונט לכפתור */
-}
+    .btn-primary {
+        background-color: #0D1B2A !important; /* צבע כפתור כחול כהה עם חשיבות גבוהה */
+        border: 2px solid transparent; /* גבול שקוף כברירת מחדל */
+        color: #ffffff !important; /* צבע טקסט לבן עם חשיבות גבוהה */
+        padding: 0.3rem 1rem; /* ריווח פנימי */
+        font-size: 0.9rem; /* גודל טקסט */
+        border-radius: 5px; /* פינות מעוגלות */
+        transition: background-color 0.3s, color 0.3s, border 0.3s; /* אנימציית מעבר */
+        font-family: 'Assistant', sans-serif; /* פונט לכפתור */
+    }
 
-.btn-primary:hover {
-    border-color: #6FB3B8; /* שינוי צבע הגבול בטורקיז על hover */
-    background-color: #0D1B2A !important; /* שמירת צבע הרקע לכחול כהה על hover עם חשיבות גבוהה */
-    color: #ffffff !important; /* שמירת צבע הטקסט ללבן על hover עם חשיבות גבוהה */
-}
+    .btn-primary:hover {
+        border-color: #6FB3B8; /* שינוי צבע הגבול בטורקיז על hover */
+        background-color: #0D1B2A !important; /* שמירת צבע הרקע לכחול כהה על hover עם חשיבות גבוהה */
+        color: #ffffff !important; /* שמירת צבע הטקסט ללבן על hover עם חשיבות גבוהה */
+    }
 
-.larger-card {
-    height: 201px; /* הגדלה מעט של הכרטיס השלישי */
-}
+    .larger-card {
+        height: 201px; /* הגדלה מעט של הכרטיס השלישי */
+    }
