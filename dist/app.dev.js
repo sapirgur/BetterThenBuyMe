@@ -13,7 +13,9 @@ var _require = require('./db'),
     getBusinessesByCategory = _require.getBusinessesByCategory,
     getCategoryById = _require.getCategoryById,
     getTopReviews = _require.getTopReviews,
-    getBusinessById = _require.getBusinessById;
+    getBusinessById = _require.getBusinessById,
+    getCartByUserId = _require.getCartByUserId,
+    createCartForUserId = _require.createCartForUserId;
 
 var bodyParser = require('body-parser');
 
