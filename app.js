@@ -68,14 +68,13 @@ app.get('/login', (req, res) => {
 
 let user_id = null; // Define user_id variable outside
 
-// login route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await db.collection('users').findOne({ email, password });
         if (user) {
             req.session.user = { id: user._id, name: user.name, email: user.email };
-            const user_id = user._id; // Set the user_id
+            user_id = user._id; // Set the user_id
 
             // Retrieve the user's cart
             let cart = await db.collection('cart').findOne({ user_id: user._id });
@@ -90,7 +89,7 @@ app.post('/login', async (req, res) => {
                     last_updated_at: new Date()
                 };
                 await db.collection('cart').insertOne(cart);
-            }
+            } 
             console.log(cart);
 
             req.session.cart = cart; // Save the cart in the session
@@ -104,7 +103,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
+// Route to add an item with quantity 10 to the cart
 app.post('/add-item-to-cart', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send('You need to log in first');
@@ -116,12 +115,10 @@ app.post('/add-item-to-cart', async (req, res) => {
         return res.status(400).send('Invalid item name or price');
     }
 
-    const user_id = req.session.user.id;
-
     if (user_id) {
         let cart = await db.collection('cart').findOne({ user_id: user_id });
         if (cart) {
-            cart.items.push({ price: price, product_name: itemName });
+            cart.items.push({ product_name: itemName, price: price });
             cart.last_updated_at = new Date();
 
             // Update the cart in the database
