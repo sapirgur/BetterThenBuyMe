@@ -280,7 +280,9 @@ app.get('/search', async (req, res) => {
 });
 
 
-
+app.get('/CheckOut', (req, res) => {
+    res.render('CheckOut');
+});
 
 
 app.get('/aboutUs', (req, res) => {
