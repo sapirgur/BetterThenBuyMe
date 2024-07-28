@@ -68,14 +68,13 @@ app.get('/login', (req, res) => {
 
 let user_id = null; // Define user_id variable outside
 
-// login route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await db.collection('users').findOne({ email, password });
         if (user) {
             req.session.user = { id: user._id, name: user.name, email: user.email };
-            const user_id = user._id; // Set the user_id
+            user_id = user._id; // Set the user_id
 
             // Retrieve the user's cart
             let cart = await db.collection('cart').findOne({ user_id: user._id });
@@ -90,7 +89,7 @@ app.post('/login', async (req, res) => {
                     last_updated_at: new Date()
                 };
                 await db.collection('cart').insertOne(cart);
-            }
+            } 
             console.log(cart);
 
             req.session.cart = cart; // Save the cart in the session
@@ -103,7 +102,6 @@ app.post('/login', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
-
 
 // Route to add an item with quantity 10 to the cart
 app.post('/add-item-to-cart', async (req, res) => {
@@ -120,13 +118,13 @@ app.post('/add-item-to-cart', async (req, res) => {
     if (user_id) {
         let cart = await db.collection('cart').findOne({ user_id: user_id });
         if (cart) {
-            cart.items.push({ product_id: itemName, quantity: price });
-            cart.updated_at = new Date();
+            cart.items.push({ product_name: itemName, price: price });
+            cart.last_updated_at = new Date();
 
             // Update the cart in the database
             await db.collection('cart').updateOne(
                 { _id: cart._id },
-                { $set: { items: cart.items, updated_at: cart.updated_at } }
+                { $set: { items: cart.items, last_updated_at: cart.last_updated_at } }
             );
 
             res.json({ success: true, cart });
@@ -137,6 +135,7 @@ app.post('/add-item-to-cart', async (req, res) => {
         res.status(500).send('User ID not found');
     }
 });
+
 
 // Logout route
 app.get('/logout', (req, res) => {
