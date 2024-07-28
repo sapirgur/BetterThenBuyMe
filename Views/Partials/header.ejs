@@ -52,5 +52,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const offcanvasCart = document.getElementById('offcanvasCart');
+        offcanvasCart.addEventListener('show.bs.offcanvas', async function () {
+            const response = await fetch('/cart-data');
+            const cartItems = await response.json();
+            const cartItemsContainer = document.getElementById('cart-items');
+    
+            if (cartItems.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            } else {
+                cartItemsContainer.innerHTML = cartItems.map(item => `
+                    <div class="cart-item">
+                        <p>${item.name} - ${item.quantity} x $${item.price}</p>
+                    </div>
+                `).join('');
+            }
+        });
+    });
+    </script>
 </body>
 </html>
