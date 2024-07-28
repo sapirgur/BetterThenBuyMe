@@ -27,6 +27,8 @@ connectToDB((err) => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
+
 // Serve static files (e.g., CSS) from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -280,7 +282,43 @@ app.get('/search', async (req, res) => {
 });
 
 
+app.get('/CheckOut', async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login'); // Redirect to login if the user is not authenticated
+    }
 
+    
+
+    try {
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
+
+        // Log the cart variable to ensure it's fetched correctly
+        console.log('Cart:', cart);
+
+        // Pass an empty array if the cart is null
+        res.render('CheckOut', { cart: cart ? cart.items : [] });
+    } catch (err) {
+        console.error('Error fetching cart items:', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Route to fetch cart data (cart icon)
+app.get('/cart-data', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    try {
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
+
+        // Return cart items as JSON
+        res.json(cart ? cart.items : []);
+    } catch (err) {
+        console.error('Error fetching cart items:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 
 app.get('/aboutUs', (req, res) => {
