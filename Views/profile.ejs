@@ -4,41 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <title>פרופיל - Gifty</title>
-   
 </head>
 <body>
     <%- include('partials/header') %>
 
-    <main>
+    <main class="container mt-5">
         <section class="profile">
-            <h1>פרופיל</h1>
-            <div class="profile-info">
-                <label for="first-name">שם פרטי:</label>
-                <input type="text" id="first-name" name="first-name" value="ישראל" readonly>
-                
-                <label for="last-name">שם משפחה:</label>
-                <input type="text" id="last-name" name="last-name" value="ישראלי" readonly>
-            </div>
-            <div class="history">
-                <h2>היסטוריית רכישות</h2>
-                <ul class="purchase-history">
-                    <li>כרטיס מתנה מרשת א - ₪50</li>
-                    <li>כרטיס מתנה מרשת ב - ₪100</li>
-                </ul>
-                <h2>היסטוריית ניצול</h2>
-                <ul class="usage-history">
-                    <li>כרטיס מתנה מרשת א - ניצול ₪30</li>
-                    <li>כרטיס מתנה מרשת ב - ניצול ₪50</li>
-                </ul>
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <h1 class="text-center">פרופיל</h1>
+                </div>
+                <div class="card-body">
+                    <div class="profile-info text-center">
+                        <img src="/css/Images/gifty/gifty_card.png" alt="User Avatar" class="rounded-circle mb-4" width="150">
+                        <h2>ישראל ישראלי</h2>
+                        <p class="text-muted">israel.israeli@example.com</p>
+                    </div>
+                    <hr>
+                    <div class="history">
+                        <h2 class="text-center mb-4">היסטוריית רכישות</h2>
+                        <ul class="list-group mb-4">
+                            <li class="list-group-item">כרטיס מתנה מרשת א - ₪50</li>
+                            <li class="list-group-item">כרטיס מתנה מרשת ב - ₪100</li>
+                        </ul>
+                        <h2 class="text-center mb-4">היסטוריית ניצול</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item">כרטיס מתנה מרשת א - ניצול ₪30</li>
+                            <li class="list-group-item">כרטיס מתנה מרשת ב - ניצול ₪50</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
     <%- include('partials/footer') %>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
