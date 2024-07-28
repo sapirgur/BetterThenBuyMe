@@ -303,6 +303,22 @@ app.get('/CheckOut', async (req, res) => {
     }
 });
 
+// Route to fetch cart data (cart icon)
+app.get('/cart-data', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    try {
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
+
+        // Return cart items as JSON
+        res.json(cart ? cart.items : []);
+    } catch (err) {
+        console.error('Error fetching cart items:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 
 app.get('/aboutUs', (req, res) => {
