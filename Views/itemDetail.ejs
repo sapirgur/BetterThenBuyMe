@@ -18,9 +18,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <a href="/" class="text-decoration-none">
-                        <i class="fas fa-arrow-right ms-1"></i> חזרה לעמוד הבית
-                    </a> | <%= item.name %>                </div>
+                    <a href="/">Home</a> | <%= item.name %>
+                </div>
                 <div class="card-body">
                     <div class="mb-3">
                         <img src="/<%= item.imgPath %>" alt="<%= item.name %> Image" class="img-fluid">
@@ -42,30 +41,30 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="priceInput" class="form-label">טען את כרטיס המתנה</label>
-                        <input type="number" class="form-control" id="priceInput" placeholder="בחר סכום">
+                        <label for="priceInput" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="priceInput" placeholder="Enter price">
                     </div>
-                    <button type="button" class="btn btn-primary" id="actionButton">הוסף לעגלה</button>
+                    <button type="button" class="btn btn-primary" id="actionButton">Action</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap Modal for keep buying or not -->
+<!-- Bootstrap Modal -->
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalLabel"></h5>
+        <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        האם תרצה/י להמשיך לקנות או להמשיך לתשלום?
+        Do you want to keep buying or proceed to payment?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="keepBuyingButton" data-bs-dismiss="modal">המשך לקנות</button>
-        <button type="button" class="btn btn-primary" id="proceedToPaymentButton">המשך לתשלום</button>
+        <button type="button" class="btn btn-secondary" id="keepBuyingButton">Keep Buying</button>
+        <button type="button" class="btn btn-primary" id="proceedToPaymentButton">Proceed to Payment</button>
       </div>
     </div>
   </div>
