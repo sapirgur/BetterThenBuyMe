@@ -282,8 +282,18 @@ app.get('/search', async (req, res) => {
 });
 
 
-app.get('/CheckOut', (req, res) => {
-    res.render('CheckOut');
+app.get('/CheckOut', async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login'); // Redirect to login if the user is not authenticated
+    }
+
+    try {
+        const cart = await db.collection('cart').findOne({ user_id: req.session.user.id });
+        res.render('CheckOut', { cart: cart ? cart.items : [] });
+    } catch (err) {
+        console.error('Error fetching cart items:', err);
+        res.status(500).send('Internal server error');
+    }
 });
 
 

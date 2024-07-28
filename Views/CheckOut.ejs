@@ -177,33 +177,23 @@
                 <div class="col-md-5 col-lg-4 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">הסל שלך</span>
-                        <span class="badge bg-primary rounded-pill">3</span>
+                        <span class="badge bg-primary rounded-pill"><%= cart.length %></span>
                     </h4>
                     <ul class="list-group mb-3">
+                        <% cart.forEach(function(item) { %>
+
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
-                                <h6 class="my-0">שם מוצר</h6>
+                                <h6 class="my-0"><%= item.product_name %></h6>
                                 <small class="text-muted">תיאור קצר</small>
                             </div>
-                            <span class="text-muted">$12</span>
+                            <span class="text-muted"><%= item.price %></span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">שם מוצר</h6>
-                                <small class="text-muted">תיאור קצר</small>
-                            </div>
-                            <span class="text-muted">$8</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">שם מוצר</h6>
-                                <small class="text-muted">תיאור קצר</small>
-                            </div>
-                            <span class="text-muted">$5</span>
-                        </li>
+                        <% }); %>
+                           
                         <li class="list-group-item d-flex justify-content-between">
-                            <span>סה"כ (USD)</span>
-                            <strong>$25</strong>
+                            <span>סה"כ </span>
+                            <strong> $<%= cart.reduce((total, item) => total + item.price, 0) %></strong>
                         </li>
                     </ul>
 
