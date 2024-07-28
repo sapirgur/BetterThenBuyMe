@@ -287,8 +287,10 @@ app.get('/CheckOut', async (req, res) => {
         return res.redirect('/login'); // Redirect to login if the user is not authenticated
     }
 
+    
+
     try {
-        const cart = await db.collection('cart').findOne({ user_id: req.session.user.id });
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
 
         // Log the cart variable to ensure it's fetched correctly
         console.log('Cart:', cart);
