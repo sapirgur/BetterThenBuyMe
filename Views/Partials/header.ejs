@@ -13,11 +13,11 @@
         }
 
         .offcanvas-header {
-            background-color: #3F3F51;
+            background-color: #6EC1E4;
         }
 
         .offcanvas-body {
-            background-color: #3F3F51;
+            background-color: #6EC1E4;
             color: #ffffff;
         }
 
@@ -62,6 +62,20 @@
         .offcanvas-body .cart-item .item-price {
             margin-left: 20px;
             font-weight: bold;
+        }
+
+        .offcanvas-body .cart-item .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .offcanvas-body .cart-item .quantity-controls button {
+            margin: 0 5px;
+            background-color: #E87A6E;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -137,6 +151,20 @@
                     </div>
                 `).join('');
             }
+
+            document.querySelectorAll('.btn-decrease').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const productId = this.getAttribute('data-product-id');
+                    // Implement decrease quantity logic here, e.g., sending a request to the server
+                });
+            });
+
+            document.querySelectorAll('.btn-increase').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const productId = this.getAttribute('data-product-id');
+                    // Implement increase quantity logic here, e.g., sending a request to the server
+                });
+            });
         });
     });
 </script>
