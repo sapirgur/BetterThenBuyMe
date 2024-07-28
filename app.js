@@ -282,7 +282,10 @@ app.get('/search', async (req, res) => {
     }
 });
 
-
+//route to checkout page
+app.get('/checkout', (req, res) => {
+    res.render('checkout');
+});
 
 
 
