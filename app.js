@@ -68,11 +68,11 @@ app.get('/login', (req, res) => {
 
 let user_id = null; // Define user_id variable outside
 
-// Updated login route
+// login route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await db.collection('users').findOne({ email, password }); // Ideally, password should be hashed and compared securely
+        const user = await db.collection('users').findOne({ email, password }); 
         if (user) {
             req.session.user = { id: user._id, name: user.name, email: user.email };
             user_id = user._id; // Set the user_id
