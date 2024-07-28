@@ -289,12 +289,18 @@ app.get('/CheckOut', async (req, res) => {
 
     try {
         const cart = await db.collection('cart').findOne({ user_id: req.session.user.id });
+
+        // Log the cart variable to ensure it's fetched correctly
+        console.log('Cart:', cart);
+
+        // Pass an empty array if the cart is null
         res.render('CheckOut', { cart: cart ? cart.items : [] });
     } catch (err) {
         console.error('Error fetching cart items:', err);
         res.status(500).send('Internal server error');
     }
 });
+
 
 
 app.get('/aboutUs', (req, res) => {
