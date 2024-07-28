@@ -6,6 +6,64 @@
     <title>Header with Cart Icon</title>
     <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2E2E38;
+            color: #ffffff;
+        }
+
+        .offcanvas-header {
+            background-color: #3F3F51;
+        }
+
+        .offcanvas-body {
+            background-color: #3F3F51;
+            color: #ffffff;
+        }
+
+        .offcanvas-body .profile-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .offcanvas-body .profile-info img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .offcanvas-body .profile-info h5 {
+            margin: 0;
+        }
+
+        .offcanvas-body .profile-info p {
+            margin: 0;
+            color: #B8B8C3;
+        }
+
+        .offcanvas-body .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #4A4A5A;
+            border-radius: 5px;
+        }
+
+        .offcanvas-body .cart-item p {
+            margin: 0;
+        }
+
+        .offcanvas-body .cart-item .item-details {
+            flex: 1;
+        }
+
+        .offcanvas-body .cart-item .item-price {
+            margin-left: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <header class="header py-3">
@@ -69,7 +127,13 @@
             } else {
                 cartItemsContainer.innerHTML = cartItems.map(item => `
                     <div class="cart-item">
-                        <p>${item.product_name} - $${item.price}</p>
+                        <div class="item-details">
+                            <p>${item.product_name}</p>
+                            <p class="item-price">$${item.price}</p>
+                        </div>
+                        <div class="item-quantity">
+                            <p>Quantity: ${item.quantity}</p>
+                        </div>
                     </div>
                 `).join('');
             }
