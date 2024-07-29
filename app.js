@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById } = require('./db');
+const cors = require('cors');  
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -35,6 +36,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// CORS middleware
+app.use(cors({
+    origin: 'http://localhost:3001', // Adjust this to your frontend's origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 
 // Session middleware
 app.use(session({
@@ -106,8 +114,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
-// Route to add an item with quantity 10 to the cart
+// Route to add an item with quantity to the cart
 app.post('/add-item-to-cart', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send('You need to log in first');
@@ -121,7 +128,7 @@ app.post('/add-item-to-cart', async (req, res) => {
 
     if (user_id) {
         try {
-            const product = await db.collection('products').findOne({ _id: new ObjectId(productId) });
+            const product = await getProductById(productId);
             if (!product) {
                 return res.status(404).send('Product not found');
             }
@@ -151,7 +158,21 @@ app.post('/add-item-to-cart', async (req, res) => {
 
                 res.json({ success: true, cart });
             } else {
-                res.status(404).send('Cart not found');
+                // If no cart exists, create a new one
+                cart = {
+                    user_id: user_id,
+                    items: [{
+                        _id: product._id,
+                        product_name: product.name,
+                        quantity: quantity,
+                        price: product.price
+                    }],
+                    quantity: quantity,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                };
+                await db.collection('cart').insertOne(cart);
+                res.json({ success: true, cart });
             }
         } catch (error) {
             console.error('Error adding item to cart:', error);
