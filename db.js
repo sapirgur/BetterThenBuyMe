@@ -67,17 +67,17 @@ async function getProductById(productId) {
     return await db.collection('products').findOne({ _id: new ObjectId(productId) });
 }
 
-// Fetch all coupons
-async function getCoupons() {
-    const db = getDB();
-    return await db.collection('coupons').find().toArray();
-}
-
-// Fetch coupon by code
+// Fetch coupon by name
 async function getCouponByCode(couponCode) {
     const db = getDB();
-    return await db.collection('coupons').findOne({ coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') } });
+    const currentDate = new Date();
+    const coupon = await db.collection('coupons').findOne({
+        coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') },
+        deadline_date: { $gte: currentDate }
+    });
+    return coupon;
 }
+
 
 
 
