@@ -22,7 +22,7 @@
             <div class="row g-5">
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">פרטי חיוב</h4>
-                    <form class="needs-validation" novalidate method="POST" action="/CheckOut">
+                    <form id="checkoutForm" class="needs-validation" novalidate method="POST" action="/CheckOut">
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <label for="firstName" class="form-label">שם פרטי</label>
@@ -73,184 +73,181 @@
                                 <select class="form-select" id="country" required>
                                     <option value="">בחר...</option>
                                     <option>אוגנדה</option>
-<option>אוזבקיסטן</option>
-<option>אוסטרליה</option>
-<option>אוסטריה</option>
-<option>אורוגוואי</option>
-<option>אוקראינה</option>
-<option>איחוד האמירויות הערביות</option>
-<option>איטליה</option>
-<option>אינדונזיה</option>
-<option>איסלנד</option>
-<option>איראן</option>
-<option>אירלנד</option>
-<option>אל סלוודור</option>
-<option>אלבניה</option>
-<option>אלג'יריה</option>
-<option>אנדורה</option>
-<option>אנגליה</option>
-<option>אנגולה</option>
-<option>אנטיגואה וברבודה</option>
-<option>אקוודור</option>
-<option>ארגנטינה</option>
-<option>אריתריאה</option>
-<option>ארמניה</option>
-<option>אתיופיה</option>
-<option>אפגניסטן</option>
-<option>אפריקה הדרומית</option>
-<option>אפריקה התיכונה</option>
-<option>בוטסואנה</option>
-<option>בולגריה</option>
-<option>בוליביה</option>
-<option>בורונדי</option>
-<option>בורקינה פאסו</option>
-<option>בוסניה והרצגובינה</option>
-<option>בורונדי</option>
-<option>בורמה (מיאנמר)</option>
-<option>בחריין</option>
-<option>בלגיה</option>
-<option>בליז</option>
-<option>בלרוס</option>
-<option>בנגלדש</option>
-<option>בנין</option>
-<option>ברבדוס</option>
-<option>ברזיל</option>
-<option>ברוניי</option>
-<option>בריטניה</option>
-<option>גאבון</option>
-<option>ג'מייקה</option>
-<option>גרמניה</option>
-<option>גרנדה</option>
-<option>גרינלנד</option>
-<option>גואטמלה</option>
-<option>גינאה</option>
-<option>גינאה ביסאו</option>
-<option>גינאה המשוונית</option>
-<option>גיאורגיה</option>
-<option>גיברלטר</option>
-<option>גיברלטר</option>
-<option>גיברלטר</option>
-<option>גיברלטר</option>
-<option>גיאנה</option>
-<option>גמביה</option>
-<option>גאנה</option>
-<option>גאורגיה</option>
-<option>הולנד</option>
-<option>הונדורס</option>
-<option>הונג קונג</option>
-<option>הונגריה</option>
-<option>הרפובליקה הדומיניקנית</option>
-<option>הרפובליקה המרכז-אפריקאית</option>
-<option>ואנואטו</option>
-<option>ויטנאם</option>
-<option>ונצואלה</option>
-<option>זימבבואה</option>
-<option>זמביה</option>
-<option>חוף השנהב</option>
-<option>טג'יקיסטן</option>
-<option>טובלו</option>
-<option>טוניסיה</option>
-<option>טונגה</option>
-<option>טורקיה</option>
-<option>טורקמניסטן</option>
-<option>טיוואן</option>
-<option>טימור</option>
-<option>טרינידד וטובגו</option>
-<option>יוון</option>
-<option>יפן</option>
-<option>ירדן</option>
-<option>ישראל</option>
-<option>כווית</option>
-<option>כף ורדה</option>
-<option>לאוס</option>
-<option>לבנון</option>
-<option>לוב</option>
-<option>לוקסמבורג</option>
-<option>לטביה</option>
-<option>ליבריה</option>
-<option>ליטא</option>
-<option>ליכטנשטיין</option>
-<option>מאוריטניה</option>
-<option>מאוריציוס</option>
-<option>מאיה</option>
-<option>מאלי</option>
-<option>מדגסקר</option>
-<option>מוזמביק</option>
-<option>מולדובה</option>
-<option>מונגוליה</option>
-<option>מונטנגרו</option>
-<option>מונקו</option>
-<option>מוזמביק</option>
-<option>מולדובה</option>
-<option>מונגוליה</option>
-<option>מונטנגרו</option>
-<option>מונקו</option>
-<option>מאוריציוס</option>
-<option>מאוריטניה</option>
-<option>מאלי</option>
-<option>מלטה</option>
-<option>מלזיה</option>
-<option>מלאווי</option>
-<option>מקסיקו</option>
-<option>מצרים</option>
-<option>מרוקו</option>
-<option>נאורו</option>
-<option>נורבגיה</option>
-<option>ניז'ר</option>
-<option>ניגריה</option>
-<option>ניו זילנד</option>
-<option>נפאל</option>
-<option>ניקרגואה</option>
-<option>נמיביה</option>
-<option>סוואזילנד</option>
-<option>סוריה</option>
-<option>סורינאם</option>
-<option>סומליה</option>
-<option>סין</option>
-<option>סינגפור</option>
-<option>סיירה לאון</option>
-<option>סלובניה</option>
-<option>סלובקיה</option>
-<option>סנגל</option>
-<option>סנט וינסנט והגרנדינים</option>
-<option>סנט קיטס ונוויס</option>
-<option>סנט לוסיה</option>
-<option>ספיר</option>
-<option>ספרד</option>
-<option>סרביה</option>
-<option>פולין</option>
-<option>פורטוגל</option>
-<option>פיג'י</option>
-<option>פיליפינים</option>
-<option>פינלנד</option>
-<option>פפואה גינאה החדשה</option>
-<option>פקיסטן</option>
-<option>פרו</option>
-<option>צרפת</option>
-<option>קובה</option>
-<option>קוריאה הדרומית</option>
-<option>קוריאה הצפונית</option>
-<option>קולומביה</option>
-<option>קונגו</option>
-<option>קוסטה ריקה</option>
-<option>קזחסטן</option>
-<option>קטאר</option>
-<option>קניה</option>
-<option>קירגיזסטן</option>
-<option>קיריבאטי</option>
-<option>קמבודיה</option>
-<option>קמרון</option>
-<option>קנדה</option>
-<option>קפריסין</option>
-<option>קרואטיה</option>
-<option>רואנדה</option>
-<option>רומניה</option>
-<option>רוסיה</option>
-<option>שוודיה</option>
-<option>שווייץ</option>
-<option>תאילנד</option>
-<option>תוניסיה</option>
-<option>תורכיה</option>
+                                    <option>אוזבקיסטן</option>
+                                    <option>אוסטרליה</option>
+                                    <option>אוסטריה</option>
+                                    <option>אורוגוואי</option>
+                                    <option>אוקראינה</option>
+                                    <option>איחוד האמירויות הערביות</option>
+                                    <option>איטליה</option>
+                                    <option>אינדונזיה</option>
+                                    <option>איסלנד</option>
+                                    <option>איראן</option>
+                                    <option>אירלנד</option>
+                                    <option>אל סלוודור</option>
+                                    <option>אלבניה</option>
+                                    <option>אלג'יריה</option>
+                                    <option>אנדורה</option>
+                                    <option>אנגליה</option>
+                                    <option>אנגולה</option>
+                                    <option>אנטיגואה וברבודה</option>
+                                    <option>אקוודור</option>
+                                    <option>ארגנטינה</option>
+                                    <option>אריתריאה</option>
+                                    <option>ארמניה</option>
+                                    <option>אתיופיה</option>
+                                    <option>אפגניסטן</option>
+                                    <option>אפריקה הדרומית</option>
+                                    <option>אפריקה התיכונה</option>
+                                    <option>בוטסואנה</option>
+                                    <option>בולגריה</option>
+                                    <option>בוליביה</option>
+                                    <option>בורונדי</option>
+                                    <option>בורקינה פאסו</option>
+                                    <option>בוסניה והרצגובינה</option>
+                                    <option>בורונדי</option>
+                                    <option>בורמה (מיאנמר)</option>
+                                    <option>בחריין</option>
+                                    <option>בלגיה</option>
+                                    <option>בליז</option>
+                                    <option>בלרוס</option>
+                                    <option>בנגלדש</option>
+                                    <option>בנין</option>
+                                    <option>ברבדוס</option>
+                                    <option>ברזיל</option>
+                                    <option>ברוניי</option>
+                                    <option>בריטניה</option>
+                                    <option>גאבון</option>
+                                    <option>ג'מייקה</option>
+                                    <option>גרמניה</option>
+                                    <option>גרנדה</option>
+                                    <option>גרינלנד</option>
+                                    <option>גואטמלה</option>
+                                    <option>גינאה</option>
+                                    <option>גינאה ביסאו</option>
+                                    <option>גינאה המשוונית</option>
+                                    <option>גיאורגיה</option>
+                                    <option>גיברלטר</option>
+                                    <option>גיאנה</option>
+                                    <option>גמביה</option>
+                                    <option>גאנה</option>
+                                    <option>גאורגיה</option>
+                                    <option>הולנד</option>
+                                    <option>הונדורס</option>
+                                    <option>הונג קונג</option>
+                                    <option>הונגריה</option>
+                                    <option>הרפובליקה הדומיניקנית</option>
+                                    <option>הרפובליקה המרכז-אפריקאית</option>
+                                    <option>ואנואטו</option>
+                                    <option>ויטנאם</option>
+                                    <option>ונצואלה</option>
+                                    <option>זימבבואה</option>
+                                    <option>זמביה</option>
+                                    <option>חוף השנהב</option>
+                                    <option>טג'יקיסטן</option>
+                                    <option>טובלו</option>
+                                    <option>טוניסיה</option>
+                                    <option>טונגה</option>
+                                    <option>טורקיה</option>
+                                    <option>טורקמניסטן</option>
+                                    <option>טיוואן</option>
+                                    <option>טימור</option>
+                                    <option>טרינידד וטובגו</option>
+                                    <option>יוון</option>
+                                    <option>יפן</option>
+                                    <option>ירדן</option>
+                                    <option>ישראל</option>
+                                    <option>כווית</option>
+                                    <option>כף ורדה</option>
+                                    <option>לאוס</option>
+                                    <option>לבנון</option>
+                                    <option>לוב</option>
+                                    <option>לוקסמבורג</option>
+                                    <option>לטביה</option>
+                                    <option>ליבריה</option>
+                                    <option>ליטא</option>
+                                    <option>ליכטנשטיין</option>
+                                    <option>מאוריטניה</option>
+                                    <option>מאוריציוס</option>
+                                    <option>מאיה</option>
+                                    <option>מאלי</option>
+                                    <option>מדגסקר</option>
+                                    <option>מוזמביק</option>
+                                    <option>מולדובה</option>
+                                    <option>מונגוליה</option>
+                                    <option>מונטנגרו</option>
+                                    <option>מונקו</option>
+                                    <option>מוזמביק</option>
+                                    <option>מולדובה</option>
+                                    <option>מונגוליה</option>
+                                    <option>מונטנגרו</option>
+                                    <option>מונקו</option>
+                                    <option>מאוריציוס</option>
+                                    <option>מאוריטניה</option>
+                                    <option>מאלי</option>
+                                    <option>מלטה</option>
+                                    <option>מלזיה</option>
+                                    <option>מלאווי</option>
+                                    <option>מקסיקו</option>
+                                    <option>מצרים</option>
+                                    <option>מרוקו</option>
+                                    <option>נאורו</option>
+                                    <option>נורבגיה</option>
+                                    <option>ניז'ר</option>
+                                    <option>ניגריה</option>
+                                    <option>ניו זילנד</option>
+                                    <option>נפאל</option>
+                                    <option>ניקרגואה</option>
+                                    <option>נמיביה</option>
+                                    <option>סוואזילנד</option>
+                                    <option>סוריה</option>
+                                    <option>סורינאם</option>
+                                    <option>סומליה</option>
+                                    <option>סין</option>
+                                    <option>סינגפור</option>
+                                    <option>סיירה לאון</option>
+                                    <option>סלובניה</option>
+                                    <option>סלובקיה</option>
+                                    <option>סנגל</option>
+                                    <option>סנט וינסנט והגרנדינים</option>
+                                    <option>סנט קיטס ונוויס</option>
+                                    <option>סנט לוסיה</option>
+                                    <option>ספיר</option>
+                                    <option>ספרד</option>
+                                    <option>סרביה</option>
+                                    <option>פולין</option>
+                                    <option>פורטוגל</option>
+                                    <option>פיג'י</option>
+                                    <option>פיליפינים</option>
+                                    <option>פינלנד</option>
+                                    <option>פפואה גינאה החדשה</option>
+                                    <option>פקיסטן</option>
+                                    <option>פרו</option>
+                                    <option>צרפת</option>
+                                    <option>קובה</option>
+                                    <option>קוריאה הדרומית</option>
+                                    <option>קוריאה הצפונית</option>
+                                    <option>קולומביה</option>
+                                    <option>קונגו</option>
+                                    <option>קוסטה ריקה</option>
+                                    <option>קזחסטן</option>
+                                    <option>קטאר</option>
+                                    <option>קניה</option>
+                                    <option>קירגיזסטן</option>
+                                    <option>קיריבאטי</option>
+                                    <option>קמבודיה</option>
+                                    <option>קמרון</option>
+                                    <option>קנדה</option>
+                                    <option>קפריסין</option>
+                                    <option>קרואטיה</option>
+                                    <option>רואנדה</option>
+                                    <option>רומניה</option>
+                                    <option>רוסיה</option>
+                                    <option>שוודיה</option>
+                                    <option>שווייץ</option>
+                                    <option>תאילנד</option>
+                                    <option>תוניסיה</option>
+                                    <option>תורכיה</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     בחר מדינה חוקית.
@@ -420,7 +417,7 @@
                         <hr class="my-4">
 
 
-                        <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="window.location.href='/CheckOut'">המשך לתשלום</button>
+                        <button id="checkoutButton" class="w-100 btn btn-primary btn-lg" type="button">המשך לתשלום</button>
                     </form>
                 </div>
                 <div class="col-md-5 col-lg-4 order-md-last">
@@ -471,15 +468,43 @@
             </ul>
         </footer>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderSuccessModalLabel">הזמנה הצליחה</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    תודה לך על ההזמנה! ההזמנה שלך הושלמה בהצלחה.
+                </div>
+                <div class="modal-footer">
+                    <button id="closeModalButton" type="button" class="btn btn-primary" data-bs-dismiss="modal">סגור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap Bundle JS -->
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Form Validation JS -->
     <script src="/js/form-validation.js"></script>
-
-
     <script>
+        document.getElementById('checkoutButton').addEventListener('click', function() {
+            // Show the modal
+            var orderSuccessModal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+            orderSuccessModal.show();
+        });
+
+        document.getElementById('closeModalButton').addEventListener('click', function() {
+            // Submit the form to /CheckOut
+            document.getElementById('checkoutForm').submit();
+        });
+
         document.getElementById('coupon-form').addEventListener('submit', function(event) {
             event.preventDefault();
         
@@ -515,11 +540,6 @@
                 console.error('Error verifying coupon:', error);
             });
         });
-        </script>
-        
-        
-        
-        
-        
+    </script>
 </body>
 </html>

@@ -381,7 +381,7 @@ app.post('/CheckOut', async (req, res) => {
         );
 
         console.log('New payment method added:', newPaymentMethod);
-        res.redirect('/payment-success'); // Redirect to a success page or send a success message
+        res.redirect('/'); // Redirect to a success page or send a success message
     } catch (error) {
         console.error('Error adding payment method:', error);
         res.status(500).send('Internal server error');
