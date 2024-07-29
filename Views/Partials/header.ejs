@@ -128,10 +128,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const offcanvasCart = document.getElementById('offcanvasCart');
 
+    // Load cart data when the offcanvas is shown
     offcanvasCart.addEventListener('show.bs.offcanvas', async function () {
         await loadCartData();
     });
 
+    // Fetch cart data from the server
     async function loadCartData() {
         const response = await fetch('/cart-data');
         if (!response.ok) {
@@ -144,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCartUI(cartItems, cartItemsContainer);
     }
 
+    // Update the cart UI with the cart items
     function updateCartUI(cartItems, container) {
         if (cartItems.length === 0) {
             container.innerHTML = '<p>Your cart is empty.</p>';
@@ -161,51 +164,59 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             `).join('');
+
+            // Add event listeners for decrease and increase buttons
+            document.querySelectorAll('.btn-decrease').forEach(button => {
+                button.addEventListener('click', handleDecrease);
+            });
+
+            document.querySelectorAll('.btn-increase').forEach(button => {
+                button.addEventListener('click', handleIncrease);
+            });
         }
-
-        document.querySelectorAll('.btn-decrease').forEach(button => {
-            button.addEventListener('click', async function() {
-                const productId = this.getAttribute('data-product-id');
-                const response = await fetch('/decrease-quantity', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ productId })
-                });
-
-                if (response.ok) {
-                    const updatedCart = await response.json();
-                    const item = updatedCart.items.find(item => item._id === productId);
-                    updateCartItemUI(productId, item);
-                } else {
-                    console.error('Failed to decrease item quantity');
-                }
-            });
-        });
-
-        document.querySelectorAll('.btn-increase').forEach(button => {
-            button.addEventListener('click', async function() {
-                const productId = this.getAttribute('data-product-id');
-                const response = await fetch('/increase-quantity', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ productId })
-                });
-
-                if (response.ok) {
-                    const updatedCart = await response.json();
-                    const item = updatedCart.items.find(item => item._id === productId);
-                    updateCartItemUI(productId, item);
-                } else {
-                    console.error('Failed to increase item quantity');
-                }
-            });
-        });
     }
 
+    // Handle decrease quantity button click
+    async function handleDecrease() {
+        const productId = this.getAttribute('data-product-id');
+        const response = await fetch('/decrease-quantity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId })
+        });
+
+        if (response.ok) {
+            const updatedCart = await response.json();
+            const item = updatedCart.items.find(item => item._id === productId);
+            updateCartItemUI(productId, item);
+        } else {
+            console.error('Failed to decrease item quantity');
+        }
+    }
+
+    // Handle increase quantity button click
+    async function handleIncrease() {
+        const productId = this.getAttribute('data-product-id');
+        const response = await fetch('/increase-quantity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId })
+        });
+
+        if (response.ok) {
+            const updatedCart = await response.json();
+            const item = updatedCart.items.find(item => item._id === productId);
+            updateCartItemUI(productId, item);
+        } else {
+            console.error('Failed to increase item quantity');
+        }
+    }
+
+    // Update the specific cart item in the UI
     function updateCartItemUI(productId, item) {
         const cartItem = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
 
@@ -214,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
             quantitySpan.textContent = item.quantity;
 
             const priceElement = cartItem.querySelector('.item-price');
-            priceElement.textContent = `₪${item.price}`;
+            priceElement.textContent = `₪${item.price * item.quantity}`;
         } else {
             cartItem.remove();
         }
