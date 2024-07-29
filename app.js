@@ -356,13 +356,20 @@ app.post('/CheckOut', async (req, res) => {
         return res.redirect('/login'); // Redirect to login if the user is not authenticated
     }
 
-    try {
-        const { ccName, ccNumber, ccExpiration, ccCVV, rememberCardInfo } = req.body;
+    console.log("User session data:", req.session.user); // Debugging user session data
 
-        console.log("Form data:", { ccName, ccNumber, ccExpiration, ccCVV, rememberCardInfo }); // Debugging form data
+    try {
+        const { ccName, ccNumber, ccExpiration, ccCvv, rememberCardInfo } = req.body;
+
+        console.log("Form data:", { ccName, ccNumber, ccExpiration, ccCvv, rememberCardInfo }); // Debugging form data
 
         // Encrypt the card number before saving to the database
         const encryptedCardNumber = ccNumber; // Placeholder, replace with actual encryption logic
+
+        // Ensure the user's address array exists and has at least one entry
+        if (!req.session.user.address || req.session.user.address.length === 0) {
+            throw new Error("User address is not defined or is empty.");
+        }
 
         // Prepare the new payment method object
         const newPaymentMethod = {
@@ -390,7 +397,23 @@ app.post('/CheckOut', async (req, res) => {
     }
 });
 
+// Function to determine the card type based on the card number
+function determineCardType(cardNumber) {
+    const patterns = {
+        Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+        MasterCard: /^5[1-5][0-9]{14}$/,
+        AmericanExpress: /^3[47][0-9]{13}$/,
+        Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/
+    };
 
+    for (let cardType in patterns) {
+        if (patterns[cardType].test(cardNumber)) {
+            return cardType;
+        }
+    }
+
+    return 'Unknown';
+}
 
 
 // Route to fetch cart data (cart icon)
