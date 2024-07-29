@@ -25,7 +25,7 @@
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <label for="firstName" class="form-label">שם פרטי</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="firstName" placeholder="" value="<%= user.name.split(' ')[0] %>" required>
                                 <div class="invalid-feedback">
                                     נדרש שם פרטי.
                                 </div>
@@ -33,7 +33,7 @@
 
                             <div class="col-sm-6">
                                 <label for="lastName" class="form-label">שם משפחה</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="lastName" placeholder="" value="<%= user.name.split(' ')[1] %>" required>
                                 <div class="invalid-feedback">
                                     נדרש שם משפחה.
                                 </div>
@@ -43,7 +43,7 @@
                                 <label for="username" class="form-label">שם משתמש</label>
                                 <div class="input-group has-validation">
                                     <span class="input-group-text">@</span>
-                                    <input type="text" class="form-control" id="username" placeholder="שם משתמש" required>
+                                    <input type="text" class="form-control" id="username" placeholder="שם משתמש" value="<%= user.email.split('@')[0] %>" required>
                                     <div class="invalid-feedback">
                                         שם משתמש נדרש.
                                     </div>
@@ -52,7 +52,7 @@
 
                             <div class="col-12">
                                 <label for="email" class="form-label">דוא"ל <span class="text-muted">(לא חובה)</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com" value="<%= user.email %>">
                                 <div class="invalid-feedback">
                                     הזן כתובת דוא"ל חוקית עבור עדכוני משלוח.
                                 </div>
