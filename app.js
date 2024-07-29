@@ -115,72 +115,74 @@ app.post('/login', async (req, res) => {
 });
 
 // Route to add an item with quantity to the cart
-app.post('/CheckOut', async (req, res) => {
-    console.log("Received data:", req.body); // Debug statement to see incoming data
-
+app.post('/add-item-to-cart', async (req, res) => {
     if (!req.session.user) {
-        console.log("No user session found."); // Debugging user session
-        return res.redirect('/login'); // Redirect to login if the user is not authenticated
+        return res.status(401).send('You need to log in first');
     }
 
-    console.log("User session data:", req.session.user); // Debugging user session data
+    const { productId, quantity, price } = req.body;
 
-    try {
-        const { ccName, ccNumber, ccExpiration, ccCvv, rememberCardInfo } = req.body;
+    if (!productId || !quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price <= 0) {
+        return res.status(400).send('Invalid product ID, quantity, or price');
+    }
 
-        console.log("Form data:", { ccName, ccNumber, ccExpiration, ccCvv, rememberCardInfo }); // Debugging form data
+    if (user_id) {
+        try {
+            const product = await getProductById(productId);
+            if (!product) {
+                return res.status(404).send('Product not found');
+            }
 
-        // Encrypt the card number before saving to the database
-        const encryptedCardNumber = ccNumber; // Placeholder, replace with actual encryption logic
+            let cart = await db.collection('cart').findOne({ user_id: user_id });
+            if (cart) {
+                const existingItem = cart.items.find(item => item._id.equals(product._id));
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.items.push({
+                        _id: product._id,
+                        product_name: product.name,
+                        quantity: quantity,
+                        price: price  // Ensure this uses the provided price
+                    });
+                }
 
-        // Ensure the user's address array exists and has at least one entry
-        if (!req.session.user.address || req.session.user.address.length === 0) {
-            throw new Error("User address is not defined or is empty.");
+                cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
+                cart.updated_at = new Date();
+
+                // Update the cart in the database
+                await db.collection('cart').updateOne(
+                    { _id: cart._id },
+                    { $set: { items: cart.items, quantity: cart.quantity, updated_at: cart.updated_at } }
+                );
+
+                res.json({ success: true, cart });
+            } else {
+                // If no cart exists, create a new one
+                cart = {
+                    user_id: user_id,
+                    items: [{
+                        _id: product._id,
+                        product_name: product.name,
+                        quantity: quantity,
+                        price: price
+                    }],
+                    quantity: quantity,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                };
+                await db.collection('cart').insertOne(cart);
+                res.json({ success: true, cart });
+            }
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+            res.status(500).send('Internal server error');
         }
-
-        // Prepare the new payment method object
-        const newPaymentMethod = {
-            card_number: encryptedCardNumber,
-            card_type: determineCardType(ccNumber),
-            expiry_date: ccExpiration,
-            billing_address: req.session.user.address[0] // Assuming the billing address is the user's primary address
-        };
-
-        console.log("New payment method:", newPaymentMethod); // Debugging new payment method data
-
-        // Add the new payment method to the user's payment methods array if the checkbox is checked
-        if (rememberCardInfo === 'on') {
-            const updateResult = await db.collection('users').updateOne(
-                { _id: ObjectId(req.session.user.id) },
-                { $push: { payment_methods: newPaymentMethod } }
-            );
-            console.log("Update result:", updateResult); // Debugging the result of the update operation
-        }
-
-        res.redirect('/order-confirmation'); // Redirect to a confirmation page or back to the cart
-    } catch (err) {
-        console.error('Error saving payment method:', err);
-        res.status(500).send('Internal server error');
+    } else {
+        res.status(500).send('User ID not found');
     }
 });
 
-// Function to determine the card type based on the card number
-function determineCardType(cardNumber) {
-    const patterns = {
-        Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-        MasterCard: /^5[1-5][0-9]{14}$/,
-        AmericanExpress: /^3[47][0-9]{13}$/,
-        Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/
-    };
-
-    for (let cardType in patterns) {
-        if (patterns[cardType].test(cardNumber)) {
-            return cardType;
-        }
-    }
-
-    return 'Unknown';
-}
 
 
 
@@ -347,48 +349,34 @@ app.get('/CheckOut', async (req, res) => {
 });
 
 app.post('/CheckOut', async (req, res) => {
-    console.log("Received data:", req.body); // Debug statement to see incoming data
-
     if (!req.session.user) {
-        console.log("No user session found."); // Debugging user session
         return res.redirect('/login'); // Redirect to login if the user is not authenticated
     }
 
-    console.log("User session data:", req.session.user); // Debugging user session data
-
     try {
-        const { ccName, ccNumber, ccExpiration, ccCvv, rememberCardInfo } = req.body;
-
-        console.log("Form data:", { ccName, ccNumber, ccExpiration, ccCvv, rememberCardInfo }); // Debugging form data
+        const { ccName, ccNumber, ccExpiration, ccCVV, rememberCardInfo } = req.body;
 
         // Encrypt the card number before saving to the database
         const encryptedCardNumber = ccNumber; // Placeholder, replace with actual encryption logic
 
-        // Ensure the user's address array exists and has at least one entry
-        if (!req.session.user.address || req.session.user.address.length === 0) {
-            throw new Error("User address is not defined or is empty.");
-        }
-
         // Prepare the new payment method object
         const newPaymentMethod = {
             card_number: encryptedCardNumber,
-            card_type: determineCardType(ccNumber),
+            card_type: determineCardType(ccNumber), // Implement this function to determine the card type based on the card number
             expiry_date: ccExpiration,
             billing_address: req.session.user.address[0] // Assuming the billing address is the user's primary address
         };
 
-        console.log("New payment method:", newPaymentMethod); // Debugging new payment method data
-
         // Add the new payment method to the user's payment methods array if the checkbox is checked
-        if (rememberCardInfo === 'on') {
-            const updateResult = await db.collection('users').updateOne(
+        if (rememberCardInfo) {
+            await db.collection('users').updateOne(
                 { _id: ObjectId(req.session.user._id) },
                 { $push: { payment_methods: newPaymentMethod } }
             );
-            console.log("Update result:", updateResult); // Debugging the result of the update operation
         }
 
-        res.redirect('/order-confirmation'); // Redirect to a confirmation page or back to the cart
+        // Redirect to a confirmation page or back to the cart
+        res.redirect('/order-confirmation'); // Adjust this as needed
     } catch (err) {
         console.error('Error saving payment method:', err);
         res.status(500).send('Internal server error');
@@ -412,6 +400,7 @@ function determineCardType(cardNumber) {
 
     return 'Unknown';
 }
+
 
 
 // Route to fetch cart data (cart icon)
