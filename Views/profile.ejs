@@ -84,9 +84,19 @@
                             <div class="invalid-feedback">נדרשת סיסמה.</div>
                         </div>
                         <div class="form-group">
-                            <label for="updateAddress">כתובת:</label>
-                            <input type="text" class="form-control" id="updateAddress" name="address" value="<%= user.address %>" required>
-                            <div class="invalid-feedback">הזן כתובת חוקית.</div>
+                            <label for="updateStreet">רחוב:</label>
+                            <input type="text" class="form-control" id="updateStreet" name="street" value="<%= user.address[0].street %>" required>
+                            <div class="invalid-feedback">הזן רחוב חוקי.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateStreetNumber">מספר רחוב:</label>
+                            <input type="text" class="form-control" id="updateStreetNumber" name="streetNumber" value="<%= user.address[0].street_number %>" required>
+                            <div class="invalid-feedback">הזן מספר רחוב חוקי.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateCity">עיר:</label>
+                            <input type="text" class="form-control" id="updateCity" name="city" value="<%= user.address[0].city %>" required>
+                            <div class="invalid-feedback">הזן עיר חוקית.</div>
                         </div>
                         <div class="form-group">
                             <label for="updatePhoneNumber">מספר טלפון:</label>
@@ -142,7 +152,13 @@
                         name: $('#updateName').val(),
                         email: $('#updateEmail').val(),
                         password: $('#updatePassword').val(),
-                        address: $('#updateAddress').val(),
+                        address: [
+                            {
+                                street: $('#updateStreet').val(),
+                                street_number: $('#updateStreetNumber').val(),
+                                city: $('#updateCity').val()
+                            }
+                        ],
                         phoneNumber: $('#updatePhoneNumber').val()
                     };
 
