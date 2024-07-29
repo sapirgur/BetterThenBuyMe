@@ -126,52 +126,76 @@
 <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const offcanvasCart = document.getElementById('offcanvasCart');
-        offcanvasCart.addEventListener('show.bs.offcanvas', async function () {
-            console.log("The icon is working");
-            const response = await fetch('/cart-data');
-            if (!response.ok) {
-                console.error('Failed to fetch cart data');
-                return;
-            }
-            const cartItems = await response.json();
-            console.log("Cart data fetched successfully", cartItems);
-            const cartItemsContainer = document.getElementById('cart-items');
+    const offcanvasCart = document.getElementById('offcanvasCart');
+    offcanvasCart.addEventListener('show.bs.offcanvas', async function () {
+        const response = await fetch('/cart-data');
+        if (!response.ok) {
+            console.error('Failed to fetch cart data');
+            return;
+        }
+        const cartItems = await response.json();
+        const cartItemsContainer = document.getElementById('cart-items');
 
-            if (cartItems.length === 0) {
-                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
-            } else {
-                cartItemsContainer.innerHTML = cartItems.map(item => `
-                    <div class="cart-item">
-                        <div class="item-details">
-                            <p>${item.product_name}</p>
-                            <p class="item-price">$${item.price}</p>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn-decrease" data-product-id="${item.id}">-</button>
-                            <button class="btn-increase" data-product-id="${item.id}">+</button>
-                        </div>
+        if (cartItems.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+        } else {
+            cartItemsContainer.innerHTML = cartItems.map(item => `
+                <div class="cart-item">
+                    <div class="item-details">
+                        <p>${item.product_name}</p>
+                        <p class="item-price">$${item.price}</p>
+                        <p class="item-quantity">Quantity: ${item.quantity}</p>
                     </div>
-                `).join('');
-            }
+                    <div class="quantity-controls">
+                        <button class="btn-decrease" data-product-id="${item.product_id}">-</button>
+                        <button class="btn-increase" data-product-id="${item.product_id}">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-            document.querySelectorAll('.btn-decrease').forEach(button => {
-                button.addEventListener('click', async function() {
-                    const productId = this.getAttribute('data-product-id');
-                    console.log('Decrease quantity for product:', productId);
-                    // Implement decrease quantity logic here, e.g., sending a request to the server
+        document.querySelectorAll('.btn-decrease').forEach(button => {
+            button.addEventListener('click', async function() {
+                const productId = this.getAttribute('data-product-id');
+                const response = await fetch('/decrease-quantity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId })
                 });
+
+                if (response.ok) {
+                    const updatedCart = await response.json();
+                    // Update the cart UI with the new data
+                } else {
+                    console.error('Failed to decrease item quantity');
+                }
             });
+        });
 
-            document.querySelectorAll('.btn-increase').forEach(button => {
-                button.addEventListener('click', async function() {
-                    const productId = this.getAttribute('data-product-id');
-                    console.log('Increase quantity for product:', productId);
-                    // Implement increase quantity logic here, e.g., sending a request to the server
+        document.querySelectorAll('.btn-increase').forEach(button => {
+            button.addEventListener('click', async function() {
+                const productId = this.getAttribute('data-product-id');
+                const response = await fetch('/increase-quantity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId })
                 });
+
+                if (response.ok) {
+                    const updatedCart = await response.json();
+                    // Update the cart UI with the new data
+                } else {
+                    console.error('Failed to increase item quantity');
+                }
             });
         });
     });
+});
+
 </script>
 </body>
 </html>
