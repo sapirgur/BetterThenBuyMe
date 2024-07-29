@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById } = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById } = require('./db');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -87,11 +87,12 @@ app.post('/login', async (req, res) => {
                 cart = {
                     user_id: user._id,
                     items: [],
-                    created_time: new Date(),
-                    last_updated_at: new Date()
+                    quantity: 0,
+                    created_at: new Date(),
+                    updated_at: new Date()
                 };
                 await db.collection('cart').insertOne(cart);
-            } 
+            }
             console.log(cart);
 
             req.session.cart = cart; // Save the cart in the session
@@ -105,38 +106,62 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
 // Route to add an item with quantity 10 to the cart
 app.post('/add-item-to-cart', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send('You need to log in first');
     }
 
-    const { itemName, price } = req.body;
+    const { productId, quantity } = req.body;
 
-    if (!itemName || !price || isNaN(price) || price <= 0) {
-        return res.status(400).send('Invalid item name or price');
+    if (!productId || !quantity || isNaN(quantity) || quantity <= 0) {
+        return res.status(400).send('Invalid product ID or quantity');
     }
 
     if (user_id) {
-        let cart = await db.collection('cart').findOne({ user_id: user_id });
-        if (cart) {
-            cart.items.push({ product_name: itemName, price: price });
-            cart.last_updated_at = new Date();
+        try {
+            const product = await db.collection('products').findOne({ _id: new ObjectId(productId) });
+            if (!product) {
+                return res.status(404).send('Product not found');
+            }
 
-            // Update the cart in the database
-            await db.collection('cart').updateOne(
-                { _id: cart._id },
-                { $set: { items: cart.items, last_updated_at: cart.last_updated_at } }
-            );
+            let cart = await db.collection('cart').findOne({ user_id: user_id });
+            if (cart) {
+                const existingItem = cart.items.find(item => item._id.equals(product._id));
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.items.push({
+                        _id: product._id,
+                        product_name: product.name,
+                        quantity: quantity,
+                        price: product.price
+                    });
+                }
 
-            res.json({ success: true, cart });
-        } else {
-            res.status(404).send('Cart not found');
+                cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
+                cart.updated_at = new Date();
+
+                // Update the cart in the database
+                await db.collection('cart').updateOne(
+                    { _id: cart._id },
+                    { $set: { items: cart.items, quantity: cart.quantity, updated_at: cart.updated_at } }
+                );
+
+                res.json({ success: true, cart });
+            } else {
+                res.status(404).send('Cart not found');
+            }
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+            res.status(500).send('Internal server error');
         }
     } else {
         res.status(500).send('User ID not found');
     }
 });
+
 
 
 // Logout route
@@ -287,8 +312,6 @@ app.get('/CheckOut', async (req, res) => {
         return res.redirect('/login'); // Redirect to login if the user is not authenticated
     }
 
-    
-
     try {
         let cart = await db.collection('cart').findOne({ user_id: user_id });
 
@@ -302,6 +325,7 @@ app.get('/CheckOut', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
 
 // Route to fetch cart data (cart icon)
 app.get('/cart-data', async (req, res) => {
@@ -319,6 +343,7 @@ app.get('/cart-data', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 // Route to increase item quantity
 app.post('/increase-quantity', isAuthenticated, async (req, res) => {

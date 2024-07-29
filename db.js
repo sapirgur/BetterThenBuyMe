@@ -62,7 +62,13 @@ async function getBusinessById(businessId) {
     return await db.collection('businesses').findOne({ _id: ObjectId.createFromHexString(businessId) });
 }
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById };
+async function getProductById(productId) {
+    const db = getDB();
+    return await db.collection('products').findOne({ _id: new ObjectId(productId) });
+}
+
+
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById };
 
 
 
