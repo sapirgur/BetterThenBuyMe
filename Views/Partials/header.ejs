@@ -7,7 +7,7 @@
     <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
-          body {
+        body {
             background-color: #2E2E38;
             color: #ffffff;
         }
@@ -127,7 +127,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const offcanvasCart = document.getElementById('offcanvasCart');
-    
+
     offcanvasCart.addEventListener('show.bs.offcanvas', async function () {
         await loadCartData();
     });
@@ -176,7 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     const updatedCart = await response.json();
-                    updateCartItemUI(productId, updatedCart.items);
+                    const item = updatedCart.items.find(item => item._id === productId);
+                    updateCartItemUI(productId, item);
                 } else {
                     console.error('Failed to decrease item quantity');
                 }
@@ -196,7 +197,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     const updatedCart = await response.json();
-                    updateCartItemUI(productId, updatedCart.items);
+                    const item = updatedCart.items.find(item => item._id === productId);
+                    updateCartItemUI(productId, item);
                 } else {
                     console.error('Failed to increase item quantity');
                 }
@@ -204,10 +206,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function updateCartItemUI(productId, cartItems) {
+    function updateCartItemUI(productId, item) {
         const cartItem = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
-        const item = cartItems.find(item => item._id === productId);
-        
+
         if (item) {
             const quantitySpan = cartItem.querySelector('.item-quantity span');
             quantitySpan.textContent = item.quantity;
@@ -220,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // If the cart is empty after removal, display the empty cart message
         const cartItemsContainer = document.getElementById('cart-items');
-        if (cartItems.length === 0) {
+        if (document.querySelectorAll('.cart-item').length === 0) {
             cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
         }
     }
