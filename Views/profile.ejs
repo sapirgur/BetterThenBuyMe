@@ -9,36 +9,185 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <title>פרופיל - Gifty</title>
-   
 </head>
 <body>
     <%- include('partials/header') %>
 
-    <main>
+    <main class="container my-5">
         <section class="profile">
             <h1>פרופיל</h1>
-            <div class="profile-info">
-                <label for="first-name">שם פרטי:</label>
-                <input type="text" id="first-name" name="first-name" value="ישראל" readonly>
-                
-                <label for="last-name">שם משפחה:</label>
-                <input type="text" id="last-name" name="last-name" value="ישראלי" readonly>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="<%= user.profile_image %>" alt="Profile Image" class="img-fluid rounded-circle mb-3">
+                </div>
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <button id="updateButton" class="btn btn-primary btn-lg w-100" type="button">עדכן פרטים</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">שם משתמש:</label>
+                        <input type="text" class="form-control" id="username" name="username" value="<%= user.username %>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">דוא"ל:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="idNumber">תעודת זהות:</label>
+                        <input type="text" class="form-control" id="idNumber" name="idNumber" value="<%= user.id_number %>" readonly>
+                    </div>
+                </div>
             </div>
-            <div class="history">
+            <div class="history mt-5">
                 <h2>היסטוריית רכישות</h2>
-                <ul class="purchase-history">
-                    <li>כרטיס מתנה מרשת א - ₪50</li>
-                    <li>כרטיס מתנה מרשת ב - ₪100</li>
+                <ul class="purchase-history list-group">
+                    <% if (user.purchase_history && user.purchase_history.length > 0) { %>
+                        <% user.purchase_history.forEach(function(purchase) { %>
+                            <li class="list-group-item"><%= purchase %></li>
+                        <% }); %>
+                    <% } else { %>
+                        <li class="list-group-item">אין היסטוריית רכישות</li>
+                    <% } %>
                 </ul>
-                <h2>היסטוריית ניצול</h2>
-                <ul class="usage-history">
-                    <li>כרטיס מתנה מרשת א - ניצול ₪30</li>
-                    <li>כרטיס מתנה מרשת ב - ניצול ₪50</li>
-                </ul>
+            </div>
+            <div class="mt-3">
+                <button id="deleteButton" class="btn btn-danger btn-lg w-100" type="button">מחק פרופיל</button>
             </div>
         </section>
     </main>
 
     <%- include('partials/footer') %>
+
+    <!-- Modal for Update -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">עדכון פרטים</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateForm" class="needs-validation" novalidate>
+                        <div class="form-group">
+                            <label for="updateUsername">שם משתמש:</label>
+                            <input type="text" class="form-control" id="updateUsername" name="username" value="<%= user.username %>" required>
+                            <div class="invalid-feedback">נדרש שם משתמש.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateEmail">דוא"ל:</label>
+                            <input type="email" class="form-control" id="updateEmail" name="email" value="<%= user.email %>" required>
+                            <div class="invalid-feedback">הזן כתובת דוא"ל חוקית.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePassword">סיסמה:</label>
+                            <input type="password" class="form-control" id="updatePassword" name="password" value="<%= user.password %>" required>
+                            <div class="invalid-feedback">נדרשת סיסמה.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAddress">כתובת:</label>
+                            <input type="text" class="form-control" id="updateAddress" name="address" value="<%= user.address %>" required>
+                            <div class="invalid-feedback">הזן כתובת חוקית.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePhoneNumber">מספר טלפון:</label>
+                            <input type="text" class="form-control" id="updatePhoneNumber" name="phoneNumber" value="<%= user.phone_number %>" required>
+                            <div class="invalid-feedback">הזן מספר טלפון חוקי.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגור</button>
+                    <button type="button" class="btn btn-primary" id="saveUpdateButton">שמור שינויים</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Delete Confirmation -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">אישור מחיקת פרופיל</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    האם אתה בטוח שברצונך למחוק את הפרופיל?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ביטול</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">מחק פרופיל</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        $(document).ready(function() {
+            // Show update modal
+            $('#updateButton').click(function() {
+                $('#updateModal').modal('show');
+            });
+
+            // Save changes in update modal
+            $('#saveUpdateButton').click(function() {
+                if ($('#updateForm')[0].checkValidity()) {
+                    var userData = {
+                        idNumber: $('#idNumber').val(),
+                        username: $('#updateUsername').val(),
+                        email: $('#updateEmail').val(),
+                        password: $('#updatePassword').val(),
+                        address: $('#updateAddress').val(),
+                        phoneNumber: $('#updatePhoneNumber').val()
+                    };
+
+                    // Send AJAX request to update user data
+                    $.ajax({
+                        url: '/updateProfile',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(userData),
+                        success: function(response) {
+                            alert('הפרטים עודכנו בהצלחה!');
+                            location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            alert('אירעה שגיאה בעדכון הפרטים.');
+                        }
+                    });
+                }
+            });
+
+            // Show delete modal
+            $('#deleteButton').click(function() {
+                $('#deleteModal').modal('show');
+            });
+
+            // Confirm delete profile
+            $('#confirmDeleteButton').click(function() {
+                var idNumber = $('#idNumber').val();
+
+                // Send AJAX request to delete user profile
+                $.ajax({
+                    url: '/deleteProfile',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ idNumber: idNumber }),
+                    success: function(response) {
+                        alert('הפרופיל נמחק בהצלחה!');
+                        window.location.href = '/';
+                    },
+                    error: function(xhr, status, error) {
+                        alert('אירעה שגיאה במחיקת הפרופיל.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -533,8 +533,58 @@ app.get('/contact', (req, res) => {
 });
 
 
-app.get('/profile', (req, res) => {
-    res.render('profile');
+app.get('/profile', async (req, res) => {
+    try {
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+
+        const user = await db.collection('users').findOne({ _id: user_id });
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('profile', { user });
+    } catch (error) {
+        console.error('Error retrieving user profile:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+app.post('/updateProfile', async (req, res) => {
+    try {
+        const { idNumber, name, email, password, address, phoneNumber } = req.body;
+
+        await db.collection('users').updateOne({ id_number: idNumber }, {
+            $set: {
+                name,
+                email,
+                password,
+                address: [address],
+                phone_number: phoneNumber
+            }
+        });
+
+        res.send({ success: true });
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+app.post('/deleteProfile', async (req, res) => {
+    try {
+        const { idNumber } = req.body;
+
+        await db.collection('users').deleteOne({ id_number: idNumber });
+
+        req.session.destroy();
+        res.send({ success: true });
+    } catch (error) {
+        console.error('Error deleting user profile:', error);
+        res.status(500).send('Internal server error');
+    }
 });
 
 
