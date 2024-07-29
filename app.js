@@ -577,7 +577,7 @@ app.post('/deleteProfile', async (req, res) => {
     try {
         const { idNumber } = req.body;
 
-        await db.collection('users').deleteOne({ id_number: idNumber });
+        await db.collection('users').deleteOne({  _id: user_ids });
 
         req.session.destroy();
         res.send({ success: true });

@@ -173,9 +173,12 @@
                             location.reload();
                         },
                         error: function(xhr, status, error) {
+                            console.error('Error:', xhr, status, error);
                             alert('אירעה שגיאה בעדכון הפרטים.');
                         }
                     });
+                } else {
+                    $('#updateForm')[0].reportValidity();
                 }
             });
 
@@ -199,6 +202,7 @@
                         window.location.href = '/';
                     },
                     error: function(xhr, status, error) {
+                        console.error('Error:', xhr, status, error);
                         alert('אירעה שגיאה במחיקת הפרופיל.');
                     }
                 });
