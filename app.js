@@ -348,40 +348,47 @@ app.get('/CheckOut', async (req, res) => {
     }
 });
 
+
+
+
+
+
 app.post('/CheckOut', async (req, res) => {
     if (!req.session.user) {
-        return res.redirect('/login'); // Redirect to login if the user is not authenticated
+        return res.status(401).send('Unauthorized: No user session found');
     }
 
+    const { ccName, ccNumber, ccExpiration, ccCvv } = req.body;
+
+    if (!ccName || !ccNumber || !ccExpiration || !ccCvv) {
+        return res.status(400).send('All fields are required');
+    }
+
+
     try {
-        const { ccName, ccNumber, ccExpiration, ccCVV, rememberCardInfo } = req.body;
-
-        // Encrypt the card number before saving to the database
-        const encryptedCardNumber = ccNumber; // Placeholder, replace with actual encryption logic
-
-        // Prepare the new payment method object
         const newPaymentMethod = {
-            card_number: encryptedCardNumber,
-            card_type: determineCardType(ccNumber), // Implement this function to determine the card type based on the card number
+            card_name: ccName,
+            card_number: ccNumber,
+            card_type: "Visa",  // You might want to add a mechanism to determine the card type
             expiry_date: ccExpiration,
-            billing_address: req.session.user.address[0] // Assuming the billing address is the user's primary address
+            cvv: ccCvv,
+            billing_address: "123 Main St"  // You might want to include this in the form
         };
 
-        // Add the new payment method to the user's payment methods array if the checkbox is checked
-        if (rememberCardInfo) {
-            await db.collection('users').updateOne(
-                { _id: ObjectId(req.session.user._id) },
-                { $push: { payment_methods: newPaymentMethod } }
-            );
-        }
+        await db.collection('users').updateOne(
+            { _id: user_id },
+            { $push: { payment_methods: newPaymentMethod } }
+        );
 
-        // Redirect to a confirmation page or back to the cart
-        res.redirect('/order-confirmation'); // Adjust this as needed
-    } catch (err) {
-        console.error('Error saving payment method:', err);
+        console.log('New payment method added:', newPaymentMethod);
+        res.redirect('/payment-success'); // Redirect to a success page or send a success message
+    } catch (error) {
+        console.error('Error adding payment method:', error);
         res.status(500).send('Internal server error');
     }
 });
+
+
 
 // Function to determine the card type based on the card number
 function determineCardType(cardNumber) {
