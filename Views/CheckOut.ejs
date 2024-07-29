@@ -22,7 +22,7 @@
             <div class="row g-5">
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">פרטי חיוב</h4>
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation" novalidate method="POST" action="/CheckOut">
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <label for="firstName" class="form-label">שם פרטי</label>
@@ -347,7 +347,7 @@
 
                             <div class="col-md-3">
                                 <label for="zip" class="form-label">מיקוד</label>
-                                <input type="text" class="form-control" id="zip" placeholder="" required>
+                                <input type="text" class="form-control" id="zip" placeholder="" >
                                 <div class="invalid-feedback">
                                     מיקוד נדרש.
                                 </div>
@@ -411,6 +411,14 @@
                         </div>
 
                         <hr class="my-4">
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberCardInfo" name="rememberCardInfo">
+                            <label class="form-check-label" for="rememberCardInfo">זכור את פרטי הכרטיס לפעם הבאה</label>
+                        </div>
+
+                        <hr class="my-4">
+
 
                         <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="window.location.href='/CheckOut'">המשך לתשלום</button>
                     </form>

@@ -349,51 +349,47 @@ app.get('/CheckOut', async (req, res) => {
 });
 
 app.post('/CheckOut', async (req, res) => {
+    console.log("Received data:", req.body); // Debug statement to see incoming data
+
     if (!req.session.user) {
+        console.log("No user session found."); // Debugging user session
         return res.redirect('/login'); // Redirect to login if the user is not authenticated
     }
 
     try {
-        const { ccName, ccNumber, ccExpiration, ccCVV, sameAddress } = req.body;
+        const { ccName, ccNumber, ccExpiration, ccCVV, rememberCardInfo } = req.body;
+
+        console.log("Form data:", { ccName, ccNumber, ccExpiration, ccCVV, rememberCardInfo }); // Debugging form data
 
         // Encrypt the card number before saving to the database
-        const encryptedCardNumber = encryptCardNumber(ccNumber);
+        const encryptedCardNumber = ccNumber; // Placeholder, replace with actual encryption logic
 
         // Prepare the new payment method object
         const newPaymentMethod = {
             card_number: encryptedCardNumber,
-            card_type: determineCardType(ccNumber), // Implement this function to determine the card type based on the card number
+            card_type: determineCardType(ccNumber),
             expiry_date: ccExpiration,
-            billing_address: sameAddress ? req.session.user.address[0] : req.body.address
+            billing_address: req.session.user.address[0] // Assuming the billing address is the user's primary address
         };
 
+        console.log("New payment method:", newPaymentMethod); // Debugging new payment method data
+
         // Add the new payment method to the user's payment methods array if the checkbox is checked
-        if (req.body.rememberCardInfo) {
-            await db.collection('users').updateOne(
-                { _id: req.session.user._id },
+        if (rememberCardInfo === 'on') {
+            const updateResult = await db.collection('users').updateOne(
+                { _id: ObjectId(req.session.user._id) },
                 { $push: { payment_methods: newPaymentMethod } }
             );
+            console.log("Update result:", updateResult); // Debugging the result of the update operation
         }
 
-        // Redirect to a confirmation page or back to the cart
-        res.redirect('/order-confirmation'); // Adjust this as needed
+        res.redirect('/order-confirmation'); // Redirect to a confirmation page or back to the cart
     } catch (err) {
         console.error('Error saving payment method:', err);
         res.status(500).send('Internal server error');
     }
 });
 
-// Function to encrypt the card number (implement your encryption logic)
-function encryptCardNumber(cardNumber) {
-    // Add encryption logic here
-    return cardNumber; // Placeholder, replace with actual encrypted card number
-}
-
-// Function to determine the card type based on the card number (implement your logic)
-function determineCardType(cardNumber) {
-    // Add logic to determine card type here
-    return 'Visa'; // Placeholder, replace with actual card type determination
-}
 
 
 
