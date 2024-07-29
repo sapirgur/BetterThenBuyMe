@@ -224,8 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const quantitySpan = cartItem.querySelector('.item-quantity span');
             quantitySpan.textContent = item.quantity;
 
-            const priceElement = cartItem.querySelector('.item-price');
-            priceElement.textContent = `₪${item.price * item.quantity}`;
+            // The price remains the same, no need to update it
         } else {
             cartItem.remove();
         }
