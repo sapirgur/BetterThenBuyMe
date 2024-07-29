@@ -18,15 +18,15 @@
             <h1>פרופיל</h1>
             <div class="row">
                 <div class="col-md-4">
-                    <img src="<%= user.profile_image %>" alt="Profile Image" class="img-fluid rounded-circle mb-3">
+                    <img src="/css/Images/profilePictures/Generic Profile Img.webp" alt="Profile Image" class="img-fluid rounded-circle mb-3">
                 </div>
                 <div class="col-md-8">
                     <div class="mb-3">
                         <button id="updateButton" class="btn btn-primary btn-lg w-100" type="button">עדכן פרטים</button>
                     </div>
                     <div class="form-group">
-                        <label for="username">שם משתמש:</label>
-                        <input type="text" class="form-control" id="username" name="username" value="<%= user.username %>" readonly>
+                        <label for="name">שם מלא:</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="email">דוא"ל:</label>
@@ -69,9 +69,9 @@
                 <div class="modal-body">
                     <form id="updateForm" class="needs-validation" novalidate>
                         <div class="form-group">
-                            <label for="updateUsername">שם משתמש:</label>
-                            <input type="text" class="form-control" id="updateUsername" name="username" value="<%= user.username %>" required>
-                            <div class="invalid-feedback">נדרש שם משתמש.</div>
+                            <label for="updateName">שם מלא:</label>
+                            <input type="text" class="form-control" id="updateName" name="name" value="<%= user.name %>" required>
+                            <div class="invalid-feedback">נדרש שם מלא.</div>
                         </div>
                         <div class="form-group">
                             <label for="updateEmail">דוא"ל:</label>
@@ -139,7 +139,7 @@
                 if ($('#updateForm')[0].checkValidity()) {
                     var userData = {
                         idNumber: $('#idNumber').val(),
-                        username: $('#updateUsername').val(),
+                        name: $('#updateName').val(),
                         email: $('#updateEmail').val(),
                         password: $('#updatePassword').val(),
                         address: $('#updateAddress').val(),
