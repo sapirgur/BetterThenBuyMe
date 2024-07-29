@@ -390,24 +390,6 @@ app.post('/CheckOut', async (req, res) => {
 
 
 
-// Function to determine the card type based on the card number
-function determineCardType(cardNumber) {
-    const patterns = {
-        Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-        MasterCard: /^5[1-5][0-9]{14}$/,
-        AmericanExpress: /^3[47][0-9]{13}$/,
-        Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/
-    };
-
-    for (let cardType in patterns) {
-        if (patterns[cardType].test(cardNumber)) {
-            return cardType;
-        }
-    }
-
-    return 'Unknown';
-}
-
 
 
 // Route to fetch cart data (cart icon)
