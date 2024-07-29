@@ -366,6 +366,88 @@ app.get('/cart-data', async (req, res) => {
     }
 });
 
+app.post('/decrease-quantity', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).send('You need to log in first');
+    }
+
+    const { productId } = req.body;
+
+    if (!productId) {
+        return res.status(400).send('Invalid product ID');
+    }
+
+    try {
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
+        if (!cart) {
+            return res.status(404).send('Cart not found');
+        }
+
+        const itemIndex = cart.items.findIndex(item => item._id.equals(productId));
+        if (itemIndex === -1) {
+            return res.status(404).send('Item not found in cart');
+        }
+
+        cart.items[itemIndex].quantity -= 1;
+        if (cart.items[itemIndex].quantity <= 0) {
+            cart.items.splice(itemIndex, 1); // Remove item if quantity is 0
+        }
+
+        cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
+        cart.updated_at = new Date();
+
+        await db.collection('cart').updateOne(
+            { _id: cart._id },
+            { $set: { items: cart.items, quantity: cart.quantity, updated_at: cart.updated_at } }
+        );
+
+        res.json({ success: true, cart });
+    } catch (error) {
+        console.error('Error decreasing item quantity:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+app.post('/increase-quantity', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).send('You need to log in first');
+    }
+
+    const { productId } = req.body;
+
+    if (!productId) {
+        return res.status(400).send('Invalid product ID');
+    }
+
+    try {
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
+        if (!cart) {
+            return res.status(404).send('Cart not found');
+        }
+
+        const itemIndex = cart.items.findIndex(item => item._id.equals(productId));
+        if (itemIndex === -1) {
+            return res.status(404).send('Item not found in cart');
+        }
+
+        cart.items[itemIndex].quantity += 1;
+
+        cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
+        cart.updated_at = new Date();
+
+        await db.collection('cart').updateOne(
+            { _id: cart._id },
+            { $set: { items: cart.items, quantity: cart.quantity, updated_at: cart.updated_at } }
+        );
+
+        res.json({ success: true, cart });
+    } catch (error) {
+        console.error('Error increasing item quantity:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+
 
 app.get('/aboutUs', (req, res) => {
     res.render('aboutUs');
