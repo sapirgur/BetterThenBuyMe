@@ -461,7 +461,7 @@ app.post('/verify-coupon', async (req, res) => {
         console.log('Coupon found:', coupon);
 
         if (coupon) {
-            res.json({ valid: true, discountPercentage: coupon.discountPercentage });
+            res.json({ valid: true, discountPercentage: coupon.percentage });
         } else {
             res.json({ valid: false });
         }
@@ -470,6 +470,7 @@ app.post('/verify-coupon', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 
 app.get('/aboutUs', (req, res) => {

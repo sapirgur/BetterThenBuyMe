@@ -76,8 +76,9 @@ async function getCoupons() {
 // Fetch coupon by code
 async function getCouponByCode(couponCode) {
     const db = getDB();
-    return await db.collection('coupons').findOne({ code: couponCode });
+    return await db.collection('coupons').findOne({ coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') } });
 }
+
 
 
 module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode };
