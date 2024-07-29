@@ -394,19 +394,23 @@ app.post('/decrease-quantity', async (req, res) => {
         }
 
         cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
+        cart.total_price = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
         cart.updated_at = new Date();
 
         await db.collection('cart').updateOne(
             { _id: cart._id },
-            { $set: { items: cart.items, quantity: cart.quantity, updated_at: cart.updated_at } }
+            { $set: { items: cart.items, quantity: cart.quantity, total_price: cart.total_price, updated_at: cart.updated_at } }
         );
 
-        res.json({ success: true, cart });
+        res.json({ success: true, items: cart.items });
     } catch (error) {
         console.error('Error decreasing item quantity:', error);
         res.status(500).send('Internal server error');
     }
 });
+
+
+
 
 app.post('/increase-quantity', async (req, res) => {
     if (!req.session.user) {
@@ -433,14 +437,15 @@ app.post('/increase-quantity', async (req, res) => {
         cart.items[itemIndex].quantity += 1;
 
         cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
+        cart.total_price = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
         cart.updated_at = new Date();
 
         await db.collection('cart').updateOne(
             { _id: cart._id },
-            { $set: { items: cart.items, quantity: cart.quantity, updated_at: cart.updated_at } }
+            { $set: { items: cart.items, quantity: cart.quantity, total_price: cart.total_price, updated_at: cart.updated_at } }
         );
 
-        res.json({ success: true, cart });
+        res.json({ success: true, items: cart.items });
     } catch (error) {
         console.error('Error increasing item quantity:', error);
         res.status(500).send('Internal server error');
