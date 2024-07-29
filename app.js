@@ -120,10 +120,10 @@ app.post('/add-item-to-cart', async (req, res) => {
         return res.status(401).send('You need to log in first');
     }
 
-    const { productId, quantity } = req.body;
+    const { productId, quantity, price } = req.body;
 
-    if (!productId || !quantity || isNaN(quantity) || quantity <= 0) {
-        return res.status(400).send('Invalid product ID or quantity');
+    if (!productId || !quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price <= 0) {
+        return res.status(400).send('Invalid product ID, quantity, or price');
     }
 
     if (user_id) {
@@ -143,7 +143,7 @@ app.post('/add-item-to-cart', async (req, res) => {
                         _id: product._id,
                         product_name: product.name,
                         quantity: quantity,
-                        price: product.price
+                        price: price  // Ensure this uses the provided price
                     });
                 }
 
@@ -165,7 +165,7 @@ app.post('/add-item-to-cart', async (req, res) => {
                         _id: product._id,
                         product_name: product.name,
                         quantity: quantity,
-                        price: product.price
+                        price: price
                     }],
                     quantity: quantity,
                     created_at: new Date(),
@@ -182,6 +182,7 @@ app.post('/add-item-to-cart', async (req, res) => {
         res.status(500).send('User ID not found');
     }
 });
+
 
 
 
