@@ -348,6 +348,54 @@ app.get('/CheckOut', async (req, res) => {
     }
 });
 
+app.post('/CheckOut', async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login'); // Redirect to login if the user is not authenticated
+    }
+
+    try {
+        const { ccName, ccNumber, ccExpiration, ccCVV, sameAddress } = req.body;
+
+        // Encrypt the card number before saving to the database
+        const encryptedCardNumber = encryptCardNumber(ccNumber);
+
+        // Prepare the new payment method object
+        const newPaymentMethod = {
+            card_number: encryptedCardNumber,
+            card_type: determineCardType(ccNumber), // Implement this function to determine the card type based on the card number
+            expiry_date: ccExpiration,
+            billing_address: sameAddress ? req.session.user.address[0] : req.body.address
+        };
+
+        // Add the new payment method to the user's payment methods array if the checkbox is checked
+        if (req.body.rememberCardInfo) {
+            await db.collection('users').updateOne(
+                { _id: req.session.user._id },
+                { $push: { payment_methods: newPaymentMethod } }
+            );
+        }
+
+        // Redirect to a confirmation page or back to the cart
+        res.redirect('/order-confirmation'); // Adjust this as needed
+    } catch (err) {
+        console.error('Error saving payment method:', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Function to encrypt the card number (implement your encryption logic)
+function encryptCardNumber(cardNumber) {
+    // Add encryption logic here
+    return cardNumber; // Placeholder, replace with actual encrypted card number
+}
+
+// Function to determine the card type based on the card number (implement your logic)
+function determineCardType(cardNumber) {
+    // Add logic to determine card type here
+    return 'Visa'; // Placeholder, replace with actual card type determination
+}
+
+
 
 // Route to fetch cart data (cart icon)
 app.get('/cart-data', async (req, res) => {
