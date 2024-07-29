@@ -353,6 +353,42 @@ app.get('/CheckOut', async (req, res) => {
 
 
 
+// app.post('/CheckOut', async (req, res) => {
+//     if (!req.session.user) {
+//         return res.status(401).send('Unauthorized: No user session found');
+//     }
+
+//     const { ccName, ccNumber, ccExpiration, ccCvv } = req.body;
+
+//     if (!ccName || !ccNumber || !ccExpiration || !ccCvv) {
+//         return res.status(400).send('All fields are required');
+//     }
+
+
+//     try {
+//         const newPaymentMethod = {
+//             card_name: ccName,
+//             card_number: ccNumber,
+//             card_type: "Visa",  // You might want to add a mechanism to determine the card type
+//             expiry_date: ccExpiration,
+//             cvv: ccCvv,
+//             billing_address: "123 Main St"  // You might want to include this in the form
+//         };
+
+//         await db.collection('users').updateOne(
+//             { _id: user_id },
+//             { $push: { payment_methods: newPaymentMethod } }
+//         );
+
+//         console.log('New payment method added:', newPaymentMethod);
+//         res.redirect('/'); // Redirect to a success page or send a success message
+//     } catch (error) {
+//         console.error('Error adding payment method:', error);
+//         res.status(500).send('Internal server error');
+//     }
+// });
+
+
 app.post('/CheckOut', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send('Unauthorized: No user session found');
@@ -364,8 +400,8 @@ app.post('/CheckOut', async (req, res) => {
         return res.status(400).send('All fields are required');
     }
 
-
     try {
+        // Add new payment method
         const newPaymentMethod = {
             card_name: ccName,
             card_number: ccNumber,
@@ -380,10 +416,45 @@ app.post('/CheckOut', async (req, res) => {
             { $push: { payment_methods: newPaymentMethod } }
         );
 
-        console.log('New payment method added:', newPaymentMethod);
+        // Fetch the cart for the user
+        const cart = await db.collection('cart').findOne({ user_id: user_id });
+
+        if (!cart || cart.items.length === 0) {
+            return res.status(400).send('Cart is empty');
+        }
+
+        // Generate a unique order ID
+
+        // Create a new order
+        const newOrder = {
+            user_id: user_id,
+            order_date: new Date(),
+            status: "Processing",
+            total_amount: cart.items.reduce((total, item) => total + (item.price * item.quantity), 0),
+            payment_method_id: newPaymentMethod.card_number, // Assuming card_number is unique
+            products: cart.items
+        };
+
+        const result = await db.collection('orders').insertOne(newOrder);
+
+        // Fetch the inserted order using the insertedId
+        const insertedOrder = await db.collection('orders').findOne({ _id: result.insertedId });
+        // Add the order ID to the user's order history
+        await db.collection('users').updateOne(
+            { _id: user_id },
+            { $push: { order_history: result.insertedId } }
+        );
+
+        // Clear the cart after checkout
+        await db.collection('cart').updateOne(
+            { user_id: user_id },
+            { $set: { items: [] } }
+        );
+
+        console.log('New order added:', newOrder);
         res.redirect('/'); // Redirect to a success page or send a success message
     } catch (error) {
-        console.error('Error adding payment method:', error);
+        console.error('Error during checkout:', error);
         res.status(500).send('Internal server error');
     }
 });
