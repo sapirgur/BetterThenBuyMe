@@ -335,22 +335,18 @@ app.get('/CheckOut', async (req, res) => {
     }
 
     try {
-        let cart = await db.collection('cart').findOne({ user_id: req.session.user.id });
+        let cart = await db.collection('cart').findOne({ user_id: user_id });
 
         // Log the cart variable to ensure it's fetched correctly
         console.log('Cart:', cart);
 
-        // Pass user information and cart items to the template
-        res.render('CheckOut', { 
-            user: req.session.user,
-            cart: cart ? cart.items : [] 
-        });
+        // Pass an empty array if the cart is null
+        res.render('CheckOut', { cart: cart ? cart.items : [] });
     } catch (err) {
         console.error('Error fetching cart items:', err);
         res.status(500).send('Internal server error');
     }
 });
-
 
 
 // Route to fetch cart data (cart icon)

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/CheckOut.css">
 </head>
 <body class="bg-light">
+    
     <div class="container">
         <main>
             <div class="py-5 text-center">
@@ -42,7 +43,7 @@
                             <div class="col-12">
                                 <label for="username" class="form-label">שם משתמש</label>
                                 <div class="input-group has-validation">
-                                    <span class="input-group-text">@</span>
+                                    
                                     <input type="text" class="form-control" id="username" placeholder="שם משתמש" value="<%= user.email.split('@')[0] %>" required>
                                     <div class="invalid-feedback">
                                         שם משתמש נדרש.
@@ -66,16 +67,190 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <label for="address2" class="form-label">כתובת נוספת <span class="text-muted">(לא חובה)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="דירה או סוויטה">
-                            </div>
 
                             <div class="col-md-5">
                                 <label for="country" class="form-label">מדינה</label>
                                 <select class="form-select" id="country" required>
                                     <option value="">בחר...</option>
-                                    <option>ישראל</option>
+                                    <option>אוגנדה</option>
+<option>אוזבקיסטן</option>
+<option>אוסטרליה</option>
+<option>אוסטריה</option>
+<option>אורוגוואי</option>
+<option>אוקראינה</option>
+<option>איחוד האמירויות הערביות</option>
+<option>איטליה</option>
+<option>אינדונזיה</option>
+<option>איסלנד</option>
+<option>איראן</option>
+<option>אירלנד</option>
+<option>אל סלוודור</option>
+<option>אלבניה</option>
+<option>אלג'יריה</option>
+<option>אנדורה</option>
+<option>אנגליה</option>
+<option>אנגולה</option>
+<option>אנטיגואה וברבודה</option>
+<option>אקוודור</option>
+<option>ארגנטינה</option>
+<option>אריתריאה</option>
+<option>ארמניה</option>
+<option>אתיופיה</option>
+<option>אפגניסטן</option>
+<option>אפריקה הדרומית</option>
+<option>אפריקה התיכונה</option>
+<option>בוטסואנה</option>
+<option>בולגריה</option>
+<option>בוליביה</option>
+<option>בורונדי</option>
+<option>בורקינה פאסו</option>
+<option>בוסניה והרצגובינה</option>
+<option>בורונדי</option>
+<option>בורמה (מיאנמר)</option>
+<option>בחריין</option>
+<option>בלגיה</option>
+<option>בליז</option>
+<option>בלרוס</option>
+<option>בנגלדש</option>
+<option>בנין</option>
+<option>ברבדוס</option>
+<option>ברזיל</option>
+<option>ברוניי</option>
+<option>בריטניה</option>
+<option>גאבון</option>
+<option>ג'מייקה</option>
+<option>גרמניה</option>
+<option>גרנדה</option>
+<option>גרינלנד</option>
+<option>גואטמלה</option>
+<option>גינאה</option>
+<option>גינאה ביסאו</option>
+<option>גינאה המשוונית</option>
+<option>גיאורגיה</option>
+<option>גיברלטר</option>
+<option>גיברלטר</option>
+<option>גיברלטר</option>
+<option>גיברלטר</option>
+<option>גיאנה</option>
+<option>גמביה</option>
+<option>גאנה</option>
+<option>גאורגיה</option>
+<option>הולנד</option>
+<option>הונדורס</option>
+<option>הונג קונג</option>
+<option>הונגריה</option>
+<option>הרפובליקה הדומיניקנית</option>
+<option>הרפובליקה המרכז-אפריקאית</option>
+<option>ואנואטו</option>
+<option>ויטנאם</option>
+<option>ונצואלה</option>
+<option>זימבבואה</option>
+<option>זמביה</option>
+<option>חוף השנהב</option>
+<option>טג'יקיסטן</option>
+<option>טובלו</option>
+<option>טוניסיה</option>
+<option>טונגה</option>
+<option>טורקיה</option>
+<option>טורקמניסטן</option>
+<option>טיוואן</option>
+<option>טימור</option>
+<option>טרינידד וטובגו</option>
+<option>יוון</option>
+<option>יפן</option>
+<option>ירדן</option>
+<option>ישראל</option>
+<option>כווית</option>
+<option>כף ורדה</option>
+<option>לאוס</option>
+<option>לבנון</option>
+<option>לוב</option>
+<option>לוקסמבורג</option>
+<option>לטביה</option>
+<option>ליבריה</option>
+<option>ליטא</option>
+<option>ליכטנשטיין</option>
+<option>מאוריטניה</option>
+<option>מאוריציוס</option>
+<option>מאיה</option>
+<option>מאלי</option>
+<option>מדגסקר</option>
+<option>מוזמביק</option>
+<option>מולדובה</option>
+<option>מונגוליה</option>
+<option>מונטנגרו</option>
+<option>מונקו</option>
+<option>מוזמביק</option>
+<option>מולדובה</option>
+<option>מונגוליה</option>
+<option>מונטנגרו</option>
+<option>מונקו</option>
+<option>מאוריציוס</option>
+<option>מאוריטניה</option>
+<option>מאלי</option>
+<option>מלטה</option>
+<option>מלזיה</option>
+<option>מלאווי</option>
+<option>מקסיקו</option>
+<option>מצרים</option>
+<option>מרוקו</option>
+<option>נאורו</option>
+<option>נורבגיה</option>
+<option>ניז'ר</option>
+<option>ניגריה</option>
+<option>ניו זילנד</option>
+<option>נפאל</option>
+<option>ניקרגואה</option>
+<option>נמיביה</option>
+<option>סוואזילנד</option>
+<option>סוריה</option>
+<option>סורינאם</option>
+<option>סומליה</option>
+<option>סין</option>
+<option>סינגפור</option>
+<option>סיירה לאון</option>
+<option>סלובניה</option>
+<option>סלובקיה</option>
+<option>סנגל</option>
+<option>סנט וינסנט והגרנדינים</option>
+<option>סנט קיטס ונוויס</option>
+<option>סנט לוסיה</option>
+<option>ספיר</option>
+<option>ספרד</option>
+<option>סרביה</option>
+<option>פולין</option>
+<option>פורטוגל</option>
+<option>פיג'י</option>
+<option>פיליפינים</option>
+<option>פינלנד</option>
+<option>פפואה גינאה החדשה</option>
+<option>פקיסטן</option>
+<option>פרו</option>
+<option>צרפת</option>
+<option>קובה</option>
+<option>קוריאה הדרומית</option>
+<option>קוריאה הצפונית</option>
+<option>קולומביה</option>
+<option>קונגו</option>
+<option>קוסטה ריקה</option>
+<option>קזחסטן</option>
+<option>קטאר</option>
+<option>קניה</option>
+<option>קירגיזסטן</option>
+<option>קיריבאטי</option>
+<option>קמבודיה</option>
+<option>קמרון</option>
+<option>קנדה</option>
+<option>קפריסין</option>
+<option>קרואטיה</option>
+<option>רואנדה</option>
+<option>רומניה</option>
+<option>רוסיה</option>
+<option>שוודיה</option>
+<option>שווייץ</option>
+<option>תאילנד</option>
+<option>תוניסיה</option>
+<option>תורכיה</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     בחר מדינה חוקית.
@@ -83,11 +258,87 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label for="state" class="form-label">מחוז</label>
+                                <label for="state" class="form-label">עיר</label>
                                 <select class="form-select" id="state" required>
                                     <option value="">בחר...</option>
-                                    <option>מחוז תל אביב</option>
-                                    <option>מחוז ירושלים</option>
+                                    <option>אום אל-פחם</option>
+                                    <option>אופקים</option>
+                                    <option>אור יהודה</option>
+                                    <option>אור עקיבא</option>
+                                    <option>אילת</option>
+                                    <option>אלעד</option>
+                                    <option>אריאל</option>
+                                    <option>אשדוד</option>
+                                    <option>אשקלון</option>
+                                    <option>באקה אל-גרביה</option>
+                                    <option>באר שבע</option>
+                                    <option>בית שאן</option>
+                                    <option>בית שמש</option>
+                                    <option>ביתר עילית</option>
+                                    <option>בני ברק</option>
+                                    <option>בת ים</option>
+                                    <option>גבעת שמואל</option>
+                                    <option>גבעתיים</option>
+                                    <option>דימונה</option>
+                                    <option>הוד השרון</option>
+                                    <option>הרצליה</option>
+                                    <option>חדרה</option>
+                                    <option>חולון</option>
+                                    <option>חיפה</option>
+                                    <option>טבריה</option>
+                                    <option>טייבה</option>
+                                    <option>טירה</option>
+                                    <option>טירת כרמל</option>
+                                    <option>יבנה</option>
+                                    <option>יהוד-מונוסון</option>
+                                    <option>יקנעם עילית</option>
+                                    <option>ירושלים</option>
+                                    <option>כפר יונה</option>
+                                    <option>כפר סבא</option>
+                                    <option>כפר קאסם</option>
+                                    <option>כרמיאל</option>
+                                    <option>לוד</option>
+                                    <option>מגדל העמק</option>
+                                    <option>מודיעין-מכבים-רעות</option>
+                                    <option>מודיעין עילית</option>
+                                    <option>מעלה אדומים</option>
+                                    <option>מעלות-תרשיחא</option>
+                                    <option>נהריה</option>
+                                    <option>נס ציונה</option>
+                                    <option>נצרת</option>
+                                    <option>נצרת עילית</option>
+                                    <option>נשר</option>
+                                    <option>נתיבות</option>
+                                    <option>נתניה</option>
+                                    <option>סחנין</option>
+                                    <option>עכו</option>
+                                    <option>עפולה</option>
+                                    <option>עראבה</option>
+                                    <option>ערד</option>
+                                    <option>פתח תקווה</option>
+                                    <option>צפת</option>
+                                    <option>קלנסווה</option>
+                                    <option>קריית אונו</option>
+                                    <option>קריית ארבע</option>
+                                    <option>קריית אתא</option>
+                                    <option>קריית ביאליק</option>
+                                    <option>קריית גת</option>
+                                    <option>קריית ים</option>
+                                    <option>קריית מוצקין</option>
+                                    <option>קריית מלאכי</option>
+                                    <option>קריית שמונה</option>
+                                    <option>ראש העין</option>
+                                    <option>ראשון לציון</option>
+                                    <option>רחובות</option>
+                                    <option>רמלה</option>
+                                    <option>רמת גן</option>
+                                    <option>רמת השרון</option>
+                                    <option>רעננה</option>
+                                    <option>שדרות</option>
+                                    <option>שפרעם</option>
+                                    <option>תל אביב</option>
+                                    <option>תל אביב-יפו</option>
+                                    <option>תל מונד</option>                                    
                                 </select>
                                 <div class="invalid-feedback">
                                     בחר מחוז חוקי.
@@ -203,9 +454,9 @@
                         </li>
                     </ul>
 
-                    <form class="card p-2">
+                    <form class="card p-2" id="coupon-form">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="קוד הנחה">
+                            <input type="text" class="form-control" id="coupon-code" placeholder="קוד הנחה">
                             <button type="submit" class="btn btn-secondary">ממש</button>
                         </div>
                     </form>
@@ -228,5 +479,43 @@
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Form Validation JS -->
     <script src="/js/form-validation.js"></script>
+
+
+    <script>
+        document.getElementById('coupon-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            const couponCode = document.getElementById('coupon-code').value;
+        
+            // Make an AJAX request to your server to verify the coupon
+            fetch('/verify-coupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ couponCode: couponCode }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    // Coupon is valid, update the total cart sum
+                    const discountPercentage = data.discountPercentage;
+                    const totalElement = document.querySelector('.list-group-item strong');
+                    const total = parseFloat(totalElement.textContent.replace('₪', ''));
+                    const discountedTotal = total - (total * discountPercentage / 100);
+                    
+                    // Update the total displayed in the checkout page
+                    totalElement.textContent = `₪${discountedTotal.toFixed(2)}`;
+                } else {
+                    // Coupon is invalid, show an error message
+                    alert('קוד הנחה לא תקין');
+                }
+            })
+            .catch(error => {
+                console.error('Error verifying coupon:', error);
+            });
+        });
+        </script>
+        
 </body>
 </html>
