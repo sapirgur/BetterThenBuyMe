@@ -454,9 +454,11 @@ app.post('/increase-quantity', async (req, res) => {
 
 app.post('/verify-coupon', async (req, res) => {
     const { couponCode } = req.body;
+    console.log('Received coupon code:', couponCode);
 
     try {
         const coupon = await getCouponByCode(couponCode);
+        console.log('Coupon found:', coupon);
 
         if (coupon) {
             res.json({ valid: true, discountPercentage: coupon.discountPercentage });
@@ -468,6 +470,7 @@ app.post('/verify-coupon', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 app.get('/aboutUs', (req, res) => {
     res.render('aboutUs');

@@ -486,7 +486,7 @@
             event.preventDefault();
         
             const couponCode = document.getElementById('coupon-code').value;
-            console.log(couponCode);
+            console.log('Coupon Code:', couponCode);
         
             // Make an AJAX request to your server to verify the coupon
             fetch('/verify-coupon', {
@@ -498,6 +498,7 @@
             })
             .then(response => response.json())
             .then(data => {
+                console.log('Response Data:', data);
                 if (data.valid) {
                     // Coupon is valid, update the total cart sum
                     const discountPercentage = data.discountPercentage;
@@ -517,6 +518,7 @@
             });
         });
         </script>
+        
         
         
         
