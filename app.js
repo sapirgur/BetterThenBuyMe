@@ -452,7 +452,22 @@ app.post('/increase-quantity', async (req, res) => {
     }
 });
 
+app.post('/verify-coupon', async (req, res) => {
+    const { couponCode } = req.body;
 
+    try {
+        const coupon = await Coupon.findOne({ code: couponCode });
+
+        if (coupon) {
+            res.json({ valid: true, discountPercentage: coupon.discountPercentage });
+        } else {
+            res.json({ valid: false });
+        }
+    } catch (error) {
+        console.error('Error verifying coupon:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 app.get('/aboutUs', (req, res) => {
     res.render('aboutUs');
