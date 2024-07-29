@@ -12,7 +12,7 @@ async function connectToDB(callback) {
         db = client.db(dbName);
         console.log('Connected to database');
 
-         // Create indexes for filters
+         // indexes for filters
          await db.collection('businesses').createIndex({ name: "text", description: "text" });
          await db.collection('businesses').createIndex({ categories: 1 });
          await db.collection('businesses').createIndex({ price: 1 });
@@ -67,8 +67,20 @@ async function getProductById(productId) {
     return await db.collection('products').findOne({ _id: new ObjectId(productId) });
 }
 
+// Fetch all coupons
+async function getCoupons() {
+    const db = getDB();
+    return await db.collection('coupons').find().toArray();
+}
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById };
+// Fetch coupon by code
+async function getCouponByCode(couponCode) {
+    const db = getDB();
+    return await db.collection('coupons').findOne({ code: couponCode });
+}
+
+
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode };
 
 
 

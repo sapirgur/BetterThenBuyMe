@@ -436,7 +436,7 @@
                                 <li class="list-group-item d-flex justify-content-between lh-sm">
                                     <div>
                                         <h6 class="my-0"><%= item.product_name %></h6>
-                                        <small class="text-muted">תיאור קצר</small>
+                                        <small class="text-muted">כמות: <%= item.quantity %></small>
                                     </div>
                                     <span class="text-muted">₪<%= item.price %></span>
                                 </li>
@@ -450,7 +450,7 @@
                         <% } %>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>סה"כ </span>
-                            <strong> ₪<%= cart.reduce((total, item) => total + item.price, 0) %></strong>
+                            <strong>₪<%= cart.reduce((total, item) => total + item.price * item.quantity, 0) %></strong>
                         </li>
                     </ul>
 
@@ -486,6 +486,7 @@
             event.preventDefault();
         
             const couponCode = document.getElementById('coupon-code').value;
+            console.log(couponCode);
         
             // Make an AJAX request to your server to verify the coupon
             fetch('/verify-coupon', {
@@ -503,7 +504,7 @@
                     const totalElement = document.querySelector('.list-group-item strong');
                     const total = parseFloat(totalElement.textContent.replace('₪', ''));
                     const discountedTotal = total - (total * discountPercentage / 100);
-                    
+        
                     // Update the total displayed in the checkout page
                     totalElement.textContent = `₪${discountedTotal.toFixed(2)}`;
                 } else {
@@ -516,6 +517,8 @@
             });
         });
         </script>
+        
+        
         
 </body>
 </html>

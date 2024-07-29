@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById } = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode } = require('./db');
 const cors = require('cors');  
 const bodyParser = require('body-parser');
 
@@ -456,7 +456,7 @@ app.post('/verify-coupon', async (req, res) => {
     const { couponCode } = req.body;
 
     try {
-        const coupon = await Coupon.findOne({ code: couponCode });
+        const coupon = await getCouponByCode(couponCode);
 
         if (coupon) {
             res.json({ valid: true, discountPercentage: coupon.discountPercentage });
