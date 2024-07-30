@@ -695,6 +695,16 @@ app.post('/deleteProfile', async (req, res) => {
     }
 });
 
+// Authentication routes
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/' }),
+    function(req, res) {
+      // Successful authentication, redirect home
+      res.redirect('/');
+    });
+
 
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
