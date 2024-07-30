@@ -30,7 +30,17 @@
             padding: 10px;
             border-radius: 5px;
             flex-grow: 1;
-            margin-left: 20px;
+            margin: 20px;
+        }
+        .left-img {
+            order: 1;
+        }
+        .right-img {
+            order: 3;
+        }
+        .description {
+            order: 2;
+            width: calc(100% - 140px); /* Adjusting the width to accommodate image */
         }
     </style>
 </head>
@@ -42,14 +52,19 @@
     <div class="container mt-5">
         <h1 class="text-center">צור קשר</h1>
         <div class="mt-4">
-            <% managers.forEach(manager => { %>
+            <% managers.forEach((manager, index) => { %>
                 <div class="manager">
-                    <img src="/path/to/manager/pic.jpg" alt="Profile Image">
+                    <% if (index % 2 === 0) { %>
+                        <img src="<%= manager.imgpath %>" alt="Profile Image" class="left-img">
+                    <% } %>
                     <div class="description">
                         <h3><%= manager.name %></h3>
                         <p><%= manager.description %></p>
                         <a href="mailto:<%= manager.email %>"><%= manager.email %></a>
                     </div>
+                    <% if (index % 2 !== 0) { %>
+                        <img src="<%= manager.imgpath %>" alt="Profile Image" class="right-img">
+                    <% } %>
                 </div>
             <% }) %>
         </div>

@@ -67,6 +67,38 @@
                 </ul>
             </div>
             
+            <% if (managerData) { %>
+                <div class="manager-info mt-5">
+                    <h2>מידע מנהל</h2>
+                    <% Object.keys(managerData).forEach(function(collectionName) { %>
+                        <div class="collection-data mb-4">
+                            <h3><%= collectionName %></h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Document</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% managerData[collectionName].forEach(function(document) { %>
+                                            <tr>
+                                                <td>
+                                                    <% Object.keys(document).forEach(function(key) { %>
+                                                        <div><strong><%= key %></strong>: <%= document[key] %></div>
+                                                    <% }); %>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+            
+            
             
                       
                    

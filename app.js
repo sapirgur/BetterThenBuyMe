@@ -624,6 +624,7 @@ app.get('/profile', async (req, res) => {
             return res.redirect('/login');
         }
 
+        
         const user = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
 
         if (!user) {
@@ -631,6 +632,10 @@ app.get('/profile', async (req, res) => {
         }
 
         console.log('User data:', user);
+
+        
+
+
 
         if (user.order_history && user.order_history.length > 0) {
             const orderIds = user.order_history.map(id => new ObjectId(id));
@@ -644,11 +649,26 @@ app.get('/profile', async (req, res) => {
                 console.log('Order ID:', order._id, 'Short ID:', order.short_id); // debugs
             });
     
+
             user.order_history = orders;
         }
 
+            const manager = await db.collection('managers').findOne({ user_id: user_id.toString() });
 
-        res.render('profile', { user });
+            let managerData = null;
+            if (manager) {
+                // If the user is a manager, fetch all collections data
+                const collections = await db.collections();
+                managerData = {};
+                for (const collection of collections) {
+                    const name = collection.collectionName;
+                    managerData[name] = await db.collection(name).find().toArray();
+                }
+            }
+
+    
+            res.render('profile', { user, managerData });
+        
     } catch (error) {
         console.error('Error retrieving user profile:', error);
         res.status(500).send('Internal server error');
