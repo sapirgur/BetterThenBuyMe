@@ -585,7 +585,14 @@ app.post('/verify-coupon', async (req, res) => {
     }
 });
 
-
+app.get('/api/locations', async (req, res) => {
+    try {
+        const locations = await getLocations();
+        res.json(locations);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
 
 app.get('/aboutUs', (req, res) => {
     res.render('aboutUs');
