@@ -6,6 +6,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
 const app = express();
+require('dotenv').config();
 const port = 3001; // Use an available port
 let db;
 
@@ -595,8 +596,7 @@ app.get('/api/locations', async (req, res) => {
 });
 
 app.get('/aboutUs', (req, res) => {
-    res.render('aboutUs');
-});
+    res.render('aboutUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });});
 
 app.get('/terms', (req, res) => {
     res.render('terms');
