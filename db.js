@@ -78,10 +78,14 @@ async function getCouponByCode(couponCode) {
     return coupon;
 }
 
+async function getLocations() {
+    const db = getDB();
+    return await db.collection('locations').find().toArray();
+}
 
 
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode };
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations };
 
 
 

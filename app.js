@@ -1,11 +1,12 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode } = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations } = require('./db');
 const cors = require('cors');  
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
 const app = express();
+require('dotenv').config();
 const port = 3001; // Use an available port
 let db;
 
@@ -585,7 +586,14 @@ app.post('/verify-coupon', async (req, res) => {
     }
 });
 
-
+app.get('/api/locations', async (req, res) => {
+    try {
+        const locations = await getLocations();
+        res.json(locations);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
 
 app.get('/aboutUs', (req, res) => {
     res.render('aboutUs');
@@ -599,8 +607,8 @@ app.get('/whyGiveGifts', (req, res) => {
     res.render('whyGiveGifts');
 });
 
-app.get('/contact', (req, res) => {
-    res.render('contactUs');
+app.get('/contactUs', (req, res) => {
+    res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });
 });
 
 
