@@ -607,10 +607,9 @@ app.get('/whyGiveGifts', (req, res) => {
     res.render('whyGiveGifts');
 });
 
-app.get('/contact', (req, res) => {
-    res.render('contact', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });});
-    
-
+app.get('/contactUs', (req, res) => {
+    res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });
+});
 
 
 app.get('/profile', async (req, res) => {
