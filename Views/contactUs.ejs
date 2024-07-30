@@ -12,6 +12,27 @@
     <link rel="stylesheet" href="/css/footer.css">
     <script src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsApiKey %>" defer></script>
     <script src="/js/contactUs.js" defer></script>
+    <style>
+        .manager {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .manager img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .manager .description {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -20,37 +41,24 @@
     <!-- Main Content -->
     <div class="container mt-5">
         <h1 class="text-center">צור קשר</h1>
-        <div class="row mt-4">
-            <!-- Person 1 -->
-            <div class="col-md-3 text-center">
-                <img src="/css/images/businesses/Bershka/Bershka_card_1.jpg" alt="Profile Image" class="img-fluid rounded-circle mb-3">
-                <h3>סהר גב</h3>
-                <a href="mailto:email1@example.com">sahargevm@gmail.com</a>
-            </div>
-            <!-- Person 2 -->
-            <div class="col-md-3 text-center">
-                <img src="\css\Images\profilePictures\Noa.jpg" alt="Profile Image" class="img-fluid rounded-circle mb-3">
-                <h3>נעה מאירסון</h3>
-                <a href="mailto:email2@example.com">noameir001@gmail.com</a>
-            </div>
-            <!-- Person 3 -->
-            <div class="col-md-3 text-center">
-                <img src="/css/images/businesses/Bershka/Bershka_card_1.jpg" alt="Profile Image" class="img-fluid rounded-circle mb-3">
-                <h3>ספיר גור</h3>
-                <a href="mailto:email3@example.com">sapir8220@gmail.com</a>
-            </div>
-            <!-- Person 4 -->
-            <div class="col-md-3 text-center">
-                <img src="/css/images/businesses/Bershka/Bershka_card_1.jpg" alt="Profile Image" class="img-fluid rounded-circle mb-3">
-                <h3>תום גורביץ</h3>
-                <a href="mailto:email4@example.com">tomgrvch123996@gmail.com</a>
-            </div>
+        <div class="mt-4">
+            <% managers.forEach(manager => { %>
+                <div class="manager">
+                    <img src="/path/to/manager/pic.jpg" alt="Profile Image">
+                    <div class="description">
+                        <h3><%= manager.name %></h3>
+                        <p><%= manager.description %></p>
+                        <a href="mailto:<%= manager.email %>"><%= manager.email %></a>
+                    </div>
+                </div>
+            <% }) %>
         </div>
         <div class="row mt-5">
             <div class="col-12">
                 <!-- Map Container -->
                 <div id="map" style="height: 500px; width: 100%;"></div>
             </div>
+        </div>
     </div>
 
     <!-- Footer -->

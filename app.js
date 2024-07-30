@@ -607,8 +607,14 @@ app.get('/whyGiveGifts', (req, res) => {
     res.render('whyGiveGifts');
 });
 
-app.get('/contactUs', (req, res) => {
-    res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });
+app.get('/contactUs', async (req, res) => {
+    try {
+        const managers = await getManagers();
+        res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY, managers });
+    } catch (error) {
+        console.error('Failed to fetch managers:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 
