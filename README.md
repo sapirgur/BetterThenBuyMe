@@ -227,6 +227,10 @@ Each team member should create their own .env file with the provided values.
 
 - MongoDB: Make sure MongoDB is installed and running. You can download it from mongodb.com.
 
+## Our Facebook Page
+ Stay connected with BetterThanBuyMe through our Facebook page!
+ Read reviews and testimonials from other customers, and share your own experiences.
+ Link to our Facebook Page: https://www.facebook.com/profile.php?id=61562906957794
 
 ## Contributing
 
