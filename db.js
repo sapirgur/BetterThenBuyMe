@@ -88,9 +88,35 @@ async function getManagers() {
     return await db.collection('managers').find().toArray();
 }
 
+// Fetch all orders
+async function getOrders() {
+    const db = getDB();
+    return await db.collection('orders').find().toArray();
+}
+
+async function getCarts() {
+    const db = getDB();
+    return await db.collection('cart').find().toArray();
+}
+
+async function getBusinesses() {
+    const db = getDB();
+    return await db.collection('businesses').find().toArray();
+}
+
+async function getReviews() {
+    const db = getDB();
+    return await db.collection('reviews').find().toArray();
+}
+
+async function getProducts() {
+    const db = getDB();
+    return await db.collection('products').find().toArray();
+}
 
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers };
+
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers, getOrders, getCarts , getBusinesses, getReviews, getProducts};
 
 
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers } = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers , getOrders, getCarts, getBusinesses, getReviews, getProducts } = require('./db');
 const cors = require('cors');  
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
@@ -719,6 +719,93 @@ app.post('/deleteProfile', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
+app.get('/api/orders', async (req, res) => {
+    try {
+        const orders = await getOrders();
+        res.json(orders);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+app.get('/api/businesses', async (req, res) => {
+    try {
+        const businesses = await getBusinesses();
+        res.json(businesses);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+app.get('/api/reviews', async (req, res) => {
+    try {
+        const reviews = await getReviews();
+        res.json(reviews);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+app.get('/api/products', async (req, res) => {
+    try {
+        const products = await getProducts();
+        res.json(products);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
+
+// Get aggregated data for the charts
+async function getAggregatedData() {
+    const db = getDB();
+
+    // Fetch product details
+    const products = await db.collection('products').find().toArray();
+    const productMap = {};
+    products.forEach(product => {
+        productMap[product._id.toString()] = product.name;
+    });
+
+    // Aggregate high rating reviews (4 and 5)
+    const reviewsAggregation = await db.collection('reviews').aggregate([
+        { $match: { rating: { $gte: 4 } } },
+        { $group: { _id: "$product_id", count: { $sum: 1 } } }
+    ]).toArray();
+
+    // Aggregate orders per product
+    const ordersAggregation = await db.collection('orders').aggregate([
+        { $unwind: "$products" },
+        { $group: { _id: "$products._id", count: { $sum: 1 } } }
+    ]).toArray();
+
+    // Replace product IDs with names
+    reviewsAggregation.forEach(review => {
+        review.product_name = productMap[review._id.toString()];
+    });
+
+    ordersAggregation.forEach(order => {
+        order.product_name = productMap[order._id.toString()];
+    });
+
+    return { reviewsAggregation, ordersAggregation };
+}
+
+// New API endpoint to get aggregated data
+app.get('/api/aggregated-data', async (req, res) => {
+    try {
+        const aggregatedData = await getAggregatedData();
+        res.json(aggregatedData);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
+
+
 
 
 // Test route to check DB connection
