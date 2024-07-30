@@ -74,13 +74,13 @@ footer {
     color: #FF6F61; /* Light orange on hover */
 }
 
-.footer-newsletter form {
+.footer-newsletter .inputButton{
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.footer-newsletter form input[type="text"] {
+.footer-newsletter input[type="text"] {
     flex: 1;
     padding: 10px;
     border: 1px solid #ccc;
@@ -89,7 +89,7 @@ footer {
     color: #333;
 }
 
-.footer-newsletter form button {
+.footer-newsletter button {
     background-color: #36B8AF; /* Turquoise button */
     color: #fff;
     border: none;
@@ -100,7 +100,7 @@ footer {
     margin-left: 10px;
 }
 
-.footer-newsletter form button:hover {
+.footer-newsletter button:hover {
     background-color: #FF6F61; /* Light orange on hover */
 }
 

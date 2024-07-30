@@ -8,7 +8,7 @@ document.getElementById('postButton').addEventListener('click', function() { // 
         return;
     }
 
-    fetch(`/postToFacebook`, { //sends a fetch request to server with the message as the request body
+    fetch(`http://localhost:3001/postToFacebook`, { //sends a fetch request to server with the message as the request body
         method: 'POST', // specifies the http method as post 
         headers: {
             'Content-Type': 'application/json' // indicates that the request body contains json

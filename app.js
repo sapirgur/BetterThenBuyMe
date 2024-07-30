@@ -39,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
 // CORS middleware
 app.use(cors({
     origin: 'http://localhost:3001', // Adjust this to your frontend's origin
@@ -705,6 +706,47 @@ app.get('/auth/facebook/callback',
       res.redirect('/');
     });
 
+
+    // Route to handle posting to Facebook
+    app.post('/postToFacebook', async (req, res) => {
+        // Page access token and page ID of the Facebook page that I want to post on
+        const pageAccessToken = 'EAAsxuqJgRdkBO8n9f8WalUrgL26ZAGqKYZCGl8ZAkYTFT0TyGNEVmqwZA2Xmn2ew81TgsaHn9rQUCorHc39sTbSNdTax7ZAOWZC1R5fRSpVUcMGccdUmmrkrvmJ0G9ARPxHgUYj9UJZAoncWyi7AtQ3WoP4gbnwZBpKelw4AMa7X8PSmIHzf6ZC2ERUtveSVRsbfY';
+        const pageId = '364777303391493';
+        
+        const message = req.body.message; // Gets the message from the request
+    
+        try {
+            console.log('Attempting to import node-fetch');
+            const fetch = await import('node-fetch');
+            // Make an asynchronous HTTP POST request to the Facebook Graph API to post a message
+            const response = await fetch.default(`https://graph.facebook.com/${pageId}/feed?access_token=${pageAccessToken}`, {
+                method: 'POST', // Specify that this request is a POST request
+                headers: {
+                    'Content-Type': 'application/json' // Set the request headers to indicate that the request body is JSON
+                },
+                body: JSON.stringify({ message: message }) // Convert the message to a JSON string to include in the request body
+            });
+    
+            console.log('Received response from Facebook API');
+            
+            if (!response.ok) { // Check if the response is not OK
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json(); // Gets the JSON response from Facebook
+            
+            if (data.error) { // Check if there is an error
+                console.error('Error from Facebook API:', data.error); // Log the error
+                res.status(500).send('Error posting to Facebook'); // Send a status code 500 with an error message
+            } else { // If there is no error
+                console.log('Post ID:', data.id); // Log the post ID in the console
+                res.status(200).send('Posted to Facebook successfully'); // Send a status code 200 with an appropriate message
+            }
+        } catch (error) { // Catch any errors that may occur and log them
+            console.error('Error caught in catch block:', error);
+            res.status(500).send('Error posting to Facebook');
+        }
+    });
 
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
