@@ -41,15 +41,15 @@
             <div class="history mt-5">
                 <h2>היסטוריית רכישות</h2>
                 <ul class="purchase-history list-group">
-                    <% if (user.purchase_history && user.purchase_history.length > 0) { %>
-                        <% user.purchase_history.forEach(function(purchase) { %>
-                            <li class="list-group-item"><%= purchase %></li>
+                    <% if (user.order_history && user.order_history.length > 0) { %>
+                        <% user.order_history.forEach(function(order) { %>
+                            <li class="list-group-item"><%= order %></li>
                         <% }); %>
                     <% } else { %>
                         <li class="list-group-item">אין היסטוריית רכישות</li>
                     <% } %>
                 </ul>
-            </div>
+            </div>            
             <div class="mt-3">
                 <button id="deleteButton" class="btn btn-danger btn-lg w-100" type="button">מחק פרופיל</button>
             </div>
@@ -90,14 +90,15 @@
                         </div>
                         <div class="form-group">
                             <label for="updateStreetNumber">מספר רחוב:</label>
-                            <input type="text" class="form-control" id="updateStreetNumber" name="streetNumber" value="<%= user.address && user.address[0] ? user.address[0].street_number : '' %>" required>
+                            <input type="text" class="form-control" id="updateStreetNumber" name="streetNumber" value="<%= user.address && user.address[0] ? user.address[0]['street-number'] : '' %>" required>
                             <div class="invalid-feedback">הזן מספר רחוב חוקי.</div>
                         </div>
+                        
                         <div class="form-group">
                             <label for="updateCity">עיר:</label>
                             <input type="text" class="form-control" id="updateCity" name="city" value="<%= user.address && user.address[0] ? user.address[0].city : '' %>" required>
                             <div class="invalid-feedback">הזן עיר חוקית.</div>
-                        </div>                        
+                        </div>                  
                         <div class="form-group">
                             <label for="updatePhoneNumber">מספר טלפון:</label>
                             <input type="text" class="form-control" id="updatePhoneNumber" name="phoneNumber" value="<%= user.phone_number %>" required>
@@ -212,6 +213,7 @@
             });
         });
     </script>
+    
     
 </body>
 </html>

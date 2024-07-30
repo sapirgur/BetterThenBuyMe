@@ -617,7 +617,13 @@ app.get('/profile', async (req, res) => {
         }
 
         console.log('User data:', user);
-        
+
+        if (user.order_history && user.order_history.length > 0) {
+            user.order_history = await db.collection('orders').find({
+                _id: { $in: user.order_history }
+            }).toArray();
+        }
+
         res.render('profile', { user });
     } catch (error) {
         console.error('Error retrieving user profile:', error);
@@ -629,12 +635,21 @@ app.post('/updateProfile', async (req, res) => {
     try {
         const { idNumber, name, email, password, address, phoneNumber } = req.body;
 
+        console.log('Update Data:', req.body); // Log the entire update data
+
+        // Ensure the address is an array of objects
+        const formattedAddress = address.map(addr => ({
+            street: addr.street,
+            street_number: addr.street_number,
+            city: addr.city
+        }));
+
         await db.collection('users').updateOne({ id_number: idNumber }, {
             $set: {
                 name,
                 email,
                 password,
-                address: [address],
+                address: formattedAddress, // Store the formatted address
                 phone_number: phoneNumber
             }
         });
@@ -645,6 +660,7 @@ app.post('/updateProfile', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
 
 app.post('/deleteProfile', async (req, res) => {
     try {
