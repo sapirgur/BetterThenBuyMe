@@ -115,6 +115,8 @@
         <div id="cart-items">
             <!-- Cart items will be dynamically loaded here -->
         </div>
+
+        <button id="checkoutButton" class="btn btn-primary mt-3">המשך לתשלום</button>
     </div>
 </div>
 
@@ -231,6 +233,18 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
         }
     }
+
+     // Handle Checkout Button Click
+     document.getElementById('checkoutButton').addEventListener('click', function() {
+        // Assuming cart items are stored in localStorage
+        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+
+        // Save cart items to sessionStorage or pass through URL (if necessary)
+        sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+        // Redirect to Checkout Page
+        window.location.href = '/checkout';
+    });
 });
 </script>
 </body>
