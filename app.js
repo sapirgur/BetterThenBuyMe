@@ -610,11 +610,13 @@ app.get('/profile', async (req, res) => {
             return res.redirect('/login');
         }
 
-        const user = await db.collection('users').findOne({ _id: user_id });
+        const user = await db.collection('users').findOne({ _id: req.session.user._id });
 
         if (!user) {
             return res.status(404).send('User not found');
         }
+
+        console.log(user);
 
         res.render('profile', { user });
     } catch (error) {
