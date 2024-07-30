@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const passport = require('passport');
 const session = require('express-session');
 const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations } = require('./db');
 const cors = require('cors');  
