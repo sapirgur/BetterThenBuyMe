@@ -74,7 +74,7 @@ main {
 .btn-login:hover {
     background-color: #D96B5F;
     box-shadow: 0 4px 15px rgba(232, 122, 110, 0.5);
-    transform: translateY(-3px);
+    
     color: #fff;
 }
 
