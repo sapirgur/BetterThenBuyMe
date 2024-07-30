@@ -596,7 +596,8 @@ app.get('/api/locations', async (req, res) => {
 });
 
 app.get('/aboutUs', (req, res) => {
-    res.render('aboutUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });});
+    res.render('aboutUs');
+});
 
 app.get('/terms', (req, res) => {
     res.render('terms');
@@ -607,8 +608,9 @@ app.get('/whyGiveGifts', (req, res) => {
 });
 
 app.get('/contact', (req, res) => {
-    res.render('contactUs');
-});
+    res.render('contact', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });});
+    
+
 
 
 app.get('/profile', async (req, res) => {
