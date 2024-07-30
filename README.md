@@ -36,6 +36,7 @@ BetterThanBuyMe is a modular web application for an online store, built using No
 
 ## Project Structure
 
+```
 BetterThanBuyMe/
 ├── public/
 │   ├── css/
@@ -70,7 +71,8 @@ BetterThanBuyMe/
 ├── app.js
 ├── db.js
 ├── package.json
-└── package-lock.json
+├── package-lock.json
+```
 
 
 
