@@ -619,9 +619,11 @@ app.get('/profile', async (req, res) => {
         console.log('User data:', user);
 
         if (user.order_history && user.order_history.length > 0) {
-            user.order_history = await db.collection('orders').find({
-                _id: { $in: user.order_history }
+            const orderIds = user.order_history.map(id => new ObjectId(id));
+            const orders = await db.collection('orders').find({
+                _id: { $in: orderIds }
             }).toArray();
+            user.order_history = orders;
         }
 
         res.render('profile', { user });
