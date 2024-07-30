@@ -126,7 +126,7 @@ Each team member should create their own .env file with the provided values.
   - A welcoming banner with a background image, main headline, subheadline, and call-to-action button.
 
 - **Advanced Search Bar**:
-  - Allows users to search products by keywords, category, max price, and geo region.
+  - Allows users to search products by keywords, category, and geo region.
 
 - **Special Offers**:
   - Highlights current promotions using Bootstrap cards.
@@ -135,7 +135,7 @@ Each team member should create their own .env file with the provided values.
   - Displays customer testimonials in a card format.
 
 - **Social Media Section**:
-  - Icons linking to Facebook, Instagram, WhatsApp, and Twitter.
+  - Icons linking to Facebook, Instagram, Mail, and Phone number.
 
 - **Footer**:
   - Contains quick links, social media links, and contact information.
