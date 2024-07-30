@@ -83,9 +83,14 @@ async function getLocations() {
     return await db.collection('locations').find().toArray();
 }
 
+async function getManagers() {
+    const db = getDB();
+    return await db.collection('managers').find().toArray();
+}
 
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations };
+
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers };
 
 
 
