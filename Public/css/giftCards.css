@@ -1,3 +1,8 @@
+body {
+    background: url('/css/Images/gifty/backgroung.webp') no-repeat center center fixed;
+    background-size: cover;
+}
+
 .gift-cards {
     background-color: #f8f9fa; /* צבע רקע כללי */
     color: #0D1B2A; /* צבע טקסט כללי כחול כהה */
@@ -18,8 +23,9 @@
     overflow: hidden;
     border-radius: 15px; /* פינות מעוגלות */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
-    transition: transform 0.3s, box-shadow 0.3s; /* אנימציית מעבר */
-    max-width: 300px; /* גודל הכרטיס */
+    transition: box-shadow 0.3s; /* אנימציית מעבר של צל */
+    max-width: 250px; /* הקטנת הרוחב */
+    height: 150px; /* הקטנת הגובה */
     margin: 0 auto 20px auto; /* מרווחים מסביב לכרטיס */
     text-decoration: none; /* ללא קו תחתון */
     color: inherit; /* צבע טקסט כמו הכרטיס */
@@ -27,8 +33,9 @@
 
 .gift-card img {
     width: 100%;
-    height: auto;
-    border-radius: 15px; /* פינות מעוגלות של התמונה */
+    height: 100%; /* התאמת הגובה */
+    border-radius: 15px 15px 0 0; /* פינות מעוגלות של החלק העליון של התמונה */
+    object-fit: cover; /* התאמת התמונה לגודל */
 }
 
 .gift-card-body-wrapper {
@@ -36,31 +43,38 @@
     bottom: 0;
     left: 0;
     right: 0;
+    height: 50px; /* גובה התחלתי של החלק הלבן */
     background-color: white;
     border-bottom-left-radius: 15px; /* פינות מעוגלות של החלק התחתון */
     border-bottom-right-radius: 15px; /* פינות מעוגלות של החלק התחתון */
-    border-top-left-radius: 15px; /* פינות מעוגלות של החלק העליון */
-    border-top-right-radius: 15px; /* פינות מעוגלות של החלק העליון */
-    transition: all 0.3s ease-in-out; /* אנימציה */
     font-family: 'Assistant', sans-serif; /* פונט לכרטיסים */
+    text-decoration: none; /* ללא קו תחתון */
+    color: inherit; /* צבע טקסט כמו הכרטיס */
+    display: flex; /* שימוש ב-flexbox */
+    justify-content: center; /* יישור למרכז */
+    align-items: center; /* יישור למרכז */
+    transition: height 0.3s ease-in-out; /* אנימציה לגובה */
 }
 
 .gift-card:hover .gift-card-body-wrapper {
-    padding: 10px 10px; /* הגדלת הרקע הלבן */
+    height: 80px; /* גובה מוגדל על hover */
 }
 
 .gift-card-title {
     color: #0D1B2A; /* צבע כותרת הכרטיס */
     font-size: 1.2rem; /* גודל כותרת הכרטיס */
-    margin-bottom: 0.5rem; /* מרווח תחתון */
+    margin: 0; /* איפוס מרווחים */
     font-family: 'Assistant', sans-serif; /* פונט לכותרת */
+    text-align: center; /* יישור טקסט למרכז */
+    text-decoration: none; /* ללא קו תחתון */
 }
 
-.gift-card-text {
-    color: #0D1B2A; /* צבע טקסט הכרטיס */
-    font-size: 0.9rem; /* גודל טקסט הכרטיס */
-    margin-bottom: 1rem; /* מרווח תחתון */
-    font-family: 'Assistant', sans-serif; /* פונט לטקסט */
+.gift-card-title, .gift-card-body-wrapper, .gift-card-body-wrapper:hover, .gift-card-body-wrapper:hover .gift-card-title {
+    text-decoration: none; /* הסרת קו תחתון בכל מצב */
+}
+
+.gift-card:hover {
+    /* אין שינוי בגודל הכרטיס בעת hover */
 }
 
 .btn-primary {
@@ -78,8 +92,4 @@
     border-color: #6FB3B8; /* שינוי צבע הגבול בטורקיז על hover */
     background-color: #0D1B2A !important; /* שמירת צבע הרקע לכחול כהה על hover עם חשיבות גבוהה */
     color: #ffffff !important; /* שמירת צבע הטקסט ללבן על hover עם חשיבות גבוהה */
-}
-
-.larger-card {
-    height: 201px; /* הגדלה מעט של הכרטיס השלישי */
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
@@ -17,12 +17,9 @@
                 <div class="col-md-4 mb-4">
                     <div class="card gift-card h-100">
                         <img src="/<%= item.imgPath.replace(/\\/g, '/') %>" alt="<%= item.name %> Logo" class="card-img-top">
-                        <div class="card-body-wrapper gift-card-body-wrapper">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title gift-card-title"><%= item.name %></h5>
-                                <p class="card-text gift-card-text"><%= item.description %></p>
-                                <a href="/shop/item/<%= item._id %>" class="btn btn-primary mt-auto">View Businesses</a>
-                            </div>
+                        <div class="card-body-wrapper gift-card-body-wrapper d-flex flex-column justify-content-center align-items-center">
+                            <h5 class="card-title gift-card-title"><%= item.name %></h5>
+                            <a href="/shop/item/<%= item._id %>" class="btn btn-primary mt-auto">View Businesses</a>
                         </div>
                     </div>
                 </div>
@@ -32,6 +29,6 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
