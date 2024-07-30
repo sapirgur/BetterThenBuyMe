@@ -9,58 +9,21 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <style>
-        .categories-nav {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .category-card {
-            flex: 1 1 calc(20% - 20px); /* Adjusting for five cards per row with some spacing */
-            margin: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        .category-card:hover {
-            transform: scale(1.05);
-        }
-        .category-card .card-body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            height: 100%; /* Ensure card body takes up full height */
-        }
-        .category-card img {
-            width: 150px; /* Set a fixed width */
-            height: 150px; /* Set a fixed height */
-            object-fit: cover; /* Ensure the image covers the specified dimensions */
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
-        .category-card .card-title, .category-card .card-text {
-            flex-grow: 1; /* Allow title and text to grow and push the button to the bottom */
-        }
-        .category-card .btn {
-            margin-top: auto; /* Push the button to the bottom of the card */
-        }
-    </style>
+    <link rel="stylesheet" href="/css/giftCards.css">
+    <link rel="stylesheet" href="/css/shop.css">
 </head>
 <body>
     <%- include('partials/header') %>
 
     <div class="container my-5">
-        <h2 class="mb-4 text-center">Shop</h2>
+        <h2 class="mb-4 text-center">כרטיסי מתנה</h2>
         <div class="categories-nav">
             <% categories.forEach(category => { %>
-                <div class="card category-card">
-                    <div class="card-body">
-                        <img src="/<%= category.imgPath %>" alt="<%= category.name %> Logo">
-                        <h5 class="card-title"><%= category.name %></h5>
+                <div class="category-card">
+                    <img src="/<%= category.imgPath %>" alt="<%= category.name %> Logo" class="card-img-top">
+                    <a href="/shop/<%= category._id %>" class="card-body-wrapper d-flex flex-column justify-content-center align-items-center">
                         <p class="card-text"><%= category.description %></p>
-                        <a href="/shop/<%= category._id %>" class="btn btn-primary">View Businesses</a>
-                    </div>
+                    </a>
                 </div>
             <% }) %>
         </div>
@@ -73,7 +36,7 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrap.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
