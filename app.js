@@ -4,7 +4,7 @@ const session = require('express-session');
 const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode } = require('./db');
 const cors = require('cors');  
 const bodyParser = require('body-parser');
-
+const { ObjectId } = require('mongodb');
 const app = express();
 const port = 3001; // Use an available port
 let db;
@@ -610,7 +610,7 @@ app.get('/profile', async (req, res) => {
             return res.redirect('/login');
         }
 
-        const user = await db.collection('users').findOne({ _id: user_id});
+        const user = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
 
         if (!user) {
             return res.status(404).send('User not found');
@@ -623,8 +623,15 @@ app.get('/profile', async (req, res) => {
             const orders = await db.collection('orders').find({
                 _id: { $in: orderIds }
             }).toArray();
+
+             // Shorten the order IDs for user-friendliness
+             orders.forEach(order => {
+                order.short_id = order._id.toString().slice(0, 6); // Take the first 6 characters
+            });
+    
             user.order_history = orders;
         }
+
 
         res.render('profile', { user });
     } catch (error) {

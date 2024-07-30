@@ -44,7 +44,21 @@
                     <% if (user.order_history && user.order_history.length > 0) { %>
                         <% user.order_history.forEach(function(order) { %>
                             <li class="list-group-item">
-                                Order ID: <%= order._id %> - Total: <%= order.total %> - Date: <%= order.date %>
+                                <strong>Order ID:</strong> <%= order.short_id %><br>
+                                <strong>Date:</strong> <%= new Date(order.order_date).toISOString().split('T')[0] %><br>
+                                <strong>Status:</strong> <%= order.status %><br>
+                                <strong>Total Amount:</strong> <%= order.total_amount %><br>
+                                <strong>Payment Method ID:</strong> <%= order.payment_method_id %><br>
+                                <strong>Products:</strong>
+                                <ul>
+                                    <% order.products.forEach(function(product) { %>
+                                        <li>
+                                            <strong>Product Name:</strong> <%= product.product_name %><br>
+                                            <strong>Quantity:</strong> <%= product.quantity %><br>
+                                            <strong>Price:</strong> <%= product.price %>
+                                        </li>
+                                    <% }); %>
+                                </ul>
                             </li>
                         <% }); %>
                     <% } else { %>
@@ -52,6 +66,9 @@
                     <% } %>
                 </ul>
             </div>
+            
+            
+                      
                    
             <div class="mt-3">
                 <button id="deleteButton" class="btn btn-danger btn-lg w-100" type="button">מחק פרופיל</button>
