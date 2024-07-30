@@ -9,6 +9,66 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <title>פרופיל - Gifty</title>
+
+    <style>
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            vertical-align: top;
+            word-wrap: break-word;
+            padding: 10px;
+        }
+
+        .table td div {
+            margin-bottom: 5px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .card-header {
+            background-color: #f7f7f7;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 15px;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card h3 {
+            margin: 0;
+        }
+
+        .card .row > .col-md-6 {
+            margin-bottom: 20px;
+        }
+
+        .manager-info .container {
+            padding: 0;
+        }
+
+        .chart {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .bar {
+            fill: coral;
+        }
+
+        .axis-label {
+            font: 12px sans-serif;
+        }
+    </style>
 </head>
 <body>
     <%- include('partials/header') %>
@@ -67,9 +127,52 @@
                 </ul>
             </div>
             
-            
-                      
-                   
+            <% if (managerData) { %>
+                <div class="manager-info mt-5">
+                    <h2>מידע מנהל</h2>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <% Object.keys(managerData).forEach(function(collectionName) { %>
+                                <div class="col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3><%= collectionName %></h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <% managerData[collectionName].forEach(function(document) { %>
+                                                    <div class="col-md-12 mb-4">
+                                                        <table class="table table-bordered">
+                                                            <tbody>
+                                                                <% Object.keys(document).forEach(function(key) { %>
+                                                                    <tr>
+                                                                        <td><strong><%= key %></strong></td>
+                                                                        <td><%= document[key] %></td>
+                                                                    </tr>
+                                                                <% }); %>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart">
+                    <h3>High Rating Reviews per Product</h3>
+                    <div id="highRatingReviewsChart"></div>
+                </div>
+                
+                <div class="chart">
+                    <h3>Orders per Product</h3>
+                    <div id="ordersPerProductChart"></div>
+                </div>
+            <% } %>
             <div class="mt-3">
                 <button id="deleteButton" class="btn btn-danger btn-lg w-100" type="button">מחק פרופיל</button>
             </div>
@@ -233,7 +336,97 @@
             });
         });
     </script>
-    
-    
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        async function fetchAggregatedData() {
+            const response = await fetch('/api/aggregated-data');
+            const data = await response.json();
+            console.log('Aggregated Data:', data);
+            return data;
+        }
+
+        function renderChart(containerId, data, xLabel, yLabel) {
+            const margin = { top: 20, right: 30, bottom: 100, left: 50 },
+                width = 800 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            const svg = d3.select(containerId)
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleBand()
+                .domain(data.map(d => d.product_name))
+                .range([0, width])
+                .padding(0.1);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.count)])
+                .nice()
+                .range([height, 0]);
+
+            svg.append("g")
+                .selectAll(".bar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", d => x(d.product_name))
+                .attr("y", d => y(d.count))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d.count));
+
+            svg.append("g")
+                .attr("class", "axis-label")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "rotate(-45)")
+                .style("text-anchor", "end");
+
+            svg.append("g")
+                .attr("class", "axis-label")
+                .call(d3.axisLeft(y));
+
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("text-anchor", "end")
+                .attr("x", width)
+                .attr("y", height + margin.bottom - 40)
+                .text(xLabel);
+
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("text-anchor", "end")
+                .attr("x", -margin.left)
+                .attr("y", -margin.top + 20)
+                .attr("dy", "0.75em")
+                .attr("transform", "rotate(-90)")
+                .text(yLabel);
+        }
+
+        async function main() {
+            const { reviewsAggregation, ordersAggregation } = await fetchAggregatedData();
+            console.log('Reviews Aggregation:', reviewsAggregation);
+            console.log('Orders Aggregation:', ordersAggregation);
+
+            if (reviewsAggregation.length > 0) {
+                renderChart("#highRatingReviewsChart", reviewsAggregation, "Product Name", "High Rating Reviews");
+            } else {
+                console.log('No data for high rating reviews');
+            }
+
+            if (ordersAggregation.length > 0) {
+                renderChart("#ordersPerProductChart", ordersAggregation, "Product Name", "Orders Count");
+            } else {
+                console.log('No data for orders per product');
+            }
+        }
+
+        main();
+    </script>
 </body>
 </html>

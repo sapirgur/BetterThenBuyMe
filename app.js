@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
-const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations } = require('./db');
+const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers , getOrders, getCarts, getBusinesses, getReviews, getProducts } = require('./db');
 const cors = require('cors');  
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
@@ -75,9 +75,8 @@ app.get('/', async (req, res) => {
 
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', { errorMessage: '' });
 });
-
 
 let user_id = null; // Define user_id variable outside
 
@@ -109,7 +108,7 @@ app.post('/login', async (req, res) => {
             req.session.cart = cart; // Save the cart in the session
             res.redirect('/');
         } else {
-            res.send('Invalid email or password');
+            res.render('login', { errorMessage: 'אימייל או סיסמה שגויים' }); // הצגת הודעת שגיאה
         }
     } catch (error) {
         console.error('Login error:', error);
@@ -352,46 +351,6 @@ app.get('/CheckOut', async (req, res) => {
 });
 
 
-
-
-
-
-// app.post('/CheckOut', async (req, res) => {
-//     if (!req.session.user) {
-//         return res.status(401).send('Unauthorized: No user session found');
-//     }
-
-//     const { ccName, ccNumber, ccExpiration, ccCvv } = req.body;
-
-//     if (!ccName || !ccNumber || !ccExpiration || !ccCvv) {
-//         return res.status(400).send('All fields are required');
-//     }
-
-
-//     try {
-//         const newPaymentMethod = {
-//             card_name: ccName,
-//             card_number: ccNumber,
-//             card_type: "Visa",  // You might want to add a mechanism to determine the card type
-//             expiry_date: ccExpiration,
-//             cvv: ccCvv,
-//             billing_address: "123 Main St"  // You might want to include this in the form
-//         };
-
-//         await db.collection('users').updateOne(
-//             { _id: user_id },
-//             { $push: { payment_methods: newPaymentMethod } }
-//         );
-
-//         console.log('New payment method added:', newPaymentMethod);
-//         res.redirect('/'); // Redirect to a success page or send a success message
-//     } catch (error) {
-//         console.error('Error adding payment method:', error);
-//         res.status(500).send('Internal server error');
-//     }
-// });
-
-
 app.post('/CheckOut', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send('Unauthorized: No user session found');
@@ -609,8 +568,14 @@ app.get('/whyGiveGifts', (req, res) => {
     res.render('whyGiveGifts');
 });
 
-app.get('/contactUs', (req, res) => {
-    res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY });
+app.get('/contactUs', async (req, res) => {
+    try {
+        const managers = await getManagers();
+        res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY, managers });
+    } catch (error) {
+        console.error('Failed to fetch managers:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 
@@ -620,6 +585,7 @@ app.get('/profile', async (req, res) => {
             return res.redirect('/login');
         }
 
+        
         const user = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
 
         if (!user) {
@@ -627,6 +593,10 @@ app.get('/profile', async (req, res) => {
         }
 
         console.log('User data:', user);
+
+        
+
+
 
         if (user.order_history && user.order_history.length > 0) {
             const orderIds = user.order_history.map(id => new ObjectId(id));
@@ -640,11 +610,26 @@ app.get('/profile', async (req, res) => {
                 console.log('Order ID:', order._id, 'Short ID:', order.short_id); // debugs
             });
     
+
             user.order_history = orders;
         }
 
+            const manager = await db.collection('managers').findOne({ user_id: user_id.toString() });
 
-        res.render('profile', { user });
+            let managerData = null;
+            if (manager) {
+                // If the user is a manager, fetch all collections data
+                const collections = await db.collections();
+                managerData = {};
+                for (const collection of collections) {
+                    const name = collection.collectionName;
+                    managerData[name] = await db.collection(name).find().toArray();
+                }
+            }
+
+    
+            res.render('profile', { user, managerData });
+        
     } catch (error) {
         console.error('Error retrieving user profile:', error);
         res.status(500).send('Internal server error');
@@ -712,6 +697,7 @@ app.get('/auth/facebook/callback',
         if (!req.session.user) {
             return res.status(401).send('You need to log in first');
         }
+        
         // Page access token and page ID of the Facebook page that I want to post on
         const pageAccessToken = 'EAAsxuqJgRdkBO8n9f8WalUrgL26ZAGqKYZCGl8ZAkYTFT0TyGNEVmqwZA2Xmn2ew81TgsaHn9rQUCorHc39sTbSNdTax7ZAOWZC1R5fRSpVUcMGccdUmmrkrvmJ0G9ARPxHgUYj9UJZAoncWyi7AtQ3WoP4gbnwZBpKelw4AMa7X8PSmIHzf6ZC2ERUtveSVRsbfY';
         const pageId = '364777303391493';
@@ -721,6 +707,7 @@ app.get('/auth/facebook/callback',
         try {
             console.log('Attempting to import node-fetch');
             const fetch = await import('node-fetch');
+            
             // Make an asynchronous HTTP POST request to the Facebook Graph API to post a message
             const response = await fetch.default(`https://graph.facebook.com/${pageId}/feed?access_token=${pageAccessToken}`, {
                 method: 'POST', // Specify that this request is a POST request
@@ -740,16 +727,128 @@ app.get('/auth/facebook/callback',
             
             if (data.error) { // Check if there is an error
                 console.error('Error from Facebook API:', data.error); // Log the error
-                res.status(500).send('Error posting to Facebook'); // Send a status code 500 with an error message
-            } else { // If there is no error
-                console.log('Post ID:', data.id); // Log the post ID in the console
-                res.status(200).send('Posted to Facebook successfully'); // Send a status code 200 with an appropriate message
+                return res.status(500).send('Error posting to Facebook'); // Send a status code 500 with an error message
             }
-        } catch (error) { // Catch any errors that may occur and log them
+    
+            console.log('Post ID:', data.id);
+
+
+            const lastReview = await db.collection('reviews')
+            .find({}) // Retrieves all reviews
+            .sort({ review_date: -1 }) // Sort by review_date in descending order
+            .limit(1) // Limit to 1 document
+            .toArray();
+
+        const lastReviewId = lastReview.length > 0 ? lastReview[0].review_id : 0; // if the array isn't empty retrieve the 'review_id' from the most recent review else set the id to be 0
+
+            
+            // Proceed to save the review to the database
+            const { review_id, user_id, comment, review_date } = req.body;
+            const newReview = {
+                review_id: lastReviewId+1, // 'review_id' from the most recent review plus 1
+                user_id: req.session.user.id, // Use logged-in user's ID
+                product_id:null,
+                rating: null,
+                comment: message,
+                review_date: new Date()
+            };
+    
+            await db.collection('reviews').insertOne(newReview);
+    
+            // Send success response after saving review
+            res.status(200).send('Posted to Facebook and saved review successfully');
+        } catch (error) {// Catch any errors that may occur and log them
             console.error('Error caught in catch block:', error);
             res.status(500).send('Error posting to Facebook');
         }
     });
+app.get('/api/orders', async (req, res) => {
+    try {
+        const orders = await getOrders();
+        res.json(orders);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+app.get('/api/businesses', async (req, res) => {
+    try {
+        const businesses = await getBusinesses();
+        res.json(businesses);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+app.get('/api/reviews', async (req, res) => {
+    try {
+        const reviews = await getReviews();
+        res.json(reviews);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+app.get('/api/products', async (req, res) => {
+    try {
+        const products = await getProducts();
+        res.json(products);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
+
+// Get aggregated data for the charts
+async function getAggregatedData() {
+    const db = getDB();
+
+    // Fetch product details
+    const products = await db.collection('products').find().toArray();
+    const productMap = {};
+    products.forEach(product => {
+        productMap[product._id.toString()] = product.name;
+    });
+
+    // Aggregate high rating reviews (4 and 5)
+    const reviewsAggregation = await db.collection('reviews').aggregate([
+        { $match: { rating: { $gte: 4 } } },
+        { $group: { _id: "$product_id", count: { $sum: 1 } } }
+    ]).toArray();
+
+    // Aggregate orders per product
+    const ordersAggregation = await db.collection('orders').aggregate([
+        { $unwind: "$products" },
+        { $group: { _id: "$products._id", count: { $sum: 1 } } }
+    ]).toArray();
+
+    // Replace product IDs with names
+    reviewsAggregation.forEach(review => {
+        review.product_name = productMap[review._id.toString()];
+    });
+
+    ordersAggregation.forEach(order => {
+        order.product_name = productMap[order._id.toString()];
+    });
+
+    return { reviewsAggregation, ordersAggregation };
+}
+
+// New API endpoint to get aggregated data
+app.get('/api/aggregated-data', async (req, res) => {
+    try {
+        const aggregatedData = await getAggregatedData();
+        res.json(aggregatedData);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
+
+
+
 
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
