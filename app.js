@@ -764,7 +764,38 @@ app.get('/api/aggregated-data', async (req, res) => {
 
 
 
+app.get('/weather', async (req, res) => {
+    const { lat, lng } = req.query;
+    const apiKey = process.env.WEATHER_API_KEY;
 
+    if (!lat || !lng) {
+        return res.status(400).json({ error: 'Missing required query parameters: lat, lng' });
+    }
+
+    try {
+        const response = await fetch(`https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}`, {
+            headers: {
+                'Authorization': apiKey
+            }
+        });
+        const data = await response.json();
+
+        if (response.status !== 200) {
+            return res.status(response.status).json({ error: data.errors || 'Failed to fetch weather data' });
+        }
+
+        const weatherData = {
+            temperature: data.hours[0].airTemperature.noaa,
+            description: data.hours[0].weather.description,
+            icon: data.hours[0].weather.icon
+        };
+
+        res.json(weatherData);
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        res.status(500).json({ error: 'Failed to fetch weather data' });
+    }
+});
 
 
 // Test route to check DB connection

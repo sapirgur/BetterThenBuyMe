@@ -10,6 +10,38 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
 </head>
+
+<style>
+     body {
+            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
+        }
+        .weather-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .weather-header {
+            background-color: #1d2437;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .weather-body {
+            padding: 20px;
+        }
+        .weather-body p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .weather-body p strong {
+            font-size: 20px;
+            color: #e87a6e;
+        }
+</style>
 <body>
     <%- include('partials/header') %>
 
@@ -40,7 +72,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="priceInput" class="form-label">טען את כרטיס המתנה</label>
@@ -53,6 +85,7 @@
                     <button type="button" class="btn btn-primary" id="actionButton">בחר סכום</button>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
@@ -67,8 +100,7 @@
       </div>
       <div class="modal-body" style="color: black;">
         האם תרצה/י להמשיך לקנות או להמשיך לתשלום?
-</div>
-
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="keepBuyingButton" data-bs-dismiss="modal">המשך לקנות</button>
         <button type="button" class="btn btn-primary" id="proceedToPaymentButton">המשך לתשלום</button>
@@ -78,7 +110,7 @@
 </div>
 
 <%- include('partials/footer') %>
-
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -125,9 +157,10 @@
     });
 
     document.getElementById('proceedToPaymentButton').addEventListener('click', function() {
-        console.log('Proceed to Payment button clicked');
         window.location.href = '/CheckOut'; // Redirect to the checkout page
     });
+
+    
 </script>
 </body>
 </html>
