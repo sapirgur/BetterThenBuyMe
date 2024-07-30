@@ -6,76 +6,7 @@
     <title>Header with Cart Icon</title>
     <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <style>
-
-        .offcanvas-header {
-            background-color: #6EC1E4;
-        }
-
-        .offcanvas-body {
-            background-color: #6EC1E4;
-            color: #ffffff;
-        }
-
-        .offcanvas-body .profile-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .offcanvas-body .profile-info img {
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            margin-bottom: 10px;
-        }
-
-        .offcanvas-body .profile-info h5 {
-            margin: 0;
-        }
-
-        .offcanvas-body .profile-info p {
-            margin: 0;
-            color: #B8B8C3;
-        }
-
-        .offcanvas-body .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #4A4A5A;
-            border-radius: 5px;
-        }
-
-        .offcanvas-body .cart-item p {
-            margin: 0;
-        }
-
-        .offcanvas-body .cart-item .item-details {
-            flex: 1;
-        }
-
-        .offcanvas-body .cart-item .item-price {
-            margin-left: 20px;
-            font-weight: bold;
-        }
-
-        .offcanvas-body .cart-item .quantity-controls {
-            display: flex;
-            align-items: center;
-        }
-
-        .offcanvas-body .cart-item .quantity-controls button {
-            margin: 0 5px;
-            background-color: #E87A6E;
-            color: #ffffff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/offcanvas.css">
 </head>
 <body>
 <header class="header py-3">
@@ -108,13 +39,15 @@
 <!-- Cart Offcanvas Component -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasCartLabel">Your Cart</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <h5 class="offcanvas-title" id="offcanvasCartLabel">העגלה שלך</h5>
     </div>
     <div class="offcanvas-body">
         <div id="cart-items">
             <!-- Cart items will be dynamically loaded here -->
         </div>
+
+        <button id="checkoutButton" class="btn btn-primary mt-3">המשך לתשלום</button>
     </div>
 </div>
 
@@ -231,6 +164,18 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
         }
     }
+
+     // Handle Checkout Button Click
+     document.getElementById('checkoutButton').addEventListener('click', function() {
+        // Assuming cart items are stored in localStorage
+        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+
+        // Save cart items to sessionStorage or pass through URL (if necessary)
+        sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+        // Redirect to Checkout Page
+        window.location.href = '/checkout';
+    });
 });
 </script>
 </body>
