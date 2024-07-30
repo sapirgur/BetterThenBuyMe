@@ -73,9 +73,8 @@ app.get('/', async (req, res) => {
 
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', { errorMessage: '' });
 });
-
 
 let user_id = null; // Define user_id variable outside
 
@@ -107,7 +106,7 @@ app.post('/login', async (req, res) => {
             req.session.cart = cart; // Save the cart in the session
             res.redirect('/');
         } else {
-            res.send('Invalid email or password');
+            res.render('login', { errorMessage: 'אימייל או סיסמה שגויים' }); // הצגת הודעת שגיאה
         }
     } catch (error) {
         console.error('Login error:', error);
@@ -348,46 +347,6 @@ app.get('/CheckOut', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
-
-
-
-
-
-
-// app.post('/CheckOut', async (req, res) => {
-//     if (!req.session.user) {
-//         return res.status(401).send('Unauthorized: No user session found');
-//     }
-
-//     const { ccName, ccNumber, ccExpiration, ccCvv } = req.body;
-
-//     if (!ccName || !ccNumber || !ccExpiration || !ccCvv) {
-//         return res.status(400).send('All fields are required');
-//     }
-
-
-//     try {
-//         const newPaymentMethod = {
-//             card_name: ccName,
-//             card_number: ccNumber,
-//             card_type: "Visa",  // You might want to add a mechanism to determine the card type
-//             expiry_date: ccExpiration,
-//             cvv: ccCvv,
-//             billing_address: "123 Main St"  // You might want to include this in the form
-//         };
-
-//         await db.collection('users').updateOne(
-//             { _id: user_id },
-//             { $push: { payment_methods: newPaymentMethod } }
-//         );
-
-//         console.log('New payment method added:', newPaymentMethod);
-//         res.redirect('/'); // Redirect to a success page or send a success message
-//     } catch (error) {
-//         console.error('Error adding payment method:', error);
-//         res.status(500).send('Internal server error');
-//     }
-// });
 
 
 app.post('/CheckOut', async (req, res) => {
