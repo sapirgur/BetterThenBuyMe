@@ -626,7 +626,8 @@ app.get('/profile', async (req, res) => {
 
              // Shorten the order IDs for user-friendliness
              orders.forEach(order => {
-                order.short_id = order._id.toString().slice(0, 6); // Take the first 6 characters
+                order.short_id = order._id.toString().slice(0, 6); 
+                console.log('Order ID:', order._id, 'Short ID:', order.short_id); // Log the IDs
             });
     
             user.order_history = orders;
