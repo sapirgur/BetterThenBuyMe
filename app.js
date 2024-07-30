@@ -709,6 +709,9 @@ app.get('/auth/facebook/callback',
 
     // Route to handle posting to Facebook
     app.post('/postToFacebook', async (req, res) => {
+        if (!req.session.user) {
+            return res.status(401).send('You need to log in first');
+        }
         // Page access token and page ID of the Facebook page that I want to post on
         const pageAccessToken = 'EAAsxuqJgRdkBO8n9f8WalUrgL26ZAGqKYZCGl8ZAkYTFT0TyGNEVmqwZA2Xmn2ew81TgsaHn9rQUCorHc39sTbSNdTax7ZAOWZC1R5fRSpVUcMGccdUmmrkrvmJ0G9ARPxHgUYj9UJZAoncWyi7AtQ3WoP4gbnwZBpKelw4AMa7X8PSmIHzf6ZC2ERUtveSVRsbfY';
         const pageId = '364777303391493';

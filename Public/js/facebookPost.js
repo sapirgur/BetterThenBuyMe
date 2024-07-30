@@ -17,7 +17,7 @@ document.getElementById('postButton').addEventListener('click', function() { // 
     })
     .then(response => response.text()) // processes the HTTP response from the server
     .then(data => { // handles the text data obtained from the previous ".then()"
-        alert(data); // alert to show on page if succeeded or not
+        //alert(data); // alert to show on page if succeeded or not (only needed while developing to know wheter succeeded or not)
     })
     .catch(error => console.error('Error:', error)); // catches and logs the error to the browser console
 });
