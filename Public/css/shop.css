@@ -1,0 +1,35 @@
+.categories-nav {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.category-card {
+    flex: 1 1 calc(20% - 20px); /* Adjusting for five cards per row with some spacing */
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+.category-card:hover {
+    transform: scale(1.05);
+}
+.category-card .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%; /* Ensure card body takes up full height */
+}
+.category-card img {
+    width: 150px; /* Set a fixed width */
+    height: 150px; /* Set a fixed height */
+    object-fit: cover; /* Ensure the image covers the specified dimensions */
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.category-card .card-title, .category-card .card-text {
+    flex-grow: 1; /* Allow title and text to grow and push the button to the bottom */
+}
+.category-card .btn {
+    margin-top: auto; /* Push the button to the bottom of the card */
+}
