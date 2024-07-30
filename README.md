@@ -38,32 +38,32 @@ BetterThanBuyMe is a modular web application for an online store, built using No
 
 BetterThanBuyMe/
 ├── public/
-│   ├── css/
-│   │   └── styles.css
-│   ├── images/
-│   │   └── (image files)
-│   └── js/
-│       └── scripts.js
+│ ├── css/
+│ │ └── styles.css
+│ ├── images/
+│ │ └── (image files)
+│ └── js/
+│ └── scripts.js
 ├── views/
-│   ├── partials/
-│   │   ├── header.ejs
-│   │   ├── footer.ejs
-│   │   ├── navbar.ejs
-│   │   ├── sidebar.ejs
-│   │   ├── topbar.ejs
-│   └── index.ejs
-│   └── login.ejs
-│   └── registration.ejs
-│   └── shop.ejs
-│   └── itemDetail.ejs
-│   └── CheckOut.ejs
-│   └── aboutUs.ejs
-│   └── terms.ejs
-│   └── whyGiveGifts.ejs
-│   └── contactUs.ejs
-│   └── profile.ejs
+│ ├── partials/
+│ │ ├── header.ejs
+│ │ ├── footer.ejs
+│ │ ├── navbar.ejs
+│ │ ├── sidebar.ejs
+│ │ ├── topbar.ejs
+│ └── index.ejs
+│ └── login.ejs
+│ └── registration.ejs
+│ └── shop.ejs
+│ └── itemDetail.ejs
+│ └── CheckOut.ejs
+│ └── aboutUs.ejs
+│ └── terms.ejs
+│ └── whyGiveGifts.ejs
+│ └── contactUs.ejs
+│ └── profile.ejs
 ├── node_modules/
-│   └── (installed modules)
+│ └── (installed modules)
 ├── .env
 ├── .gitattributes
 ├── .gitignore
