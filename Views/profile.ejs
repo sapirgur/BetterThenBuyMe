@@ -85,17 +85,17 @@
                         </div>
                         <div class="form-group">
                             <label for="updateStreet">רחוב:</label>
-                            <input type="text" class="form-control" id="updateStreet" name="street" value="<%= user.address[0].street %>" required>
+                            <input type="text" class="form-control" id="updateStreet" name="street" value="<%= user.address[0] ? user.address[0].street : '' %>" required>
                             <div class="invalid-feedback">הזן רחוב חוקי.</div>
                         </div>
                         <div class="form-group">
                             <label for="updateStreetNumber">מספר רחוב:</label>
-                            <input type="text" class="form-control" id="updateStreetNumber" name="streetNumber" value="<%= user.address[0].street_number %>" required>
+                            <input type="text" class="form-control" id="updateStreetNumber" name="streetNumber" value="<%= user.address[0] ? user.address[0].street_number : '' %>" required>
                             <div class="invalid-feedback">הזן מספר רחוב חוקי.</div>
                         </div>
                         <div class="form-group">
                             <label for="updateCity">עיר:</label>
-                            <input type="text" class="form-control" id="updateCity" name="city" value="<%= user.address[0].city %>" required>
+                            <input type="text" class="form-control" id="updateCity" name="city" value="<%= user.address[0] ? user.address[0].city : '' %>" required>
                             <div class="invalid-feedback">הזן עיר חוקית.</div>
                         </div>
                         <div class="form-group">
