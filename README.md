@@ -20,7 +20,7 @@ BetterThanBuyMe is a modular web application for an online store, built using No
   - Displaying categories and businesses for each category.
   - Detailed view of a specific business.
 - **Search Functionality**:
-  - Searching for businesses and items by keywords, category, maximum price, and geographical location.
+  - Searching for businesses and items by keywords, category, and geographical location.
 - **Reviews and Ratings**:
   - Displaying top reviews and ratings.
 - **Database Integration**:
@@ -129,7 +129,7 @@ Each team member should create their own .env file with the provided values.
   - Allows users to search products by keywords, category, and geo region.
 
 - **Special Offers**:
-  - Highlights current promotions using Bootstrap cards.
+  - Highlights special gift card offers for a group of stores using Bootstrap cards.
 
 - **Customer Testimonials**:
   - Displays customer testimonials in a card format.
