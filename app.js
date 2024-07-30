@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const passport = require('passport');
 const session = require('express-session');
 const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers , getOrders, getCarts, getBusinesses, getReviews, getProducts } = require('./db');
 const cors = require('cors');  
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 // CORS middleware
 app.use(cors({
@@ -679,6 +681,87 @@ app.post('/deleteProfile', async (req, res) => {
     }
 });
 
+// Authentication routes
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/' }),
+    function(req, res) {
+      // Successful authentication, redirect home
+      res.redirect('/');
+    });
+
+
+    // Route to handle posting to Facebook
+    app.post('/postToFacebook', async (req, res) => {
+        if (!req.session.user) {
+            return res.status(401).send('You need to log in first');
+        }
+        
+        // Page access token and page ID of the Facebook page that I want to post on
+        const pageAccessToken = 'EAAsxuqJgRdkBO8n9f8WalUrgL26ZAGqKYZCGl8ZAkYTFT0TyGNEVmqwZA2Xmn2ew81TgsaHn9rQUCorHc39sTbSNdTax7ZAOWZC1R5fRSpVUcMGccdUmmrkrvmJ0G9ARPxHgUYj9UJZAoncWyi7AtQ3WoP4gbnwZBpKelw4AMa7X8PSmIHzf6ZC2ERUtveSVRsbfY';
+        const pageId = '364777303391493';
+        
+        const message = req.body.message; // Gets the message from the request
+    
+        try {
+            console.log('Attempting to import node-fetch');
+            const fetch = await import('node-fetch');
+            
+            // Make an asynchronous HTTP POST request to the Facebook Graph API to post a message
+            const response = await fetch.default(`https://graph.facebook.com/${pageId}/feed?access_token=${pageAccessToken}`, {
+                method: 'POST', // Specify that this request is a POST request
+                headers: {
+                    'Content-Type': 'application/json' // Set the request headers to indicate that the request body is JSON
+                },
+                body: JSON.stringify({ message: message }) // Convert the message to a JSON string to include in the request body
+            });
+    
+            console.log('Received response from Facebook API');
+            
+            if (!response.ok) { // Check if the response is not OK
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json(); // Gets the JSON response from Facebook
+            
+            if (data.error) { // Check if there is an error
+                console.error('Error from Facebook API:', data.error); // Log the error
+                return res.status(500).send('Error posting to Facebook'); // Send a status code 500 with an error message
+            }
+    
+            console.log('Post ID:', data.id);
+
+
+            const lastReview = await db.collection('reviews')
+            .find({}) // Retrieves all reviews
+            .sort({ review_date: -1 }) // Sort by review_date in descending order
+            .limit(1) // Limit to 1 document
+            .toArray();
+
+        const lastReviewId = lastReview.length > 0 ? lastReview[0].review_id : 0; // if the array isn't empty retrieve the 'review_id' from the most recent review else set the id to be 0
+
+            
+            // Proceed to save the review to the database
+            const { review_id, user_id, comment, review_date } = req.body;
+            const newReview = {
+                review_id: lastReviewId+1, // 'review_id' from the most recent review plus 1
+                user_id: req.session.user.id, // Use logged-in user's ID
+                product_id:null,
+                rating: null,
+                comment: message,
+                review_date: new Date()
+            };
+    
+            await db.collection('reviews').insertOne(newReview);
+    
+            // Send success response after saving review
+            res.status(200).send('Posted to Facebook and saved review successfully');
+        } catch (error) {// Catch any errors that may occur and log them
+            console.error('Error caught in catch block:', error);
+            res.status(500).send('Error posting to Facebook');
+        }
+    });
 app.get('/api/orders', async (req, res) => {
     try {
         const orders = await getOrders();
