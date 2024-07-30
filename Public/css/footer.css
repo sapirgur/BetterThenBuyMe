@@ -80,7 +80,7 @@ footer {
     margin-bottom: 20px;
 }
 
-.footer-newsletter form input[type="email"] {
+.footer-newsletter form input[type="text"] {
     flex: 1;
     padding: 10px;
     border: 1px solid #ccc;
