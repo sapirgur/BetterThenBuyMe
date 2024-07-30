@@ -17,8 +17,8 @@
                 <div class="col-md-4 mb-4">
                     <div class="card gift-card h-100">
                         <img src="/<%= item.imgPath.replace(/\\/g, '/') %>" alt="<%= item.name %> Logo" class="card-img-top">
-                        <a href="/shop/item/<%= item._id %>" class="card-body-wrapper gift-card-body-wrapper d-flex flex-column justify-content-center align-items-center">
-                            <h5 class="card-title gift-card-title"><%= item.name %></h5>
+                        <a href="/shop/item/<%= item._id %>" class="gift-card-body-wrapper d-flex flex-column justify-content-center align-items-center">
+                            <h5 class="gift-card-title"><%= item.name %></h5>
                         </a>
                     </div>
                 </div>
@@ -28,6 +28,6 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -19,13 +19,11 @@
         <h2 class="mb-4 text-center">Shop</h2>
         <div class="categories-nav">
             <% categories.forEach(category => { %>
-                <div class="card category-card">
-                    <div class="card-body">
-                        <img src="/<%= category.imgPath %>" alt="<%= category.name %> Logo">
-                        <h5 class="card-title"><%= category.name %></h5>
+                <div class="category-card">
+                    <img src="/<%= category.imgPath %>" alt="<%= category.name %> Logo" class="card-img-top">
+                    <a href="/shop/<%= category._id %>" class="card-body-wrapper d-flex flex-column justify-content-center align-items-center">
                         <p class="card-text"><%= category.description %></p>
-                        <a href="/shop/<%= category._id %>" class="btn btn-primary">View Businesses</a>
-                    </div>
+                    </a>
                 </div>
             <% }) %>
         </div>
@@ -38,7 +36,7 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrap.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

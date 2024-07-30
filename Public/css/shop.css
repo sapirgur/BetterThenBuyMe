@@ -1,35 +1,102 @@
+body {
+    background: url('/css/Images/gifty/backgroung.webp') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.gift-cards, .categories-nav {
+    background-color: #f8f9fa; /* צבע רקע כללי */
+    color: #0D1B2A; /* צבע טקסט כללי כחול כהה */
+    font-family: 'Assistant', sans-serif; /* פונט כללי */
+    font-size: 1rem;
+}
+
+.gift-cards h2, .categories-nav h2 {
+    color: #0D1B2A; /* צבע כותרת כחול כהה */
+    font-size: 2rem; /* גודל כותרת */
+    margin-top: 4rem; /* ריווח עליון גדול יותר לכותרת */
+    margin-bottom: 2rem; /* מרווח תחתון */
+    font-family: 'Assistant', sans-serif; /* פונט לכותרת */
+}
+
 .categories-nav {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px; /* רווח קטן בין הכרטיסים */
+    justify-content: center; /* יישור הכרטיסים למרכז */
 }
+
 .category-card {
-    flex: 1 1 calc(20% - 20px); /* Adjusting for five cards per row with some spacing */
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px; /* פינות מעוגלות */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
+    transition: box-shadow 0.3s; /* אנימציית מעבר של צל */
+    width: 100%;
+    height: 150px; /* גובה קבוע לכל כרטיס */
+    text-decoration: none; /* ללא קו תחתון */
+    color: inherit; /* צבע טקסט כמו הכרטיס */
 }
-.category-card:hover {
-    transform: scale(1.05);
-}
-.category-card .card-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 100%; /* Ensure card body takes up full height */
-}
+
 .category-card img {
-    width: 150px; /* Set a fixed width */
-    height: 150px; /* Set a fixed height */
-    object-fit: cover; /* Ensure the image covers the specified dimensions */
-    margin-bottom: 10px;
-    border-radius: 10px;
+    width: 100%;
+    height: 100%; /* התאמת הגובה */
+    border-radius: 15px 15px 0 0; /* פינות מעוגלות של החלק העליון של התמונה */
+    object-fit: cover; /* התאמת התמונה לגודל */
 }
-.category-card .card-title, .category-card .card-text {
-    flex-grow: 1; /* Allow title and text to grow and push the button to the bottom */
+
+.card-body-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px; /* גובה התחלתי של החלק הלבן */
+    background-color: white;
+    border-bottom-left-radius: 15px; /* פינות מעוגלות של החלק התחתון */
+    border-bottom-right-radius: 15px; /* פינות מעוגלות של החלק התחתון */
+    font-family: 'Assistant', sans-serif; /* פונט לכרטיסים */
+    text-decoration: none; /* ללא קו תחתון */
+    color: inherit; /* צבע טקסט כמו הכרטיס */
+    display: flex; /* שימוש ב-flexbox */
+    justify-content: center; /* יישור למרכז */
+    align-items: center; /* יישור למרכז */
+    padding: 10px; /* מרווח פנימי */
+    box-sizing: border-box; /* הכללת הפדינג בתוך הגובה */
+    transition: height 0.3s ease-in-out; /* אנימציה לגובה */
 }
-.category-card .btn {
-    margin-top: auto; /* Push the button to the bottom of the card */
+
+.category-card:hover .card-body-wrapper {
+    height: 90px; /* גובה מוגדל על hover */
+}
+
+.card-title, .category-card-title {
+    color: #0D1B2A; /* צבע כותרת הכרטיס */
+    font-size: 0.8rem; /* גודל כותרת הכרטיס קטן יותר */
+    margin: 0; /* איפוס מרווחים */
+    font-family: 'Assistant', sans-serif; /* פונט לכותרת */
+    text-align: center; /* יישור טקסט למרכז */
+    text-decoration: none; /* ללא קו תחתון */
+}
+
+.card-title, .card-body-wrapper, .card-body-wrapper:hover, .card-body-wrapper:hover .card-title,
+.category-card-title, .card-body-wrapper, .card-body-wrapper:hover, .card-body-wrapper:hover .category-card-title,
+.card-body-wrapper:hover p, .card-body-wrapper:hover a {
+    text-decoration: none; /* הסרת קו תחתון בכל מצב */
+    color: #0D1B2A; /* שמירת צבע הטקסט כחול כהה בכל מצב */
+}
+
+.btn-primary {
+    background-color: #0D1B2A !important; /* צבע כפתור כחול כהה עם חשיבות גבוהה */
+    border: 2px solid transparent; /* גבול שקוף כברירת מחדל */
+    color: #ffffff !important; /* צבע טקסט לבן עם חשיבות גבוהה */
+    padding: 0.3rem 1rem; /* ריווח פנימי */
+    font-size: 0.8rem; /* גודל טקסט קטן יותר */
+    border-radius: 5px; /* פינות מעוגלות */
+    transition: background-color 0.3s, color 0.3s, border 0.3s; /* אנימציית מעבר */
+    font-family: 'Assistant', sans-serif; /* פונט לכפתור */
+}
+
+.btn-primary:hover {
+    border-color: #6FB3B8; /* שינוי צבע הגבול בטורקיז על hover */
+    background-color: #0D1B2A !important; /* שמירת צבע הרקע לכחול כהה על hover עם חשיבות גבוהה */
+    color: #ffffff !important; /* שמירת צבע הטקסט ללבן על hover עם חשיבות גבוהה */
 }

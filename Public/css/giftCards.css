@@ -23,9 +23,8 @@ body {
     overflow: hidden;
     border-radius: 15px; /* פינות מעוגלות */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
-    transition: box-shadow 0.3s; /* אנימציית מעבר של צל */
-    max-width: 250px; /* הקטנת הרוחב */
-    height: 150px; /* הקטנת הגובה */
+    width: 100%;
+    height: 150px; /* גובה קבוע לכל כרטיס */
     margin: 0 auto 20px auto; /* מרווחים מסביב לכרטיס */
     text-decoration: none; /* ללא קו תחתון */
     color: inherit; /* צבע טקסט כמו הכרטיס */
@@ -43,7 +42,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50px; /* גובה התחלתי של החלק הלבן */
+    height: 70px; /* גובה התחלתי של החלק הלבן */
     background-color: white;
     border-bottom-left-radius: 15px; /* פינות מעוגלות של החלק התחתון */
     border-bottom-right-radius: 15px; /* פינות מעוגלות של החלק התחתון */
@@ -53,16 +52,18 @@ body {
     display: flex; /* שימוש ב-flexbox */
     justify-content: center; /* יישור למרכז */
     align-items: center; /* יישור למרכז */
+    padding: 10px; /* מרווח פנימי */
+    box-sizing: border-box; /* הכללת הפדינג בתוך הגובה */
     transition: height 0.3s ease-in-out; /* אנימציה לגובה */
 }
 
 .gift-card:hover .gift-card-body-wrapper {
-    height: 80px; /* גובה מוגדל על hover */
+    height: 90px; /* גובה מוגדל על hover */
 }
 
 .gift-card-title {
     color: #0D1B2A; /* צבע כותרת הכרטיס */
-    font-size: 1.2rem; /* גודל כותרת הכרטיס */
+    font-size: 0.8rem; /* גודל כותרת הכרטיס קטן יותר */
     margin: 0; /* איפוס מרווחים */
     font-family: 'Assistant', sans-serif; /* פונט לכותרת */
     text-align: center; /* יישור טקסט למרכז */
@@ -72,6 +73,19 @@ body {
     text-decoration: none; /* הסרת קו תחתון בכל מצב */
 }
 
-.gift-card:hover {
-    /* אין שינוי בגודל הכרטיס בעת hover */
+.btn-primary {
+    background-color: #0D1B2A !important; /* צבע כפתור כחול כהה עם חשיבות גבוהה */
+    border: 2px solid transparent; /* גבול שקוף כברירת מחדל */
+    color: #ffffff !important; /* צבע טקסט לבן עם חשיבות גבוהה */
+    padding: 0.3rem 1rem; /* ריווח פנימי */
+    font-size: 0.8rem; /* גודל טקסט קטן יותר */
+    border-radius: 5px; /* פינות מעוגלות */
+    transition: background-color 0.3s, color 0.3s, border 0.3s; /* אנימציית מעבר */
+    font-family: 'Assistant', sans-serif; /* פונט לכפתור */
+}
+
+.btn-primary:hover {
+    border-color: #6FB3B8; /* שינוי צבע הגבול בטורקיז על hover */
+    background-color: #0D1B2A !important; /* שמירת צבע הרקע לכחול כהה על hover עם חשיבות גבוהה */
+    color: #ffffff !important; /* שמירת צבע הטקסט ללבן על hover עם חשיבות גבוהה */
 }
