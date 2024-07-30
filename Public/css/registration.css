@@ -1,74 +1,104 @@
-/* CSS for Registration Page */
-
-@import url('styles.css');
-@import url('footerHeaderStyles.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    background-color: #f8f9fa;
     direction: rtl;
     text-align: right;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
 }
 
-
-.registration-modal {
-    background-color: #fff;
+main {
     padding: 20px;
-    border-radius: 10px;
+}
+
+.registration {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    max-width: 600px;
+    margin: 20px auto;
 }
 
-.modal-content {
-    padding: 20px;
-}
-
-.modal-content h2 {
-    font-size: 1.5rem;
+.registration h2 {
+    font-size: 24px;
     margin-bottom: 20px;
     text-align: center;
     color: #333;
 }
 
+.registration p {
+    font-size: 16px;
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     font-size: 1rem;
     color: #333;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .form-group input {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 100%;
-    font-size: 1rem;
-    color: #333;
+    background-color: #f0f0f0;
+    margin-bottom: 15px;
 }
 
-.btn-block {
+.btn-login {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     font-size: 1rem;
     font-weight: bold;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
+    background-color: #fff;
+    color: #E87A6E;
+    border: 2px solid #E87A6E;
     cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
 }
 
-.btn-block:hover {
-    background-color: #0056b3;
+.btn-login:hover {
+    background-color: #E87A6E;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(232, 122, 110, 0.5);
+    transform: translateY(-3px);
 }
 
+.btn-outline-primary {
+    border: 2px solid #E87A6E;
+    color: #fff;
+    background-color: #E87A6E;
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.btn-outline-primary:hover {
+    background-color: #D96B5F;
+    box-shadow: 0 4px 15px rgba(232, 122, 110, 0.5);
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+.btn-text {
+    display: inline;
+    color: inherit;
+}
