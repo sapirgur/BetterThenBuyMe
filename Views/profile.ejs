@@ -9,6 +9,57 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <title>פרופיל - Gifty</title>
+
+    <style>
+    <style>
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    .table th, .table td {
+        vertical-align: top;
+        word-wrap: break-word;
+        padding: 10px; /* Add padding to table cells */
+    }
+
+    .table td div {
+        margin-bottom: 5px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        padding: 15px; /* Add padding inside the card */
+    }
+
+    .card-header {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 15px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card h3 {
+        margin: 0;
+    }
+
+    .card .row > .col-md-6 {
+        margin-bottom: 20px; /* Add margin between the inner tables */
+    }
+
+    .manager-info .container {
+        padding: 0; /* Remove container padding */
+    }
+</style>
+
+
+    </style>
 </head>
 <body>
     <%- include('partials/header') %>
@@ -70,33 +121,42 @@
             <% if (managerData) { %>
                 <div class="manager-info mt-5">
                     <h2>מידע מנהל</h2>
-                    <% Object.keys(managerData).forEach(function(collectionName) { %>
-                        <div class="collection-data mb-4">
-                            <h3><%= collectionName %></h3>
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Document</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% managerData[collectionName].forEach(function(document) { %>
-                                            <tr>
-                                                <td>
-                                                    <% Object.keys(document).forEach(function(key) { %>
-                                                        <div><strong><%= key %></strong>: <%= document[key] %></div>
-                                                    <% }); %>
-                                                </td>
-                                            </tr>
-                                        <% }); %>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <% Object.keys(managerData).forEach(function(collectionName) { %>
+                                <div class="col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3><%= collectionName %></h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <% managerData[collectionName].forEach(function(document) { %>
+                                                    <div class="col-md-12 mb-4">
+                                                        <table class="table table-bordered">
+                                                            <tbody>
+                                                                <% Object.keys(document).forEach(function(key) { %>
+                                                                    <tr>
+                                                                        <td><strong><%= key %></strong></td>
+                                                                        <td><%= document[key] %></td>
+                                                                    </tr>
+                                                                <% }); %>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
                         </div>
-                    <% }); %>
+                    </div>
                 </div>
             <% } %>
+            
+            
+            
             
             
             
