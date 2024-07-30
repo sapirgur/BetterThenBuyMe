@@ -66,30 +66,12 @@ body {
     margin: 0; /* איפוס מרווחים */
     font-family: 'Assistant', sans-serif; /* פונט לכותרת */
     text-align: center; /* יישור טקסט למרכז */
-    text-decoration: none; /* ללא קו תחתון */
 }
 
-.gift-card-title, .gift-card-body-wrapper, .gift-card-body-wrapper:hover, .gift-card-body-wrapper:hover .gift-card-title {
+.gift-card-title, .gift-card-body-wrapper:hover, .gift-card-body-wrapper:hover .gift-card-title {
     text-decoration: none; /* הסרת קו תחתון בכל מצב */
 }
 
 .gift-card:hover {
     /* אין שינוי בגודל הכרטיס בעת hover */
-}
-
-.btn-primary {
-    background-color: #0D1B2A !important; /* צבע כפתור כחול כהה עם חשיבות גבוהה */
-    border: 2px solid transparent; /* גבול שקוף כברירת מחדל */
-    color: #ffffff !important; /* צבע טקסט לבן עם חשיבות גבוהה */
-    padding: 0.3rem 1rem; /* ריווח פנימי */
-    font-size: 0.9rem; /* גודל טקסט */
-    border-radius: 5px; /* פינות מעוגלות */
-    transition: background-color 0.3s, color 0.3s, border 0.3s; /* אנימציית מעבר */
-    font-family: 'Assistant', sans-serif; /* פונט לכפתור */
-}
-
-.btn-primary:hover {
-    border-color: #6FB3B8; /* שינוי צבע הגבול בטורקיז על hover */
-    background-color: #0D1B2A !important; /* שמירת צבע הרקע לכחול כהה על hover עם חשיבות גבוהה */
-    color: #ffffff !important; /* שמירת צבע הטקסט ללבן על hover עם חשיבות גבוהה */
 }
