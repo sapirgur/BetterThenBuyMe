@@ -1,16 +1,23 @@
 body {
-    background-color: #f8f9fa;
+    background: url('/css/Images/gifty/backgroung.webp') no-repeat center center fixed;
+    background-size: cover;
 }
 
 .profile {
     max-width: 700px;
     margin: 0 auto;
     margin-bottom: 50px;
+    padding: 20px; /* להוסיף רווח פנימי */
+    background: white; /* רקע לבן לכרטיס */
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .card {
     border-radius: 20px;
     overflow: hidden;
+    background: white; /* רקע לבן לכרטיס */
 }
 
 .card-header {
@@ -21,13 +28,12 @@ body {
     padding: 2rem;
 }
 
-.profile-info img {
-    border: 3px solid #007bff;
-    transition: transform 0.3s ease-in-out;
-}
-
-.profile-info img:hover {
-    transform: scale(1.1);
+.profile-info .graphic {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    background: url('/css/Images/gifty/graphic-image.png') no-repeat center center;
+    background-size: contain;
 }
 
 .history h2 {
