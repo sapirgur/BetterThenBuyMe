@@ -764,33 +764,22 @@ app.get('/api/aggregated-data', async (req, res) => {
 
 
 
-app.get('/weather', async (req, res) => {
-    const { lat, lng } = req.query;
-    const apiKey = process.env.WEATHER_API_KEY;
-
-    if (!lat || !lng) {
-        return res.status(400).json({ error: 'Missing required query parameters: lat, lng' });
-    }
-
+router.get('/get-weather', async (req, res) => {
     try {
-        const response = await fetch(`https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}`, {
-            headers: {
-                'Authorization': apiKey
-            }
-        });
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.0853&longitude=34.7818&hourly=temperature_2m,wind_speed_10m');
         const data = await response.json();
 
-        if (response.status !== 200) {
-            return res.status(response.status).json({ error: data.errors || 'Failed to fetch weather data' });
-        }
+        // Extract the current weather data
+        const currentHourIndex = 0; // Assuming you want the current hour data
+        const time = data.hourly.time[currentHourIndex];
+        const temp = data.hourly.temperature_2m[currentHourIndex];
+        const windSpeed = data.hourly.wind_speed_10m[currentHourIndex];
 
-        const weatherData = {
-            temperature: data.hours[0].airTemperature.noaa,
-            description: data.hours[0].weather.description,
-            icon: data.hours[0].weather.icon
-        };
-
-        res.json(weatherData);
+        res.json({
+            time,
+            temp: `${temp} °C`,
+            windSpeed: `${windSpeed} km/h`
+        });
     } catch (error) {
         console.error('Error fetching weather data:', error);
         res.status(500).json({ error: 'Failed to fetch weather data' });
