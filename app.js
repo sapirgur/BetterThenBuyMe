@@ -816,7 +816,7 @@ module.exports = app;
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB } = require('./db');
+const { connectToDB, getDB } = require('./db'); // Ensure getDB is imported
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
@@ -891,4 +891,5 @@ connectToDB().then(() => {
 });
 
 module.exports = app;
+
 
