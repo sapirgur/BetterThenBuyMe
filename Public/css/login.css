@@ -67,14 +67,14 @@ main {
     border: none;
     cursor: pointer;
     margin-top: 10px;
+    margin-bottom: 10px;
     transition: all 0.3s ease;
-    margin:15px;
+    
 }
 
 .btn-login:hover {
     background-color: #D96B5F;
     box-shadow: 0 4px 15px rgba(232, 122, 110, 0.5);
-    
     color: #fff;
 }
 
