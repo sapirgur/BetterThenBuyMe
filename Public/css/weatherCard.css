@@ -1,0 +1,33 @@
+
+.weather-card {
+max-width: 400px;
+margin: 50px auto;
+background: #fff;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+border-radius: 8px;
+overflow: hidden;
+}
+
+.weather-header {
+background-color: #1D2437;
+color: #fff;
+padding: 20px;
+text-align: center;
+font-size: 1.5rem;
+font-weight: bold;
+}
+
+.weather-body {
+padding: 20px;
+text-align: center; /* Center text horizontally */
+}
+
+.weather-body p {
+margin: 10px 0;
+font-size: 18px;
+text-align: center; /* Ensure individual paragraphs are centered */
+}
+
+.weather-body p strong {
+color: #E87A6E;
+}
