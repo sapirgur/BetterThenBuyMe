@@ -816,18 +816,12 @@ module.exports = app;
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB } = require('./db');
+const { connectToDB, getDB } = require('./db');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 require('dotenv').config();
 const port = 3001;
-
-// Import controllers
-const userController = require('./controllers/userController');
-const productController = require('./controllers/productController');
-const businessController = require('./controllers/businessController');
-const weatherController = require('./controllers/weatherController');
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -863,6 +857,11 @@ app.use((req, res, next) => {
 
 // Wait for the database connection to be established before setting up routes and controllers
 connectToDB().then(() => {
+    const userController = require('./controllers/userController');
+    const productController = require('./controllers/productController');
+    const businessController = require('./controllers/businessController');
+    const weatherController = require('./controllers/weatherController');
+
     // Use controllers
     app.use('/', userController);
     app.use('/', productController);
@@ -892,3 +891,4 @@ connectToDB().then(() => {
 });
 
 module.exports = app;
+
