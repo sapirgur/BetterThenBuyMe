@@ -10,12 +10,6 @@ body {
     text-align: right;
 }
 
-/* Container for the contact us page */
-.container {
-    max-width: 1200px;
-    margin: auto;
-}
-
 /* Contact Us Page Specific Styles */
 .contact-container {
     margin: 20px;
@@ -29,7 +23,6 @@ body {
     margin-bottom: 20px;
     color: rgb(51, 51, 51);
     font-size: 1.8rem;
-    
 }
 
 .contact-container .row {
@@ -44,7 +37,7 @@ body {
 }
 
 .contact-container img {
-    max-width: 100%;
+    max-width: 120px; /* גודל התמונה גדול יותר */
     border-radius: 50%;
     margin-bottom: 15px;
 }
@@ -54,12 +47,39 @@ body {
     color: #333;
 }
 
-
 /* Map container */
 #map {
-    width: 100%;
-    height: 400px;
+    width: 100vw;
+    height: 500px; /* גובה המפה */
     margin-top: 40px;
     border-radius: 10px;
 }
 
+.manager {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* כדי לוודא שהתמונות יהיו בצד ימין */
+    margin-bottom: 20px;
+    background-color: white;
+    border: 2px solid #E87A6E; 
+    border-radius: 10px;
+    padding: 10px;
+    transition: box-shadow 0.3s ease; /* מעבר חלק לאפקט ההבהרה */
+}
+
+.manager img {
+    width: 120px; /* גודל התמונה גדול יותר */
+    height: 120px;
+    border-radius: 50%;
+    margin-left: 20px; /* מרווח בין התמונה לטקסט */
+}
+.manager .description {
+    background-color: white; /* מלבנים בצבע לבן */
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+.description a {
+    color: #003366; /* צבע כחול כהה */
+}
