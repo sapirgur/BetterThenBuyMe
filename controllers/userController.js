@@ -277,12 +277,23 @@ router.post('/CheckOut', async (req, res) => {
     }
 
     const { ccName, ccNumber, ccExpiration, ccCvv } = req.body;
+    const user_id = req.session.user.id;  // Retrieve user ID from session
+
+    console.log('User ID:', user_id, 'Type:', typeof user_id);
+    console.log('Credit Card Details:', { ccName, ccNumber, ccExpiration, ccCvv });
 
     if (!ccName || !ccNumber || !ccExpiration || !ccCvv) {
         return res.status(400).send('All fields are required');
     }
 
     try {
+        // Verify the user document exists
+        const user = await req.db.collection('users').findOne({ _id: new ObjectId(user_id) });
+        if (!user) {
+            console.log('User document not found');
+            return res.status(404).send('User not found');
+        }
+
         const newPaymentMethod = {
             card_name: ccName,
             card_number: ccNumber,
@@ -292,17 +303,20 @@ router.post('/CheckOut', async (req, res) => {
             billing_address: "123 Main St"
         };
 
-        await req.db.collection('users').updateOne(
-            { _id: user_id },
+        // Add payment method
+        const paymentUpdateResult = await req.db.collection('users').updateOne(
+            { _id: new ObjectId(user_id) },
             { $push: { payment_methods: newPaymentMethod } }
         );
+        //console.log('Payment Update Result:', paymentUpdateResult);
 
+        // Fetch cart
         const cart = await req.db.collection('cart').findOne({ user_id: user_id });
-
         if (!cart || cart.items.length === 0) {
             return res.status(400).send('Cart is empty');
         }
 
+        // Create new order
         const newOrder = {
             user_id: user_id,
             order_date: new Date(),
@@ -312,14 +326,17 @@ router.post('/CheckOut', async (req, res) => {
             products: cart.items
         };
 
-        const result = await req.db.collection('orders').insertOne(newOrder);
-        const insertedOrder = await req.db.collection('orders').findOne({ _id: result.insertedId });
+        const orderInsertResult = await req.db.collection('orders').insertOne(newOrder);
+        //console.log('Order Insert Result:', orderInsertResult);
 
-        await req.db.collection('users').updateOne(
-            { _id: user_id },
-            { $push: { order_history: result.insertedId } }
+        // Update user order history
+        const orderHistoryUpdateResult = await req.db.collection('users').updateOne(
+            { _id: new ObjectId(user_id) },
+            { $push: { order_history: orderInsertResult.insertedId } }
         );
+        //console.log('Order History Update Result:', orderHistoryUpdateResult);
 
+        // Clear cart
         await req.db.collection('cart').updateOne(
             { user_id: user_id },
             { $set: { items: [] } }
@@ -331,5 +348,6 @@ router.post('/CheckOut', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
 
 module.exports = router;
