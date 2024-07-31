@@ -1,27 +1,25 @@
 require('dotenv').config();
-const { MongoClient, ObjectId } = require('mongodb'); // Ensure ObjectId is imported
-const uri = process.env.mongoDB_URI;  
-const dbName = 'BuyMe'; 
+const { MongoClient, ObjectId } = require('mongodb');
+const uri = process.env.mongoDB_URI;
+const dbName = 'BuyMe';
 
 let db;
 
-async function connectToDB(callback) {
+async function connectToDB() {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         db = client.db(dbName);
         console.log('Connected to database');
 
-         // indexes for filters
-         await db.collection('businesses').createIndex({ name: "text", description: "text" });
-         await db.collection('businesses').createIndex({ categories: 1 });
-         await db.collection('businesses').createIndex({ price: 1 });
-         await db.collection('businesses').createIndex({ geoRegion: 1 });
-
-        callback(null);
+        // indexes for filters
+        await db.collection('businesses').createIndex({ name: "text", description: "text" });
+        await db.collection('businesses').createIndex({ categories: 1 });
+        await db.collection('businesses').createIndex({ price: 1 });
+        await db.collection('businesses').createIndex({ geoRegion: 1 });
     } catch (error) {
         console.error('Failed to connect to the database:', error);
-        callback(error);
+        throw error;
     }
 }
 
@@ -47,7 +45,7 @@ async function getBusinessesByCategory(categoryName) {
 // Fetch category by ID
 async function getCategoryById(categoryId) {
     const db = getDB();
-    return await db.collection('categories').findOne({ _id: ObjectId.createFromHexString(categoryId) }); // Use ObjectId.createFromHexString here
+    return await db.collection('categories').findOne({ _id: ObjectId(categoryId) });
 }
 
 // Fetch top 5 highest-rated reviews
@@ -59,23 +57,22 @@ async function getTopReviews() {
 // Fetch business by ID
 async function getBusinessById(businessId) {
     const db = getDB();
-    return await db.collection('businesses').findOne({ _id: ObjectId.createFromHexString(businessId) });
+    return await db.collection('businesses').findOne({ _id: ObjectId(businessId) });
 }
 
 async function getProductById(productId) {
     const db = getDB();
-    return await db.collection('products').findOne({ _id: new ObjectId(productId) });
+    return await db.collection('products').findOne({ _id: ObjectId(productId) });
 }
 
 // Fetch coupon by name
 async function getCouponByCode(couponCode) {
     const db = getDB();
     const currentDate = new Date();
-    const coupon = await db.collection('coupons').findOne({
+    return await db.collection('coupons').findOne({
         coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') },
         deadline_date: { $gte: currentDate }
     });
-    return coupon;
 }
 
 async function getLocations() {
@@ -114,10 +111,4 @@ async function getProducts() {
     return await db.collection('products').find().toArray();
 }
 
-
-
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers, getOrders, getCarts , getBusinesses, getReviews, getProducts};
-
-
-
-
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers, getOrders, getCarts, getBusinesses, getReviews, getProducts, ObjectId };
