@@ -816,7 +816,7 @@ module.exports = app;
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB, getDB } = require('./db');
+const { connectToDB } = require('./db');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
@@ -864,9 +864,9 @@ connectToDB().then(() => {
 
     // Use controllers
     app.use('/', userController);
-    app.use('/', productController);
-    app.use('/', businessController);
-    app.use('/', weatherController);
+    app.use('/products', productController);
+    app.use('/businesses', businessController);
+    app.use('/weather', weatherController);
 
     // Test route to check DB connection
     app.get('/test-connection', async (req, res) => {
@@ -891,4 +891,3 @@ connectToDB().then(() => {
 });
 
 module.exports = app;
-

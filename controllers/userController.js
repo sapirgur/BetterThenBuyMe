@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const { getDB } = require('../db');
-const db = getDB();
-const { ObjectId } = require('mongodb');
+const { getDB, ObjectId } = require('../db');
+
+let db;
+(async () => {
+    db = getDB();
+})();
 
 let user_id = null;
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const topReviews = await getTopReviews();
-        const categories = await getCategories();
+        const topReviews = await db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
+        const categories = await db.collection('categories').find().toArray();
         res.render('index', { topReviews, categories });
     } catch (err) {
         console.error('Error fetching top reviews and categories:', err);
@@ -32,7 +35,6 @@ router.post('/login', async (req, res) => {
             // Retrieve the user's cart
             let cart = await db.collection('cart').findOne({ user_id: user._id });
             if (!cart) {
-                // If no cart exists, create a new one
                 cart = {
                     user_id: user._id,
                     items: [],
@@ -43,10 +45,10 @@ router.post('/login', async (req, res) => {
                 await db.collection('cart').insertOne(cart);
             }
 
-            req.session.cart = cart; // Save the cart in the session
+            req.session.cart = cart;
             res.redirect('/');
         } else {
-            res.render('login', { errorMessage: 'אימייל או סיסמה שגויים' }); // הצגת הודעת שגיאה
+            res.render('login', { errorMessage: 'אימייל או סיסמה שגויים' });
         }
     } catch (error) {
         console.error('Login error:', error);
@@ -57,10 +59,10 @@ router.post('/login', async (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
-            return res.redirect('/'); // If there's an error, redirect to home
+            return res.redirect('/');
         }
-        res.clearCookie('connect.sid'); // Clear the session cookie
-        res.redirect('/'); // Redirect to the homepage
+        res.clearCookie('connect.sid');
+        res.redirect('/');
     });
 });
 
@@ -84,8 +86,8 @@ router.post('/register', async (req, res) => {
                 }
             ],
             phone_number,
-            payment_methods: [], // Initialize with empty array
-            order_history: []    // Initialize with empty array
+            payment_methods: [],
+            order_history: []
         };
         await db.collection('users').insertOne(newUser);
         req.session.user = { name: newUser.name, email: newUser.email };
@@ -93,6 +95,73 @@ router.post('/register', async (req, res) => {
     } catch (error) {
         console.error('Registration error:', error);
         res.status(500).send('Internal server error');
+    }
+});
+
+// Additional routes for other pages
+router.get('/profile', async (req, res) => {
+    try {
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+
+        const user = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        if (user.order_history && user.order_history.length > 0) {
+            const orderIds = user.order_history.map(id => new ObjectId(id));
+            const orders = await db.collection('orders').find({
+                _id: { $in: orderIds }
+            }).toArray();
+
+            orders.forEach(order => {
+                order.short_id = order._id.toString().slice(0, 6);
+            });
+
+            user.order_history = orders;
+        }
+
+        const manager = await db.collection('managers').findOne({ user_id: user_id.toString() });
+
+        let managerData = null;
+        if (manager) {
+            const collections = await db.collections();
+            managerData = {};
+            for (const collection of collections) {
+                const name = collection.collectionName;
+                managerData[name] = await db.collection(name).find().toArray();
+            }
+        }
+
+        res.render('profile', { user, managerData });
+    } catch (error) {
+        console.error('Error retrieving user profile:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.get('/aboutUs', (req, res) => {
+    res.render('aboutUs');
+});
+
+router.get('/terms', (req, res) => {
+    res.render('terms');
+});
+
+router.get('/whyGiveGifts', (req, res) => {
+    res.render('whyGiveGifts');
+});
+
+router.get('/contactUs', async (req, res) => {
+    try {
+        const managers = await getManagers();
+        res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY, managers });
+    } catch (error) {
+        console.error('Failed to fetch managers:', error);
+        res.status(500).send('Internal Server Error');
     }
 });
 
