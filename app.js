@@ -4,7 +4,6 @@ const session = require('express-session');
 const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers , getOrders, getCarts, getBusinesses, getReviews, getProducts } = require('./db');
 const cors = require('cors');  
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
 const { ObjectId } = require('mongodb');
 const app = express();
 require('dotenv').config();
@@ -767,6 +766,8 @@ app.get('/api/aggregated-data', async (req, res) => {
 
 app.get('/api/get-weather', async (req, res) => {
     try {
+        // Use dynamic import
+        const fetch = (await import('node-fetch')).default;
         const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.0853&longitude=34.7818&hourly=temperature_2m,wind_speed_10m');
         const data = await response.json();
 
