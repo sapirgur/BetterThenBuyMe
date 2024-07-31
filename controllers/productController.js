@@ -89,10 +89,19 @@ router.post('/add-item-to-cart', async (req, res, next) => {
         return res.status(401).send('You need to log in first');
     }
 
-    const { productId, quantity, price } = req.body;
+    let { productId, quantity, price } = req.body;
     const user_id = req.session.user.id;
 
+    console.log(`Received productId: ${productId}, Type: ${typeof productId}`);
+    console.log(`productId keys: ${Object.keys(productId)}`);
+    console.log(`productId toString: ${productId.toString()}`);
+
     try {
+        // Ensure productId is a string
+        if (typeof productId !== 'string') {
+            throw new Error('Product ID must be a string');
+        }
+
         // Validate ObjectId
         const validProductId = toObjectId(productId);
         
