@@ -109,7 +109,7 @@ router.post('/add-item-to-cart', async (req, res, next) => {
             return res.status(400).send('Invalid quantity or price');
         }
 
-        const product = await getProductById(req.db, validProductId);
+        const product = await getProductById(validProductId);
         if (!product) {
             return res.status(404).send('Product not found');
         }

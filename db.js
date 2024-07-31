@@ -76,7 +76,8 @@ async function getBusinessById(businessId) {
 // Fetch product by ID
 async function getProductById(productId) {
     const db = getDB();
-    return await db.collection('products').findOne({ _id: toObjectId(productId) });
+      console.log(`ProductId in getProductById: ${productId}, Type: ${typeof productId}`);
+    return await db.collection('products').findOne({ _id: productId });
 }
 
 // Fetch coupon by name
