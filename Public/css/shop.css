@@ -1,7 +1,7 @@
-body {
+/* body {
     background: url('/css/Images/gifty/backgroung.webp') no-repeat center center fixed;
     background-size: cover;
-}
+} */
 
 .gift-cards, .categories-nav {
     background-color: #f8f9fa; /* צבע רקע כללי */
