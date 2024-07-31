@@ -1,4 +1,4 @@
-const express = require('express');
+/* const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers , getOrders, getCarts, getBusinesses, getReviews, getProducts } = require('./db');
@@ -787,6 +787,103 @@ app.get('/api/get-weather', async (req, res) => {
     }
 });
 
+
+// Test route to check DB connection
+app.get('/test-connection', async (req, res) => {
+    try {
+        if (!db) {
+            return res.status(500).json({ error: 'Database not initialized' });
+        }
+        const testCollection = db.collection('users');
+        if (testCollection) {
+            console.log('Collection reference obtained');
+        }
+        console.log(testCollection);
+        const documents = await testCollection.find({}).toArray();
+        console.log('Documents fetched:', documents);
+        res.json(documents);
+    } catch (error) {
+        console.error('Error fetching documents:', error);
+        res.status(500).json({ error: 'An error occurred while fetching documents.' });
+    }
+});
+
+module.exports = app;
+ */
+
+
+
+const express = require('express');
+const path = require('path');
+const session = require('express-session');
+const { connectToDB, getDB } = require('./db');
+const cors = require('cors');  
+const bodyParser = require('body-parser');
+const app = express();
+require('dotenv').config();
+const port = 3001; // Use an available port
+let db;
+
+// Import controllers
+const userController = require('./controllers/userController');
+const productController = require('./controllers/productController');
+const businessController = require('./controllers/businessController');
+const weatherController = require('./controllers/weatherController');
+
+// DB Connection 
+connectToDB((err) => {
+    if (!err) {
+        // Start the server
+        app.listen(port, () => {
+            console.log(`Server is running at http://localhost:${port}`);
+        });
+
+        db = getDB();
+    } else {
+        console.error("Failed to connect to the database:", err);
+        process.exit(1); // Exit the application if the database connection fails
+    }
+});
+
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
+
+// Serve static files (e.g., CSS) from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Body-parser middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// CORS middleware
+app.use(cors({
+    origin: 'http://localhost:3001', // Adjust this to your frontend's origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
+
+// Session middleware
+app.use(session({
+    secret: process.env.SESSION_SECRET, 
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
+// Middleware to pass session user to views
+app.use((req, res, next) => {
+    res.locals.user = req.session.user;
+    next();
+});
+
+// Use controllers
+app.use('/', userController);
+app.use('/', productController);
+app.use('/', businessController);
+app.use('/', weatherController);
 
 // Test route to check DB connection
 app.get('/test-connection', async (req, res) => {
