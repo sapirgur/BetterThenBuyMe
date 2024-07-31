@@ -893,6 +893,13 @@ async function startServer() {
         console.error("Failed to start the server:", error);
         process.exit(1);
     }
+
+
+    app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Internal Server Error' });
+});
+
 }
 
 startServer();
