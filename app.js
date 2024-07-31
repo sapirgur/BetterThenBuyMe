@@ -4,6 +4,7 @@ const session = require('express-session');
 const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryById,getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers , getOrders, getCarts, getBusinesses, getReviews, getProducts } = require('./db');
 const cors = require('cors');  
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
 const { ObjectId } = require('mongodb');
 const app = express();
 require('dotenv').config();
