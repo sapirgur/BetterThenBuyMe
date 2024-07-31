@@ -95,6 +95,7 @@
                 </div>
             </div>
             
+            
         </div>
     </div>
 </div>
@@ -169,6 +170,7 @@
         window.location.href = '/CheckOut'; // Redirect to the checkout page
     });
 
+    
     async function getWeather() {
         try {
             const response = await fetch('/api/get-weather');
@@ -184,6 +186,8 @@
 
     // Fetch weather data on page load
     document.addEventListener('DOMContentLoaded', getWeather);
+
+
 </script>
 </body>
 </html>
