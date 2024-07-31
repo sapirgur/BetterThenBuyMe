@@ -1,0 +1,83 @@
+/* סגנונות כלליים של המודאל */
+.modal-content {
+    background-color: #f8f9fa; /* רקע בהיר למודאל */
+    border-radius: 5px;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* סגנונות לכותרת המודאל */
+  .modal-header {
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: center; /* מרכז את הכותרת */
+    position: relative; /* מאפשר שימוש במיקום לכפתור הסגירה */
+  }
+  
+  .modal-title {
+    font-size: 1.25rem;
+    color: black;
+    text-align: center; /* מרכז את הטקסט */
+    flex: 1; /* מאפשר לכותרת לתפוס מקום באמצע */
+  }
+  
+  /* סגנונות לכפתור הסגירה */
+  .btn-close {
+    position: absolute;
+    right: 10px; /* מיקום הכפתור בצד ימין */
+    top: 10px; /* מיקום הכפתור למעלה */
+    background: none;
+    border: none;
+  }
+  
+  .btn-close:hover {
+    opacity: 0.7;
+  }
+  
+  /* סגנונות לתוכן המודאל */
+  .modal-body {
+    color: black;
+    font-size: 1rem;
+    text-align: center; /* מרכז את הטקסט בתוכן המודאל */
+  }
+  
+  /* סגנונות לתחתית המודאל */
+  .modal-footer {
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: center; /* מרכז את הכפתורים */
+  }
+  
+  /* מחלקה למרכז הכפתורים */
+  .center-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  /* סגנונות לכפתורים בתחתית המודאל */
+  .center-buttons .btn {
+    width: auto; /* רוחב אוטומטי */
+    padding: 5px 20px; /* מרווח פנימי קטן יותר */
+    margin: 0 10px; /* מוסיף רווח בין הכפתורים */
+  }
+  
+  #keepBuyingButton {
+    background-color: #E87A6E; /* צבע כפתור משני */
+    color: white;
+    border: none;
+  }
+  
+  #keepBuyingButton:hover {
+    background-color: #e86455; /* צבע כהה יותר במעבר עכבר */
+  }
+  
+  #proceedToPaymentButton {
+    background-color: #1D2437; /* צבע כפתור ראשי */
+    color: white;
+    border: none;
+  }
+  
+  #proceedToPaymentButton:hover {
+    background-color: #131a30; /* צבע כהה יותר במעבר עכבר */
+  }
+  

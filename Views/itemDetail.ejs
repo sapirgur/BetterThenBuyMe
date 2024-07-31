@@ -10,40 +10,9 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <style>
-        .weather-card {
-        max-width: 400px;
-        margin: 50px auto;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        overflow: hidden;
-    }
+    <link rel="stylesheet" href="/css/weatherCard.css">
+    <link rel="stylesheet" href="/css/keepBuying.css">
 
-    .weather-header {
-        background-color: #1D2437;
-        color: #fff;
-        padding: 20px;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .weather-body {
-        padding: 20px;
-        text-align: center; /* Center text horizontally */
-    }
-
-    .weather-body p {
-        margin: 10px 0;
-        font-size: 18px;
-        text-align: center; /* Ensure individual paragraphs are centered */
-    }
-
-    .weather-body p strong {
-        color: #E87A6E;
-    }
-    </style>
 </head>
 <body>
     <%- include('partials/header') %>
@@ -66,10 +35,10 @@
                         <p><%= item.description %></p>
                     </div>
                     <div class="mb-3">
-                        <h6>Details</h6>
-                        <p>Contact: <%= item.contact_info %></p>
-                        <p>Category: <%= item.categories.join(', ') %></p>
-                        <p>Geographical Location: <%= item.geographical_location.join(', ') %></p>
+                        <h6>פרטים</h6>
+                        <p>מייל: <%= item.contact_info %></p>
+                        <p>קטגוריה: <%= item.categories.join(', ') %></p>
+                        <p>אזור: <%= item.geographical_location.join(', ') %></p>
                     </div>
                 </div>
             </div>
@@ -79,10 +48,10 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="priceInput" class="form-label">טען את כרטיס המתנה</label>
-                        <input type="number" class="form-control" id="priceInput" placeholder="Enter price">
+                        <input type="number" class="form-control" id="priceInput" placeholder="הכנס סכום">
                     </div>
                     <div class="mb-3">
-                        <label for="quantityInput" class="form-label">Quantity</label>
+                        <label for="quantityInput" class="form-label">כמות</label>
                         <input type="number" class="form-control" id="quantityInput" placeholder="Enter quantity" value="1">
                     </div>
                     <button type="button" class="btn btn-primary" id="actionButton">בחר סכום</button>
@@ -107,22 +76,25 @@
 
 <!-- Bootstrap Modal for keep buying or not -->
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalLabel" style="color: black;" >לפני שנמשיך</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" style="color: black;">
-        האם תרצה/י להמשיך לקנות או להמשיך לתשלום?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="keepBuyingButton" data-bs-dismiss="modal">המשך לקנות</button>
-        <button type="button" class="btn btn-primary" id="proceedToPaymentButton">המשך לתשלום</button>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmationModalLabel" style="color: black;">לפני שנמשיך</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="color: black;">
+          האם תרצה/י להמשיך לקנות או להמשיך לתשלום?
+        </div>
+        <div class="modal-footer">
+          <div class="center-buttons">
+            <button type="button" class="btn btn-secondary" id="keepBuyingButton" data-bs-dismiss="modal">המשך לקנות</button>
+            <button type="button" class="btn btn-primary" id="proceedToPaymentButton">המשך לתשלום</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
 
 <%- include('partials/footer') %>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
