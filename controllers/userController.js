@@ -1,18 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { getDB, ObjectId, getManagers, getOrders, getReviews, getProducts, getLocations, getCouponByCode } = require('../db');
-
-let db;
-(async () => {
-    db = getDB();
-})();
+const { ObjectId, getManagers, getOrders, getReviews, getProducts, getLocations, getCouponByCode } = require('../db');
 
 let user_id = null;
 
 router.get('/', async (req, res) => {
     try {
-        const topReviews = await db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
-        const categories = await db.collection('categories').find().toArray();
+        const topReviews = await req.db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
+        const categories = await req.db.collection('categories').find().toArray();
         res.render('index', { topReviews, categories });
     } catch (err) {
         console.error('Error fetching top reviews and categories:', err);
@@ -27,12 +22,12 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await db.collection('users').findOne({ email, password });
+        const user = await req.db.collection('users').findOne({ email, password });
         if (user) {
             req.session.user = { id: user._id, name: user.name, email: user.email };
             user_id = user._id;
 
-            let cart = await db.collection('cart').findOne({ user_id: user._id });
+            let cart = await req.db.collection('cart').findOne({ user_id: user._id });
             if (!cart) {
                 cart = {
                     user_id: user._id,
@@ -41,7 +36,7 @@ router.post('/login', async (req, res) => {
                     created_at: new Date(),
                     updated_at: new Date()
                 };
-                await db.collection('cart').insertOne(cart);
+                await req.db.collection('cart').insertOne(cart);
             }
 
             req.session.cart = cart;
@@ -88,7 +83,7 @@ router.post('/register', async (req, res) => {
             payment_methods: [],
             order_history: []
         };
-        await db.collection('users').insertOne(newUser);
+        await req.db.collection('users').insertOne(newUser);
         req.session.user = { name: newUser.name, email: newUser.email };
         res.redirect('/');
     } catch (error) {
@@ -111,7 +106,7 @@ router.get('/whyGiveGifts', (req, res) => {
 
 router.get('/contactUs', async (req, res) => {
     try {
-        const managers = await getManagers();
+        const managers = await getManagers(req.db);
         res.render('contactUs', { googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY, managers });
     } catch (error) {
         console.error('Failed to fetch managers:', error);
@@ -125,7 +120,7 @@ router.get('/profile', async (req, res) => {
             return res.redirect('/login');
         }
 
-        const user = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
+        const user = await req.db.collection('users').findOne({ _id: new ObjectId(user_id) });
 
         if (!user) {
             return res.status(404).send('User not found');
@@ -133,7 +128,7 @@ router.get('/profile', async (req, res) => {
 
         if (user.order_history && user.order_history.length > 0) {
             const orderIds = user.order_history.map(id => new ObjectId(id));
-            const orders = await db.collection('orders').find({
+            const orders = await req.db.collection('orders').find({
                 _id: { $in: orderIds }
             }).toArray();
 
@@ -144,15 +139,15 @@ router.get('/profile', async (req, res) => {
             user.order_history = orders;
         }
 
-        const manager = await db.collection('managers').findOne({ user_id: user_id.toString() });
+        const manager = await req.db.collection('managers').findOne({ user_id: user_id.toString() });
 
         let managerData = null;
         if (manager) {
-            const collections = await db.collections();
+            const collections = await req.db.collections();
             managerData = {};
             for (const collection of collections) {
                 const name = collection.collectionName;
-                managerData[name] = await db.collection(name).find().toArray();
+                managerData[name] = await req.db.collection(name).find().toArray();
             }
         }
 
@@ -173,7 +168,7 @@ router.post('/updateProfile', async (req, res) => {
             city: addr.city
         }));
 
-        await db.collection('users').updateOne({ id_number: idNumber }, {
+        await req.db.collection('users').updateOne({ id_number: idNumber }, {
             $set: {
                 name,
                 email,
@@ -194,7 +189,7 @@ router.post('/deleteProfile', async (req, res) => {
     try {
         const { idNumber } = req.body;
 
-        await db.collection('users').deleteOne({ _id: user_ids });
+        await req.db.collection('users').deleteOne({ _id: user_ids });
 
         req.session.destroy();
         res.send({ success: true });
@@ -206,7 +201,7 @@ router.post('/deleteProfile', async (req, res) => {
 
 router.get('/api/orders', async (req, res) => {
     try {
-        const orders = await getOrders();
+        const orders = await getOrders(req.db);
         res.json(orders);
     } catch (err) {
         res.status(500).send(err);
@@ -215,7 +210,7 @@ router.get('/api/orders', async (req, res) => {
 
 router.get('/api/locations', async (req, res) => {
     try {
-        const locations = await getLocations();
+        const locations = await getLocations(req.db);
         res.json(locations);
     } catch (err) {
         res.status(500).send(err);
@@ -224,7 +219,7 @@ router.get('/api/locations', async (req, res) => {
 
 router.get('/api/reviews', async (req, res) => {
     try {
-        const reviews = await getReviews();
+        const reviews = await getReviews(req.db);
         res.json(reviews);
     } catch (err) {
         res.status(500).send(err);
@@ -233,7 +228,7 @@ router.get('/api/reviews', async (req, res) => {
 
 router.get('/api/products', async (req, res) => {
     try {
-        const products = await getProducts();
+        const products = await getProducts(req.db);
         res.json(products);
     } catch (err) {
         res.status(500).send(err);
@@ -243,7 +238,7 @@ router.get('/api/products', async (req, res) => {
 router.post('/verify-coupon', async (req, res) => {
     const { couponCode } = req.body;
     try {
-        const coupon = await getCouponByCode(couponCode);
+        const coupon = await getCouponByCode(req.db, couponCode);
 
         if (coupon) {
             res.json({ valid: true, discountPercentage: coupon.percentage });
@@ -256,7 +251,6 @@ router.post('/verify-coupon', async (req, res) => {
     }
 });
 
-
 // Add these routes to the existing userController.js
 
 // GET /CheckOut
@@ -266,7 +260,7 @@ router.get('/CheckOut', async (req, res) => {
     }
 
     try {
-        let cart = await db.collection('cart').findOne({ user_id: user_id });
+        let cart = await req.db.collection('cart').findOne({ user_id: user_id });
         res.render('CheckOut', { cart: cart ? cart.items : [] });
     } catch (err) {
         console.error('Error fetching cart items:', err);
@@ -296,12 +290,12 @@ router.post('/CheckOut', async (req, res) => {
             billing_address: "123 Main St"
         };
 
-        await db.collection('users').updateOne(
+        await req.db.collection('users').updateOne(
             { _id: user_id },
             { $push: { payment_methods: newPaymentMethod } }
         );
 
-        const cart = await db.collection('cart').findOne({ user_id: user_id });
+        const cart = await req.db.collection('cart').findOne({ user_id: user_id });
 
         if (!cart || cart.items.length === 0) {
             return res.status(400).send('Cart is empty');
@@ -316,15 +310,15 @@ router.post('/CheckOut', async (req, res) => {
             products: cart.items
         };
 
-        const result = await db.collection('orders').insertOne(newOrder);
-        const insertedOrder = await db.collection('orders').findOne({ _id: result.insertedId });
+        const result = await req.db.collection('orders').insertOne(newOrder);
+        const insertedOrder = await req.db.collection('orders').findOne({ _id: result.insertedId });
 
-        await db.collection('users').updateOne(
+        await req.db.collection('users').updateOne(
             { _id: user_id },
             { $push: { order_history: result.insertedId } }
         );
 
-        await db.collection('cart').updateOne(
+        await req.db.collection('cart').updateOne(
             { user_id: user_id },
             { $set: { items: [] } }
         );

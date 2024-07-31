@@ -4,9 +4,10 @@ const uri = process.env.mongoDB_URI;
 const dbName = 'BuyMe';
 
 let db;
+let client;
 
 async function connectToDB() {
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         db = client.db(dbName);
@@ -32,83 +33,163 @@ function getDB() {
 
 // Fetch all categories
 async function getCategories() {
-    const db = getDB();
-    return await db.collection('categories').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('categories').find().toArray();
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        throw error;
+    }
 }
 
 // Fetch businesses by category name
 async function getBusinessesByCategory(categoryName) {
-    const db = getDB();
-    return await db.collection('businesses').find({ categories: categoryName }).toArray();
+    try {
+        const db = getDB();
+        return await db.collection('businesses').find({ categories: categoryName }).toArray();
+    } catch (error) {
+        console.error('Error fetching businesses by category:', error);
+        throw error;
+    }
 }
 
 // Fetch category by ID
 async function getCategoryById(categoryId) {
-    const db = getDB();
-    return await db.collection('categories').findOne({ _id: ObjectId(categoryId) });
+    try {
+        const db = getDB();
+        return await db.collection('categories').findOne({ _id: ObjectId(categoryId) });
+    } catch (error) {
+        console.error('Error fetching category by ID:', error);
+        throw error;
+    }
 }
 
 // Fetch top 5 highest-rated reviews
 async function getTopReviews() {
-    const db = getDB();
-    return await db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
+    try {
+        const db = getDB();
+        return await db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
+    } catch (error) {
+        console.error('Error fetching top reviews:', error);
+        throw error;
+    }
 }
 
 // Fetch business by ID
 async function getBusinessById(businessId) {
-    const db = getDB();
-    return await db.collection('businesses').findOne({ _id: ObjectId(businessId) });
+    try {
+        const db = getDB();
+        return await db.collection('businesses').findOne({ _id: ObjectId(businessId) });
+    } catch (error) {
+        console.error('Error fetching business by ID:', error);
+        throw error;
+    }
 }
 
+// Fetch product by ID
 async function getProductById(productId) {
-    const db = getDB();
-    return await db.collection('products').findOne({ _id: ObjectId(productId) });
+    try {
+        const db = getDB();
+        return await db.collection('products').findOne({ _id: ObjectId(productId) });
+    } catch (error) {
+        console.error('Error fetching product by ID:', error);
+        throw error;
+    }
 }
 
 // Fetch coupon by name
 async function getCouponByCode(couponCode) {
-    const db = getDB();
-    const currentDate = new Date();
-    return await db.collection('coupons').findOne({
-        coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') },
-        deadline_date: { $gte: currentDate }
-    });
+    try {
+        const db = getDB();
+        const currentDate = new Date();
+        return await db.collection('coupons').findOne({
+            coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') },
+            deadline_date: { $gte: currentDate }
+        });
+    } catch (error) {
+        console.error('Error fetching coupon by code:', error);
+        throw error;
+    }
 }
 
 async function getLocations() {
-    const db = getDB();
-    return await db.collection('locations').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('locations').find().toArray();
+    } catch (error) {
+        console.error('Error fetching locations:', error);
+        throw error;
+    }
 }
 
 async function getManagers() {
-    const db = getDB();
-    return await db.collection('managers').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('managers').find().toArray();
+    } catch (error) {
+        console.error('Error fetching managers:', error);
+        throw error;
+    }
 }
 
 // Fetch all orders
 async function getOrders() {
-    const db = getDB();
-    return await db.collection('orders').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('orders').find().toArray();
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        throw error;
+    }
 }
 
 async function getCarts() {
-    const db = getDB();
-    return await db.collection('cart').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('cart').find().toArray();
+    } catch (error) {
+        console.error('Error fetching carts:', error);
+        throw error;
+    }
 }
 
 async function getBusinesses() {
-    const db = getDB();
-    return await db.collection('businesses').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('businesses').find().toArray();
+    } catch (error) {
+        console.error('Error fetching businesses:', error);
+        throw error;
+    }
 }
 
 async function getReviews() {
-    const db = getDB();
-    return await db.collection('reviews').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('reviews').find().toArray();
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        throw error;
+    }
 }
 
 async function getProducts() {
-    const db = getDB();
-    return await db.collection('products').find().toArray();
+    try {
+        const db = getDB();
+        return await db.collection('products').find().toArray();
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+    }
 }
+
+// Ensure client is closed on application termination
+process.on('SIGINT', async () => {
+    if (client) {
+        await client.close();
+        console.log('Database connection closed.');
+        process.exit(0);
+    }
+});
 
 module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers, getOrders, getCarts, getBusinesses, getReviews, getProducts, ObjectId };

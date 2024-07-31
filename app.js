@@ -811,85 +811,95 @@ app.get('/test-connection', async (req, res) => {
 module.exports = app;
  */
 
-
-
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { connectToDB, getDB } = require('./db'); // Ensure getDB is imported
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const { connectToDB, getDB } = require('./db');
+
+// Load environment variables from .env file
+dotenv.config();
+
 const app = express();
-require('dotenv').config();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+let db;
 
-app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
-app.use(express.static(path.join(__dirname, 'public')));
+async function startServer() {
+    try {
+        await connectToDB();
+        db = getDB();
+        console.log('Database connected successfully');
 
-// Body-parser middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+        // Middleware to pass the database to the controllers
+        app.use((req, res, next) => {
+            req.db = db;
+            next();
+        });
 
-// CORS middleware
-app.use(cors({
-    origin: 'http://localhost:3001',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-}));
+        // Import controllers
+        const userController = require('./controllers/userController');
+        const productController = require('./controllers/productController');
+        const businessController = require('./controllers/businessController');
+        const weatherController = require('./controllers/weatherController');
 
-// Session middleware
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
+        // Set the view engine to EJS
+        app.set('view engine', 'ejs');
+        app.set('views', path.join(__dirname, 'views'));
 
-// Middleware to pass session user to views
-app.use((req, res, next) => {
-    res.locals.user = req.session.user;
-    next();
-});
+        app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
-// Wait for the database connection to be established before setting up routes and controllers
-connectToDB().then(() => {
-    const userController = require('./controllers/userController');
-    const productController = require('./controllers/productController');
-    const businessController = require('./controllers/businessController');
-    const weatherController = require('./controllers/weatherController');
+        // Serve static files (e.g., CSS) from the "public" directory
+        app.use(express.static(path.join(__dirname, 'public')));
 
-    // Use controllers
-    app.use('/', userController);
-    app.use('/', productController);
-    app.use('/', businessController);
-    app.use('/', weatherController);
+        // Body-parser middleware
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(bodyParser.json());
 
-    // Test route to check DB connection
-    app.get('/test-connection', async (req, res) => {
-        try {
-            const db = getDB();
-            const testCollection = db.collection('users');
-            const documents = await testCollection.find({}).toArray();
-            res.json(documents);
-        } catch (error) {
-            console.error('Error fetching documents:', error);
-            res.status(500).json({ error: 'An error occurred while fetching documents.' });
-        }
-    });
+        // CORS middleware
+        app.use(cors({
+            origin: 'http://localhost:3001',
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            credentials: true
+        }));
 
-    // Start the server
-    app.listen(port, () => {
-        console.log(`Server is running at http://localhost:${port}`);
-    });
-}).catch((err) => {
-    console.error("Failed to connect to the database:", err);
-    process.exit(1);
-});
+        // Session middleware
+        app.use(session({
+            secret: process.env.SESSION_SECRET,
+            resave: false,
+            saveUninitialized: true,
+            cookie: { secure: false }
+        }));
+
+        // Middleware to pass session user to views
+        app.use((req, res, next) => {
+            res.locals.user = req.session.user;
+            next();
+        });
+
+        // Use controllers
+        app.use('/', userController);
+        app.use('/', productController);
+        app.use('/', businessController);
+        app.use('/', weatherController);
+
+        // Start the server
+        app.listen(port, () => {
+            console.log(`Server is running at http://localhost:${port}`);
+        });
+    } catch (error) {
+        console.error("Failed to start the server:", error);
+        process.exit(1);
+    }
+}
+
+startServer();
 
 module.exports = app;
+
+
+
 
 

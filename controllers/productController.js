@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getDB, ObjectId, getProductById } = require('../db');
-
-let db;
-(async () => {
-    db = getDB();
-})();
+const { ObjectId, getProductById } = require('../db');
 
 router.get('/shop', async (req, res) => {
     try {
-        const categories = await db.collection('categories').find().toArray();
+        const categories = await req.db.collection('categories').find().toArray();
         res.render('shop', { categories, businesses: [] });
     } catch (err) {
         console.error('Error fetching categories:', err);
@@ -20,9 +15,9 @@ router.get('/shop', async (req, res) => {
 router.get('/shop/:categoryId', async (req, res) => {
     try {
         const categoryId = req.params.categoryId;
-        const category = await db.collection('categories').findOne({ _id: new ObjectId(categoryId) });
-        const businesses = await db.collection('businesses').find({ categories: category.name }).toArray();
-        const categories = await db.collection('categories').find().toArray();
+        const category = await req.db.collection('categories').findOne({ _id: new ObjectId(categoryId) });
+        const businesses = await req.db.collection('businesses').find({ categories: category.name }).toArray();
+        const categories = await req.db.collection('categories').find().toArray();
         res.render('shop', { categories, businesses });
     } catch (err) {
         console.error('Error fetching businesses:', err);
@@ -33,7 +28,7 @@ router.get('/shop/:categoryId', async (req, res) => {
 router.get('/shop/item/:itemId', async (req, res) => {
     try {
         const itemId = req.params.itemId;
-        const Business = await db.collection('businesses').findOne({ _id: new ObjectId(itemId) });
+        const Business = await req.db.collection('businesses').findOne({ _id: new ObjectId(itemId) });
         res.render('itemDetail', { item: Business });
     } catch (error) {
         console.error('Error fetching business:', error);
@@ -80,8 +75,8 @@ router.get('/search', async (req, res) => {
             }
         }
 
-        const businesses = await db.collection('businesses').find(query).toArray();
-        const categories = await db.collection('categories').find().toArray();
+        const businesses = await req.db.collection('businesses').find(query).toArray();
+        const categories = await req.db.collection('categories').find().toArray();
         res.render('shop', { categories, businesses });
     } catch (err) {
         console.error('Error performing search:', err);
@@ -89,26 +84,25 @@ router.get('/search', async (req, res) => {
     }
 });
 
-// Route to add an item with quantity to the cart
 router.post('/add-item-to-cart', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send('You need to log in first');
     }
 
     const { productId, quantity, price } = req.body;
-    const user_id = req.session.user.id; // Get user_id from session
+    const user_id = req.session.user.id;
 
     if (!productId || !quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price <= 0) {
         return res.status(400).send('Invalid product ID, quantity, or price');
     }
 
     try {
-        const product = await getProductById(productId);
+        const product = await getProductById(req.db, productId);
         if (!product) {
             return res.status(404).send('Product not found');
         }
 
-        let cart = await db.collection('cart').findOne({ user_id: user_id });
+        let cart = await req.db.collection('cart').findOne({ user_id: user_id });
         if (cart) {
             const existingItem = cart.items.find(item => item._id.equals(product._id));
             if (existingItem) {
@@ -125,7 +119,7 @@ router.post('/add-item-to-cart', async (req, res) => {
             cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
             cart.updated_at = new Date();
 
-            await db.collection('cart').updateOne(
+            await req.db.collection('cart').updateOne(
                 { _id: cart._id },
                 { $set: { items: cart.items, quantity: cart.quantity, updated_at: cart.updated_at } }
             );
@@ -144,7 +138,7 @@ router.post('/add-item-to-cart', async (req, res) => {
                 created_at: new Date(),
                 updated_at: new Date()
             };
-            await db.collection('cart').insertOne(cart);
+            await req.db.collection('cart').insertOne(cart);
             res.json({ success: true, cart });
         }
     } catch (error) {
@@ -152,5 +146,7 @@ router.post('/add-item-to-cart', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
+
 
 module.exports = router;
