@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getDB, ObjectId } = require('../db');
+const { getDB, ObjectId, getManagers } = require('../db');
 
 let db;
 (async () => {
@@ -30,9 +30,8 @@ router.post('/login', async (req, res) => {
         const user = await db.collection('users').findOne({ email, password });
         if (user) {
             req.session.user = { id: user._id, name: user.name, email: user.email };
-            user_id = user._id; // Set the user_id
+            user_id = user._id;
 
-            // Retrieve the user's cart
             let cart = await db.collection('cart').findOne({ user_id: user._id });
             if (!cart) {
                 cart = {
@@ -94,51 +93,6 @@ router.post('/register', async (req, res) => {
         res.redirect('/');
     } catch (error) {
         console.error('Registration error:', error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-// Additional routes for other pages
-router.get('/profile', async (req, res) => {
-    try {
-        if (!req.session.user) {
-            return res.redirect('/login');
-        }
-
-        const user = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
-
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        if (user.order_history && user.order_history.length > 0) {
-            const orderIds = user.order_history.map(id => new ObjectId(id));
-            const orders = await db.collection('orders').find({
-                _id: { $in: orderIds }
-            }).toArray();
-
-            orders.forEach(order => {
-                order.short_id = order._id.toString().slice(0, 6);
-            });
-
-            user.order_history = orders;
-        }
-
-        const manager = await db.collection('managers').findOne({ user_id: user_id.toString() });
-
-        let managerData = null;
-        if (manager) {
-            const collections = await db.collections();
-            managerData = {};
-            for (const collection of collections) {
-                const name = collection.collectionName;
-                managerData[name] = await db.collection(name).find().toArray();
-            }
-        }
-
-        res.render('profile', { user, managerData });
-    } catch (error) {
-        console.error('Error retrieving user profile:', error);
         res.status(500).send('Internal server error');
     }
 });
