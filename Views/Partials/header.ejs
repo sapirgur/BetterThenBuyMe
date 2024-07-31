@@ -17,12 +17,11 @@
         <nav>
             <ul class="nav">
                 <li class="nav-item"><a class="nav-link" href="/">ראשי</a></li>
-                <li class="nav-item"><a class="nav-link" href="/products/shop">כרטיסי מתנה</a></li>
+                <li class="nav-item"><a class="nav-link" href="/shop">כרטיסי מתנה</a></li>
                 <li class="nav-item"><a class="nav-link" href="/aboutUs">אודות</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contactUs">צרו קשר</a></li>
             </ul>
         </nav>
-        
         <div class="user-account d-flex align-items-center">
             <% if (user) { %>
                 <a class="nav-link" href="/profile">שלום, <%= user.name %></a>

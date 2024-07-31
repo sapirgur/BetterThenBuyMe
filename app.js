@@ -864,9 +864,9 @@ connectToDB().then(() => {
 
     // Use controllers
     app.use('/', userController);
-    app.use('/products', productController);
-    app.use('/businesses', businessController);
-    app.use('/weather', weatherController);
+    app.use('/', productController);
+    app.use('/', businessController);
+    app.use('/', weatherController);
 
     // Test route to check DB connection
     app.get('/test-connection', async (req, res) => {
