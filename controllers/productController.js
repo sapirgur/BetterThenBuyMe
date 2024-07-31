@@ -159,7 +159,24 @@ router.post('/add-item-to-cart', async (req, res, next) => {
     }
 });
 
+// New route for fetching cart data
+router.get('/cart-data', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
 
+    const user_id = req.session.user.id;  // Retrieve user ID from session
+
+    try {
+        let cart = await req.db.collection('cart').findOne({ user_id: user_id });
+
+        // Return cart items as JSON
+        res.json(cart ? cart.items : []);
+    } catch (err) {
+        console.error('Error fetching cart items:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 module.exports = router;
 
 
