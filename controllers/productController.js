@@ -222,6 +222,47 @@ router.post('/decrease-quantity', async (req, res) => {
     }
 });
 
+router.post('/increase-quantity', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).send('You need to log in first');
+    }
+
+    const { productId } = req.body;
+    const user_id = req.session.user.id;  // Retrieve user ID from session
+
+    if (!productId) {
+        return res.status(400).send('Invalid product ID');
+    }
+
+    try {
+        let cart = await req.db.collection('cart').findOne({ user_id: user_id });
+        if (!cart) {
+            return res.status(404).send('Cart not found');
+        }
+
+        const itemIndex = cart.items.findIndex(item => item._id.equals(toObjectId(productId)));
+        if (itemIndex === -1) {
+            return res.status(404).send('Item not found in cart');
+        }
+
+        cart.items[itemIndex].quantity += 1;
+
+        cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
+        cart.total_price = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+        cart.updated_at = new Date();
+
+        await req.db.collection('cart').updateOne(
+            { _id: cart._id },
+            { $set: { items: cart.items, quantity: cart.quantity, total_price: cart.total_price, updated_at: cart.updated_at } }
+        );
+
+        res.json({ success: true, items: cart.items });
+    } catch (error) {
+        console.error('Error increasing item quantity:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
 module.exports = router;
 
 

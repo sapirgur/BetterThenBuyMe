@@ -259,6 +259,8 @@ router.get('/CheckOut', async (req, res) => {
         return res.redirect('/login');
     }
 
+    const user_id = req.session.user.id;  // Retrieve user ID from session
+
     try {
         let cart = await req.db.collection('cart').findOne({ user_id: user_id });
         res.render('CheckOut', { cart: cart ? cart.items : [] });
