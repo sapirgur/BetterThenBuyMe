@@ -1,0 +1,66 @@
+/* עיצוב לקישור "חזרה לעמוד הבית" */
+.home-link {
+    color: #E87A6E; /* צבע כחול */
+    text-decoration: none; /* ללא קו תחתון */
+  }
+  
+  .home-link:hover {
+    color: #e86455; /* צבע כהה יותר במעבר עכבר */
+    text-decoration: underline; /* קו תחתון במעבר עכבר */
+  }
+
+/* עיצוב תמונה בגודל קבוע */
+.fixed-size-image {
+    width: 400px; /* רוחב קבוע */
+    height: 300px; /* גובה קבוע */
+    object-fit: cover; /* חיתוך התמונה לשמירה על היחס */
+  }
+
+/* עיצוב הכרטיס */
+.col-md-4 .card.mb-3.custom-card-width {
+    border: 1px solid #dee2e6; /* מסגרת בהירה */
+    border-radius: 8px; /* פינות מעוגלות */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צללה קלה */
+    width: 97%; /* הקטנת רוחב הכרטיס */
+    margin: 0 auto; /* מרכז את הכרטיס בתוך העמודה */
+  }
+  
+  /* עיצוב גוף הכרטיס */
+  .col-md-4 .card.mb-3 .card-body {
+    padding: 20px;
+  }
+  
+  /* עיצוב תוויות (labels) */
+  .col-md-4 .card.mb-3 .form-label {
+    margin-bottom: 5px; /* ריווח תחתון */
+    display: block; /* תצוגת בלוק */
+  }
+  
+  /* עיצוב קלטים (inputs) */
+  .col-md-4 .card.mb-3 .form-control {
+    border: 1px solid #ced4da; /* מסגרת בהירה */
+    border-radius: 5px; /* פינות מעוגלות */
+    padding: 10px; /* ריווח פנימי */
+    margin-bottom: 15px; /* ריווח תחתון */
+    width: 100%; /* רוחב מלא */
+    box-sizing: border-box; /* כולל מסגרת ברוחב */
+  }
+  
+  /* עיצוב כפתור הפעולה */
+  .col-md-4 .card.mb-3 .btn-primary {
+    background-color: #E87A6E; /* צבע רקע כחול */
+    color: white; /* צבע טקסט לבן */
+    border: none; /* ללא מסגרת */
+    border-radius: 5px; /* פינות מעוגלות */
+    padding: 10px 20px; /* ריווח פנימי */
+    font-size: 16px; /* גודל גופן */
+    cursor: pointer; /* סמן עכבר כיד */
+    transition: background-color 0.3s; /* אנימציה חלקה למעבר צבע */
+    display: block; /* תצוגת בלוק */
+    margin: 0 auto; /* מרכז את הכפתור */
+  }
+  
+  .col-md-4 .card.mb-3 .btn-primary:hover {
+    background-color: #e86455; /* צבע כהה יותר במעבר עכבר */
+  }
+  
