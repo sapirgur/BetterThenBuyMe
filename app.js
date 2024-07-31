@@ -5,6 +5,7 @@ const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryBy
 const cors = require('cors');  
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
+const axios = require('axios'); 
 const app = express();
 require('dotenv').config();
 const port = 3001; // Use an available port
@@ -764,7 +765,27 @@ app.get('/api/aggregated-data', async (req, res) => {
 
 
 
+app.get('/api/get-weather', async (req, res) => {
+    try {
+        const response = await axios.get('https://api.open-meteo.com/v1/forecast?latitude=32.0853&longitude=34.7818&hourly=temperature_2m,wind_speed_10m');
+        const data = response.data;
 
+        // Extract the current weather data
+        const currentHourIndex = 0; // Assuming you want the current hour data
+        const time = data.hourly.time[currentHourIndex];
+        const temp = data.hourly.temperature_2m[currentHourIndex];
+        const windSpeed = data.hourly.wind_speed_10m[currentHourIndex];
+
+        res.json({
+            time,
+            temp: `${temp} °C`,
+            windSpeed: `${windSpeed} km/h`
+        });
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        res.status(500).json({ error: 'Failed to fetch weather data' });
+    }
+});
 
 
 // Test route to check DB connection
