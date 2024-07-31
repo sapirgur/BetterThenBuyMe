@@ -6,6 +6,17 @@ const { ObjectId } = require('mongodb');
 
 let user_id = null;
 
+app.get('/', async (req, res) => {
+    try {
+        const topReviews = await getTopReviews();
+        const categories = await getCategories();
+        res.render('index', { topReviews, categories });
+    } catch (err) {
+        console.error('Error fetching top reviews and categories:', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
 router.get('/login', (req, res) => {
     res.render('login', { errorMessage: '' });
 });
