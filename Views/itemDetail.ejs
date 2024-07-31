@@ -11,187 +11,183 @@
     <link rel="stylesheet" href="/css/footer.css">
     <style>
         .weather-card {
-        max-width: 400px;
-        margin: 50px auto;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        overflow: hidden;
-    }
+            max-width: 400px;
+            margin: 50px auto;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-    .weather-header {
-        background-color: #1D2437;
-        color: #fff;
-        padding: 20px;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+        .weather-header {
+            background-color: #1D2437;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
 
-    .weather-body {
-        padding: 20px;
-        text-align: center; /* Center text horizontally */
-    }
+        .weather-body {
+            padding: 20px;
+            text-align: center; /* Center text horizontally */
+        }
 
-    .weather-body p {
-        margin: 10px 0;
-        font-size: 18px;
-        text-align: center; /* Ensure individual paragraphs are centered */
-    }
+        .weather-body p {
+            margin: 10px 0;
+            font-size: 18px;
+            text-align: center; /* Ensure individual paragraphs are centered */
+        }
 
-    .weather-body p strong {
-        color: #E87A6E;
-    }
+        .weather-body p strong {
+            color: #E87A6E;
+        }
     </style>
 </head>
 <body>
     <%- include('partials/header') %>
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <a href="/" class="text-decoration-none">
-                        <i class="fas fa-arrow-right ms-1"></i> חזרה לעמוד הבית
-                    </a> | <%= item.name %>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <a href="/" class="text-decoration-none">
+                            <i class="fas fa-arrow-right ms-1"></i> חזרה לעמוד הבית
+                        </a> | <%= item.name %>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="/<%= item.imgPath %>" alt="<%= item.name %> Image" class="img-fluid">
+                            <h5 class="mt-2"><%= item.name %></h5>
+                        </div>
+                        <div class="mb-3">
+                            <p><%= item.description %></p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Details</h6>
+                            <p>Contact: <%= item.contact_info %></p>
+                            <p>Category: <%= item.categories.join(', ') %></p>
+                            <p>Geographical Location: <%= item.geographical_location.join(', ') %></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <img src="/<%= item.imgPath %>" alt="<%= item.name %> Image" class="img-fluid">
-                        <h5 class="mt-2"><%= item.name %></h5>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="priceInput" class="form-label">טען את כרטיס המתנה</label>
+                            <input type="number" class="form-control" id="priceInput" placeholder="Enter price">
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantityInput" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantityInput" placeholder="Enter quantity" value="1">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="actionButton">בחר סכום</button>
                     </div>
-                    <div class="mb-3">
-                        <p><%= item.description %></p>
+                </div>
+                
+                <div class="weather-card">
+                    <div class="weather-header">
+                        שימו לב למזג האוויר היום
                     </div>
-                    <div class="mb-3">
-                        <h6>Details</h6>
-                        <p>Contact: <%= item.contact_info %></p>
-                        <p>Category: <%= item.categories.join(', ') %></p>
-                        <p>Geographical Location: <%= item.geographical_location.join(', ') %></p>
+                    <div class="weather-body">
+                        <p><strong>תאריך:</strong> <span id="weatherTime"></span></p>
+                        <p><strong>טמפרטורה:</strong> <span id="weatherTemp"></span></p>
+                        <p><strong>מהירות הרוח:</strong> <span id="weatherWindSpeed"></span></p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="priceInput" class="form-label">טען את כרטיס המתנה</label>
-                        <input type="number" class="form-control" id="priceInput" placeholder="Enter price">
-                    </div>
-                    <div class="mb-3">
-                        <label for="quantityInput" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" id="quantityInput" placeholder="Enter quantity" value="1">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="actionButton">בחר סכום</button>
-                </div>
-            </div>
-            
-            <div class="weather-card">
-                <div class="weather-header">
-                    שימו לב למזג האוויר היום
-                </div>
-                <div class="weather-body">
-                    <p><strong>תאריך:</strong> <span id="weatherTime"></span></p>
-                    <p><strong>טמפרטורה:</strong> <span id="weatherTemp"></span></p>
-                    <p><strong>מהירות הרוח:</strong> <span id="weatherWindSpeed"></span></p>
-                </div>
-            </div>
-            
-            
+    </div>
+
+    <!-- Bootstrap Modal for keep buying or not -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationModalLabel" style="color: black;" >לפני שנמשיך</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" style="color: black;">
+            האם תרצה/י להמשיך לקנות או להמשיך לתשלום?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="keepBuyingButton" data-bs-dismiss="modal">המשך לקנות</button>
+            <button type="button" class="btn btn-primary" id="proceedToPaymentButton">המשך לתשלום</button>
+          </div>
         </div>
-    </div>
-</div>
-
-<!-- Bootstrap Modal for keep buying or not -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalLabel" style="color: black;" >לפני שנמשיך</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" style="color: black;">
-        האם תרצה/י להמשיך לקנות או להמשיך לתשלום?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="keepBuyingButton" data-bs-dismiss="modal">המשך לקנות</button>
-        <button type="button" class="btn btn-primary" id="proceedToPaymentButton">המשך לתשלום</button>
       </div>
     </div>
-  </div>
-</div>
 
-<%- include('partials/footer') %>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <%- include('partials/footer') %>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    document.getElementById('actionButton').addEventListener('click', async function() {
-        const productId = "<%= item._id %>";  // Ensure you have item._id in the EJS template
-        const price = parseFloat(document.getElementById('priceInput').value);
-        const quantity = parseInt(document.getElementById('quantityInput').value, 10);
+    <script>
+        document.getElementById('actionButton').addEventListener('click', async function() {
+            const productId = "<%= item._id.toString() %>";  // Ensure productId is converted to string
+            const price = parseFloat(document.getElementById('priceInput').value);
+            const quantity = parseInt(document.getElementById('quantityInput').value, 10);
 
-        if (isNaN(price) || price <= 0) {
-            console.error('Invalid price value');
-            return;
-        }
-
-        if (isNaN(quantity) || quantity <= 0) {
-            console.error('Invalid quantity value');
-            return;
-        }
-
-        try {
-            const response = await fetch('/add-item-to-cart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ productId, quantity, price })
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                // Show the confirmation modal
-                var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'), {});
-                confirmationModal.show();
-            } else {
-                console.error('Failed to add item to cart');
+            if (isNaN(price) || price <= 0) {
+                console.error('Invalid price value');
+                return;
             }
-        } catch (error) {
-            console.error('Error:', error);
+
+            if (isNaN(quantity) || quantity <= 0) {
+                console.error('Invalid quantity value');
+                return;
+            }
+
+            try {
+                const response = await fetch('/add-item-to-cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId, quantity, price })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    // Show the confirmation modal
+                    var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'), {});
+                    confirmationModal.show();
+                } else {
+                    console.error('Failed to add item to cart');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        document.getElementById('keepBuyingButton').addEventListener('click', function() {
+            window.location.href = '/shop'; // Redirect to the shop page
+        });
+
+        document.getElementById('proceedToPaymentButton').addEventListener('click', function() {
+            window.location.href = '/CheckOut'; // Redirect to the checkout page
+        });
+
+        
+        async function getWeather() {
+            try {
+                const response = await fetch('/api/get-weather');
+                const weatherData = await response.json();
+
+                document.getElementById('weatherTime').textContent = weatherData.time;
+                document.getElementById('weatherTemp').textContent = weatherData.temp;
+                document.getElementById('weatherWindSpeed').textContent = weatherData.windSpeed;
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+            }
         }
-    });
 
-    document.getElementById('keepBuyingButton').addEventListener('click', function() {
-        window.location.href = '/shop'; // Redirect to the shop page
-    });
-
-    document.getElementById('proceedToPaymentButton').addEventListener('click', function() {
-        window.location.href = '/CheckOut'; // Redirect to the checkout page
-    });
-
-    
-    async function getWeather() {
-        try {
-            const response = await fetch('/api/get-weather');
-            const weatherData = await response.json();
-
-            document.getElementById('weatherTime').textContent = weatherData.time;
-            document.getElementById('weatherTemp').textContent = weatherData.temp;
-            document.getElementById('weatherWindSpeed').textContent = weatherData.windSpeed;
-        } catch (error) {
-            console.error('Error fetching weather data:', error);
-        }
-    }
-
-    // Fetch weather data on page load
-    document.addEventListener('DOMContentLoaded', getWeather);
-
-
-</script>
+        // Fetch weather data on page load
+        document.addEventListener('DOMContentLoaded', getWeather);
+    </script>
 </body>
 </html>

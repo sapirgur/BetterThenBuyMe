@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ObjectId, getProductById } = require('../db');
+const { ObjectId, getProductById,toObjectId } = require('../db');
 
 router.get('/shop', async (req, res) => {
     try {
@@ -84,7 +84,7 @@ router.get('/search', async (req, res) => {
     }
 });
 
-router.post('/add-item-to-cart', async (req, res) => {
+router.post('/add-item-to-cart', async (req, res, next) => {
     if (!req.session.user) {
         return res.status(401).send('You need to log in first');
     }
@@ -92,12 +92,15 @@ router.post('/add-item-to-cart', async (req, res) => {
     const { productId, quantity, price } = req.body;
     const user_id = req.session.user.id;
 
-    if (!productId || !quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price <= 0) {
-        return res.status(400).send('Invalid product ID, quantity, or price');
-    }
-
     try {
-        const product = await getProductById(req.db, productId);
+        // Validate ObjectId
+        const validProductId = toObjectId(productId);
+        
+        if (!quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price <= 0) {
+            return res.status(400).send('Invalid quantity or price');
+        }
+
+        const product = await getProductById(req.db, validProductId);
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -143,10 +146,15 @@ router.post('/add-item-to-cart', async (req, res) => {
         }
     } catch (error) {
         console.error('Error adding item to cart:', error);
-        res.status(500).send('Internal server error');
+        next(error);  // Pass the error to the error-handling middleware
     }
 });
 
 
-
 module.exports = router;
+
+
+
+
+
+

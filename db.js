@@ -32,13 +32,16 @@ function getDB() {
 }
 
 // Helper function to safely convert to ObjectId
+// Helper function to safely convert to ObjectId
 function toObjectId(id) {
-    try {
-        return new ObjectId(id);
-    } catch (error) {
+    if (!ObjectId.isValid(id) || typeof id !== 'string' || id.length !== 24) {
+        console.error(`Invalid ObjectId format: ${id}`);
         throw new Error('Invalid ObjectId format');
     }
+    return new ObjectId(id);
 }
+
+
 
 // Fetch all categories
 async function getCategories() {
@@ -131,4 +134,4 @@ process.on('SIGINT', async () => {
     }
 });
 
-module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers, getOrders, getCarts, getBusinesses, getReviews, getProducts, ObjectId };
+module.exports = { connectToDB, getDB, getCategories, getBusinessesByCategory, getCategoryById, getTopReviews, getBusinessById, getProductById, getCouponByCode, getLocations, getManagers, getOrders, getCarts, getBusinesses, getReviews, getProducts, ObjectId ,toObjectId};
