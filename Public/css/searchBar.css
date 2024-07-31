@@ -2,7 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30vh; 
+    height: 30vh; /* Full viewport height */
+    margin-top: 20px;
 }
 
 .search-bar {
@@ -13,6 +14,7 @@
 .search-bar h2 {
     color: #0D1B2A; 
     font-family: 'Assistant', sans-serif; /* פונט לכותרת */
+    font-size: 2.20rem;
     margin-top: 4rem; /* ריווח עליון גדול יותר לכותרת */
     margin-bottom: 2rem; /* ריווח תחתון לכותרת */
 }
@@ -20,6 +22,7 @@
 .search-bar .form-control, .search-bar .form-control:focus {
     color: #0D1B2A; 
     font-family: 'Assistant', sans-serif; /* פונט לטקסט בשדה החיפוש */
+    height: calc(2.50rem + 2px); /* גובה שדה */
     margin-bottom: 0.5rem; /* ריווח תחתון קטן יותר לשדות החיפוש */
 }
 
@@ -28,20 +31,27 @@
 }
 
 .search-bar .search-btn {
-    width: 30%; 
     background-color: #0D1B2A; 
     color: white;
-    border: none;
+    border: none; /* הורדת המסגרת לכפתור */
     font-family: 'Assistant', sans-serif; /* פונט לכפתור */
-    margin-top: 0.5rem; /* ריווח עליון קטן יותר לכפתור */
+    width: 100%; /* הגדרת רוחב הכפתור */
+    height: calc(2.25rem + 2px); /* גובה זהה לשדות הטופס */
+    margin: 0; /* הסרת כל מרווח */
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* הוספת מעבר חלק */
 }
 
 .search-bar .search-btn:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל לכפתור בעת ה-HOVER */
-    background-color: #0D1B2A; /* שמירת צבע הרקע */
-    color: white; /* שמירת צבע הטקסט */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* צל לכפתור בעת ה-HOVER */
+    background-color: #FF6F61; /* שינוי צבע הרקע בעת ה-HOVER */
+    color: #FFFFFF; /* שינוי צבע הטקסט בעת ה-HOVER */
+    transform: scale(1.05); /* הגדלת הכפתור בעת ה-HOVER */
 }
 
 .search-bar-container {
     margin-bottom: 4rem; /* ריווח תחתון גדול יותר לקונטיינר של ה-Search Bar */
+}
+
+.wide-button {
+    width: 150%; /* הגדרת רוחב הכפתור */
 }

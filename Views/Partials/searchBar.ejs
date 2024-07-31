@@ -1,23 +1,18 @@
 <style>
-    .full-height-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 30vh; /* Full viewport height */
-    }
+    
 </style>
 
 <div class="full-height-container">
     <section class="search-bar container py-5">
-        <h2 class="text-center mb-4">Find What You're Looking For</h2>
+        <h2 class="text-center mb-4">תמצאו לי מתנה</h2>
         <div class="d-flex justify-content-center">
             <form class="row g-3 col-md-8" method="GET" action="/search">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" name="keywords" placeholder="Keywords">
+                    <input type="text" class="form-control" name="keywords" placeholder="כאן אפשר לחפש מתנה">
                 </div>
                 <div class="col-md-3">
                     <select class="form-control" name="category">
-                        <option value="">Category</option>
+                        <option value="">קטגוריה</option>
                         <% categories.forEach(category => { %>
                             <option value="<%= category.name %>"><%= category.name %></option>
                         <% }) %>
@@ -25,7 +20,7 @@
                 </div>
                 <div class="col-md-3">
                     <select class="form-control" name="geoRegion">
-                        <option value="">Geo Region</option>
+                        <option value="">אזור</option>
                         <option value="תל אביב">תל אביב</option>
                         <option value="נס ציונה">נס ציונה</option>
                         <option value="ראשון לציון">ראשון לציון</option>
@@ -43,8 +38,8 @@
                         <option value="אור יהודה">אור יהודה</option>
                     </select>
                 </div>
-                <div class="col-12 text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary search-btn wide-button">חיפוש</button>
                 </div>
             </form>
         </div>
