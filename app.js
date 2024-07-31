@@ -5,6 +5,7 @@ const { connectToDB,getDB, getCategories, getBusinessesByCategory, getCategoryBy
 const cors = require('cors');  
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
+const axios = require('axios'); 
 const app = express();
 require('dotenv').config();
 const port = 3001; // Use an available port
