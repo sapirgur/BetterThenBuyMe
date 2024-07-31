@@ -34,18 +34,18 @@ body {
 
 .text-overlay {
     position: absolute;
-    top: 25%; /* מיקום מהרחק למעלה */
-    left: 10%; /* מיקום מצד שמאל */
+    top: 25%; /* מיקום מהחלק העליון */
+    left: 8%; /* מיקום מהצד השמאלי */
     transform: translate(0, -50%);
     text-align: left; /* יישור טקסט לשמאל */
 }
 
 .hero-title {
     font-family: 'Arsenal', sans-serif; /* שימוש בפונט Arsenal */
-    font-size: 6rem; /* גודל פונט גדול */
+    font-size: 8rem; /* גודל פונט גדול יותר */
     font-weight: bold;
     color: #70A9A1; /* הצבע הכחול בהיר */
-    margin: 0; /* ביטול מרווח תחתון */
+    margin-left: 80px;
 }
 
 .hero-subtitle {
@@ -53,4 +53,5 @@ body {
     font-size: 1.7rem; /* גודל פונט */
     margin-top: 10px;
     color: #ffffff;
+    
 }

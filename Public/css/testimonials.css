@@ -8,7 +8,7 @@
     font-family: 'Assistant', sans-serif; /* פונט מותאם */
     font-weight: normal; /* טקסט לא מודגש */
     font-size: 2.20rem; /* גודל טקסט קטן יותר */
-    margin-top: 4rem; /* ריווח עליון גדול יותר לכותרת */
+    margin-top: 20px; /* ריווח עליון גדול יותר לכותרת */
     margin-bottom: 2rem; /* ריווח תחתון לכותרת */
 }
 
