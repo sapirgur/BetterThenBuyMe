@@ -767,10 +767,8 @@ app.get('/api/aggregated-data', async (req, res) => {
 
 app.get('/api/get-weather', async (req, res) => {
     try {
-        // Use dynamic import
-        const fetch = (await import('node-fetch')).default;
-        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.0853&longitude=34.7818&hourly=temperature_2m,wind_speed_10m');
-        const data = await response.json();
+        const response = await axios.get('https://api.open-meteo.com/v1/forecast?latitude=32.0853&longitude=34.7818&hourly=temperature_2m,wind_speed_10m');
+        const data = response.data;
 
         // Extract the current weather data
         const currentHourIndex = 0; // Assuming you want the current hour data
