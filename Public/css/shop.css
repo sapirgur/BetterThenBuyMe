@@ -3,6 +3,20 @@
     background-size: cover;
 } */
 
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    background: url('/css/Images/gifty/backgroung.webp') no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+
 .gift-cards, .categories-nav {
     background-color: #f8f9fa; /* צבע רקע כללי */
     color: #0D1B2A; /* צבע טקסט כללי כחול כהה */
