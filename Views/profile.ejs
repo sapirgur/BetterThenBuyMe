@@ -169,7 +169,7 @@
                         </div>
                         <div class="form-group">
                             <label for="updateStreetNumber">מספר רחוב:</label>
-                            <input type="text" class="form-control" id="updateStreetNumber" name="streetNumber" value="<%= user.address && user.address[0] ? user.address[0]['street-number'] : '' %>" required>
+                            <input type="text" class="form-control" id="streetNumber" name="streetNumber" value="<%= user.address && user.address[0] ? user.address[0].street_number : '' %>" required>
                             <div class="invalid-feedback">הזן מספר רחוב חוקי.</div>
                         </div>
                         
@@ -193,6 +193,8 @@
         </div>
     </div>
 
+
+    
     <!-- Modal for Delete Confirmation -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
