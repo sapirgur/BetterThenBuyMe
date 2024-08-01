@@ -21,14 +21,18 @@
     <!-- Main Content -->
     <div class="container mt-5">
         <h1 class="text-center">צור קשר</h1>
-        <div class="mt-4">
-            <% managers.forEach((manager) => { %>
-                <div class="manager">
-                    <img src="<%= manager.imgpath %>" alt="Profile Image">
-                    <div class="description">
-                        <h3><%= manager.name %></h3>
-                        <p><%= manager.description %></p>
-                        <a href="mailto:<%= manager.email %>"><%= manager.email %></a>
+        <div class="row mt-4">
+            <% managers.forEach((manager, index) => { %>
+                <div class="col-md-6 mb-4 d-flex align-items-stretch">
+                    <div class="card w-100 h-100 flex-row <% if (index % 2 === 0) { %> flex-md-row-reverse <% } %>">
+                        <div class="card-image">
+                            <img src="<%= manager.imgpath %>" alt="Profile Image" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title"><%= manager.name %></h3>
+                            <p class="card-text"><%= manager.description %></p>
+                            <a href="mailto:<%= manager.email %>" class="card-link"><%= manager.email %></a>
+                        </div>
                     </div>
                 </div>
             <% }) %>
