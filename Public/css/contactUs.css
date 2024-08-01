@@ -1,4 +1,4 @@
-/* CSS for contact us Page */
+/* CSS for Contact Us Page */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 body {
@@ -37,7 +37,7 @@ body {
 }
 
 .contact-container img {
-    max-width: 120px; /* גודל התמונה גדול יותר */
+    max-width: 120px;
     border-radius: 50%;
     margin-bottom: 15px;
 }
@@ -50,7 +50,7 @@ body {
 /* Map container */
 #map {
     width: 100vw;
-    height: 500px; /* גובה המפה */
+    height: 500px;
     margin-top: 40px;
     border-radius: 10px;
 }
@@ -58,28 +58,100 @@ body {
 .manager {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* כדי לוודא שהתמונות יהיו בצד ימין */
+    justify-content: flex-start; /* To ensure images are on the right side */
     margin-bottom: 20px;
     background-color: white;
-    border: 2px solid #E87A6E; 
+    border: 2px solid #E87A6E;
     border-radius: 10px;
     padding: 10px;
-    transition: box-shadow 0.3s ease; /* מעבר חלק לאפקט ההבהרה */
+    transition: box-shadow 0.3s ease;
+}
+
+/* New Additions for Layout */
+.manager:nth-child(odd) {
+    flex-direction: row-reverse; /* Alternate image and description positions */
 }
 
 .manager img {
-    width: 120px; /* גודל התמונה גדול יותר */
+    width: 120px;
     height: 120px;
     border-radius: 50%;
-    margin-left: 20px; /* מרווח בין התמונה לטקסט */
+    margin-left: 20px; /* Margin between the image and text */
 }
+
 .manager .description {
-    background-color: white; /* מלבנים בצבע לבן */
+    background-color: white;
     color: #333;
     padding: 10px;
     border-radius: 5px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
+.description h3 {
+    margin: 0 0 10px 0;
+}
+
+.description p {
+    margin-bottom: 10px;
+}
+
 .description a {
-    color: #003366; /* צבע כחול כהה */
+    color: #003366;
+    font-weight: bold;
+    text-decoration: none;
 }
+
+.description a:hover {
+    text-decoration: underline;
+}
+
+.card-image {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.card {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 15px;
+    background-color: #1D2437; /* Navy Blue */
+    color: #1D2437; /* Almost White */
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #1D2437; /* Almost White */
+}
+
+.card-text {
+    margin-bottom: 15px;
+    color: #1D2437; /* Almost White */
+}
+
+.card-link {
+    color: #E87A6E; /* Coral */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
