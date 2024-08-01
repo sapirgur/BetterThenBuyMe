@@ -1,3 +1,112 @@
+
+.modal-header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.modal-header .btn-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+/* סגנונות לכפתור שמור שינויים */
+.btn-custom-save {
+    background-color: #FF6F61 !important; 
+    border-color: #FF6F61 !important; 
+    color: #ffffff !important; 
+}
+
+.btn-custom-save:hover {
+    background-color: #e95143 !important; 
+    border-color: #e95143 !important; 
+}
+
+/* סגנונות לכפתור סגור */
+.btn-custom-close {
+    background-color: #1D2437 !important; 
+    border-color: #1D2437 !important; 
+    color: #ffffff !important; 
+}
+
+.btn-custom-close:hover {
+    background-color: #14192c !important; 
+    border-color: #14192c !important; 
+}
+
+.btn-custom-update {
+    background-color: #1F2437 !important;
+    border-color: #1F2437 !important; 
+    color: #ffffff !important; 
+}
+
+.btn-custom-update:hover {
+    background-color: #14192c !important; 
+    border-color: #14192c !important; 
+}
+.ltr {
+    direction: ltr;
+    text-align: left;
+}
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: top;
+    word-wrap: break-word;
+    padding: 10px;
+}
+
+.table td div {
+    margin-bottom: 5px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.card-header {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card h3 {
+    margin: 0;
+}
+
+.card .row > .col-md-6 {
+    margin-bottom: 20px;
+}
+
+.manager-info .container {
+    padding: 0;
+}
+
+.chart {
+    display: flex;
+    justify-content: space-around;
+}
+
+.bar {
+    fill: coral;
+}
+
+.axis-label {
+    font: 12px sans-serif;
+}
+
+
 body {
     font-family: Arial, sans-serif;
     direction: rtl;

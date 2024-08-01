@@ -8,68 +8,10 @@
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/profile.css">
     <title>עמוד פרופיל</title>
     <link rel="icon" href="/css/Images/gifty/gifty_card.png" type="image/png">
 
-    <style>
-        .table-responsive {
-            margin-top: 20px;
-        }
-
-        .table th, .table td {
-            vertical-align: top;
-            word-wrap: break-word;
-            padding: 10px;
-        }
-
-        .table td div {
-            margin-bottom: 5px;
-        }
-
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            padding: 15px;
-        }
-
-        .card-header {
-            background-color: #f7f7f7;
-            border-bottom: 1px solid #ddd;
-            padding: 10px 15px;
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
-        }
-
-        .card-body {
-            padding: 15px;
-        }
-
-        .card h3 {
-            margin: 0;
-        }
-
-        .card .row > .col-md-6 {
-            margin-bottom: 20px;
-        }
-
-        .manager-info .container {
-            padding: 0;
-        }
-
-        .chart {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .bar {
-            fill: coral;
-        }
-
-        .axis-label {
-            font: 12px sans-serif;
-        }
-    </style>
 </head>
 <body>
     <%- include('partials/header') %>
@@ -79,11 +21,11 @@
             <h1>פרופיל</h1>
             <div class="row">
                 <div class="col-md-4">
-                    <img src="/css/Images/profilePictures/Generic Profile Img.webp" alt="Profile Image" class="img-fluid rounded-circle mb-3">
+                    <img src="\css\Images\gifty\profile.jpeg" alt="Profile Image" class="img-fluid rounded-circle mb-3">
                 </div>
                 <div class="col-md-8">
                     <div class="mb-3">
-                        <button id="updateButton" class="btn btn-primary btn-lg w-100" type="button">עדכן פרטים</button>
+                        <button id="updateButton" class="btn btn-custom-update btn-lg w-100" type="button">עדכן פרטים</button>
                     </div>
                     <div class="form-group">
                         <label for="name">שם מלא:</label>
@@ -104,7 +46,7 @@
                 <ul class="purchase-history list-group">
                     <% if (user.order_history && user.order_history.length > 0) { %>
                         <% user.order_history.forEach(function(order) { %>
-                            <li class="list-group-item">
+                            <li class="list-group-item ltr">
                                 <strong>Order ID:</strong> <%= order.short_id %><br>
                                 <strong>Date:</strong> <%= new Date(order.order_date).toISOString().split('T')[0] %><br>
                                 <strong>Status:</strong> <%= order.status %><br>
@@ -231,8 +173,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגור</button>
-                    <button type="button" class="btn btn-primary" id="saveUpdateButton">שמור שינויים</button>
+                    <button type="button" class="btn btn-custom-close" data-bs-dismiss="modal">סגור</button>
+                    <button type="button" class="btn btn-custom-save" id="saveUpdateButton">שמור שינויים</button>
                 </div>
             </div>
         </div>
