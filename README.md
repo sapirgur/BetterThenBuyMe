@@ -38,6 +38,14 @@ BetterThanBuyMe is a modular web application for an online store, built using No
 
 ```
 BetterThanBuyMe/
+├── controllers/
+│   │   ├── businessController.js
+│   │   ├── productController.js
+│   │   ├── userController.js
+│   │   └── weatherController.js
+├── dist/
+│   │   ├── app.dev.js
+│   │   └── db.dev.js
 ├── public/
 │   ├── css/
 │   │   └── styles.css
@@ -71,7 +79,7 @@ BetterThanBuyMe/
 ├── app.js
 ├── db.js
 ├── package.json
-├── package-lock.json
+└── package-lock.json
 ```
 
 
