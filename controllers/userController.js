@@ -366,12 +366,20 @@ router.post('/postToFacebook', async (req, res) => {
         return res.status(401).send('You need to log in first');
     }
 
+    console.log('Session Data:', req.session);
+    console.log('Page Access Token:', process.env.PAGE_ACCESS_TOKEN);
+
+    if (!req.session.user || !req.session.user.name) {
+        return res.status(401).send('User not authenticated');
+    }
+
     // Page access token and page ID of the Facebook page that I want to post on
     const pageAccessToken = process.env.PAGE_ACCESS_TOKEN;
     const pageId = '364777303391493';
 
+    const userName = req.session.user.name;
     const message = req.body.message; // Gets the message from the request
-
+    const messageWithName = `${message}\n- ${userName}`;
     try {
         console.log('Attempting to import node-fetch');
         const fetch = await import('node-fetch');
@@ -382,13 +390,15 @@ router.post('/postToFacebook', async (req, res) => {
             headers: {
                 'Content-Type': 'application/json' // Set the request headers to indicate that the request body is JSON
             },
-            body: JSON.stringify({ message: message }) // Convert the message to a JSON string to include in the request body
+            body: JSON.stringify({ message: messageWithName }) // Convert the message to a JSON string to include in the request body
         });
 
         console.log('Received response from Facebook API');
 
         if (!response.ok) { // Check if the response is not OK
-            throw new Error(`HTTP error! status: ${response.status}`);
+            //throw new Error(`HTTP error! status: ${response.status}`);
+            const errorData = await response.json(); // Get detailed error information
+            throw new Error(`HTTP error! status: ${response.status}, message: ${JSON.stringify(errorData)}`);
         }
 
         const data = await response.json(); // Gets the JSON response from Facebook
@@ -415,7 +425,7 @@ router.post('/postToFacebook', async (req, res) => {
             user_id: req.session.user.id, // Use logged-in user's ID
             product_id: null,
             rating: null,
-            comment: message,
+            comment: messageWithName,
             review_date: new Date()
         };
 
