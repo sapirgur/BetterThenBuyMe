@@ -508,7 +508,7 @@
         document.getElementById('coupon-form').addEventListener('submit', function(event) {
             event.preventDefault();
         
-            const couponCode = document.getElementById('coupon-code').value;
+            const couponCode = document.getElementById('coupon-code').value.trim();
             console.log('Coupon Code:', couponCode);
         
             // Make an AJAX request to your server to verify the coupon

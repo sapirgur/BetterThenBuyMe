@@ -81,13 +81,26 @@ async function getProductById(productId) {
 }
 
 // Fetch coupon by name
-async function getCouponByCode(couponCode) {
-    const db = getDB();
-    const currentDate = new Date();
-    return await db.collection('coupons').findOne({
-        coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') },
-        deadline_date: { $gte: currentDate }
-    });
+//async function getCouponByCode(couponCode) {
+  //  const db = getDB();
+    //const currentDate = new Date();
+    //return await db.collection('coupons').findOne({
+      //  coupon_name: { $regex: new RegExp('^' + couponCode + '$', 'i') },
+        //deadline_date: { $gte: currentDate }
+    //});
+//}
+
+async function getCouponByCode(db, couponCode) {
+    try {
+        const coupon = await db.collection('coupons').findOne({
+            coupon_name: couponCode,
+            deadline_date: { $gte: new Date() } // Check for valid expiry date
+        });
+        return coupon;
+    } catch (error) {
+        console.error('Error retrieving coupon:', error);
+        throw error;
+    }
 }
 
 async function getLocations() {

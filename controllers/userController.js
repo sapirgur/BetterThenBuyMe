@@ -252,8 +252,6 @@ router.post('/verify-coupon', async (req, res) => {
     }
 });
 
-// Add these routes to the existing userController.js
-
 // GET /CheckOut
 router.get('/CheckOut', async (req, res) => {
     if (!req.session.user) {
