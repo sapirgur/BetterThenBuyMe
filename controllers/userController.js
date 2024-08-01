@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const { ObjectId, getManagers, getOrders, getReviews, getProducts, getLocations, getCouponByCode } = require('../db');
+const { ObjectId, getManagers, getOrders, getReviews, getProducts, getLocations, getCouponByCode, getDB } = require('../db');
 
 let user_id = null;
 
@@ -431,5 +431,52 @@ router.post('/postToFacebook', async (req, res) => {
     }
 });
 
+// Function to get aggregated data
+async function getAggregatedData() {
+    const db = getDB();
+
+    // Fetch product details
+    const products = await db.collection('products').find().toArray();
+    const productMap = {};
+    products.forEach(product => {
+        productMap[product._id.toString()] = product.name;
+    });
+
+    // Aggregate high rating reviews (4 and 5)
+    const reviewsAggregation = await db.collection('reviews').aggregate([
+        { $match: { rating: { $gte: 4 } } },
+        { $group: { _id: "$product_id", count: { $sum: 1 } } }
+    ]).toArray();
+
+    // Aggregate orders per product
+    const ordersAggregation = await db.collection('orders').aggregate([
+        { $unwind: "$products" },
+        { $group: { _id: "$products._id", count: { $sum: 1 } } }
+    ]).toArray();
+
+    // Replace product IDs with names
+    reviewsAggregation.forEach(review => {
+        review.product_name = productMap[review._id.toString()];
+    });
+
+    ordersAggregation.forEach(order => {
+        order.product_name = productMap[order._id.toString()];
+    });
+
+    return { reviewsAggregation, ordersAggregation };
+}
+
+// Handler function for the route
+const getAggregatedDataHandler = async (req, res) => {
+    try {
+        const aggregatedData = await getAggregatedData();
+        res.json(aggregatedData);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
+// Define the route
+router.get('/api/aggregated-data', getAggregatedDataHandler);
 
 module.exports = router;
