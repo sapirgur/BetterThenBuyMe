@@ -42,30 +42,54 @@ router.get('/search', async (req, res) => {
     try {
         const query = {};
 
+        // Search by keywords
         if (keywords) {
             query.$text = { $search: keywords };
         }
 
+        // Filter by category
         if (category) {
             query.categories = category;
         }
 
+        // Filter by maximum price
         if (maxPrice) {
             query.price = { $lte: parseFloat(maxPrice) };
         }
 
+        // Filter by geographical location
         if (geoRegion) {
             switch (geoRegion) {
                 case 'כל הארץ':
                     break;
                 case 'מרכז הארץ':
-                    query.geographical_location = { $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה', 'חולון'] };
+                    query.geographical_location = {
+                        $in: [
+                            'ראשון לציון',
+                            'פתח תקווה',
+                            'נס ציונה',
+                            'רחובות',
+                            'הרצליה',
+                            'נתניה',
+                            'אור יהודה',
+                            'חולון',
+                        ],
+                    };
                     break;
                 case 'דרום הארץ':
                     query.geographical_location = { $in: ['באר שבע'] };
                     break;
                 case 'צפון הארץ':
-                    query.geographical_location = { $in: ['קצרין', 'קיסריה', 'זכרון יעקב', 'מיני ישראל', 'שוני', 'טבריה'] };
+                    query.geographical_location = {
+                        $in: [
+                            'קצרין',
+                            'קיסריה',
+                            'זכרון יעקב',
+                            'מיני ישראל',
+                            'שוני',
+                            'טבריה',
+                        ],
+                    };
                     break;
                 case 'אזור ירושלים':
                     query.geographical_location = { $in: ['ירושלים', 'מודיעין'] };
@@ -77,12 +101,23 @@ router.get('/search', async (req, res) => {
 
         const businesses = await req.db.collection('businesses').find(query).toArray();
         const categories = await req.db.collection('categories').find().toArray();
-        res.render('shop', { categories, businesses });
+
+        // Check if no businesses were found
+        if (businesses.length === 0) {
+            res.render('shop', {
+                categories,
+                businesses,
+                message: 'מצטערים, לא מצאנו תוצאות המתאימות לחיפוש שלך. תוכל לעיין בקטגוריות שלנו.',
+            });
+        } else {
+            res.render('shop', { categories, businesses, message: null });
+        }
     } catch (err) {
         console.error('Error performing search:', err);
         res.status(500).send('Internal server error');
     }
 });
+
 
 router.post('/add-item-to-cart', async (req, res, next) => {
     if (!req.session.user) {
