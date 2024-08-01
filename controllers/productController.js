@@ -42,54 +42,30 @@ router.get('/search', async (req, res) => {
     try {
         const query = {};
 
-        // Search by keywords
         if (keywords) {
             query.$text = { $search: keywords };
         }
 
-        // Filter by category
         if (category) {
             query.categories = category;
         }
 
-        // Filter by maximum price
         if (maxPrice) {
             query.price = { $lte: parseFloat(maxPrice) };
         }
 
-        // Filter by geographical location
         if (geoRegion) {
             switch (geoRegion) {
                 case 'כל הארץ':
                     break;
                 case 'מרכז הארץ':
-                    query.geographical_location = {
-                        $in: [
-                            'ראשון לציון',
-                            'פתח תקווה',
-                            'נס ציונה',
-                            'רחובות',
-                            'הרצליה',
-                            'נתניה',
-                            'אור יהודה',
-                            'חולון',
-                        ],
-                    };
+                    query.geographical_location = { $in: ['ראשון לציון', 'פתח תקווה', 'נס ציונה', 'רחובות', 'הרצליה', 'נתניה', 'אור יהודה', 'חולון'] };
                     break;
                 case 'דרום הארץ':
                     query.geographical_location = { $in: ['באר שבע'] };
                     break;
                 case 'צפון הארץ':
-                    query.geographical_location = {
-                        $in: [
-                            'קצרין',
-                            'קיסריה',
-                            'זכרון יעקב',
-                            'מיני ישראל',
-                            'שוני',
-                            'טבריה',
-                        ],
-                    };
+                    query.geographical_location = { $in: ['קצרין', 'קיסריה', 'זכרון יעקב', 'מיני ישראל', 'שוני', 'טבריה'] };
                     break;
                 case 'אזור ירושלים':
                     query.geographical_location = { $in: ['ירושלים', 'מודיעין'] };
@@ -101,23 +77,12 @@ router.get('/search', async (req, res) => {
 
         const businesses = await req.db.collection('businesses').find(query).toArray();
         const categories = await req.db.collection('categories').find().toArray();
-
-        // Check if no businesses were found
-        if (businesses.length === 0) {
-            res.render('shop', {
-                categories,
-                businesses,
-                message: 'מצטערים, לא מצאנו תוצאות המתאימות לחיפוש שלך. תוכל לעיין בקטגוריות שלנו.',
-            });
-        } else {
-            res.render('shop', { categories, businesses, message: null });
-        }
+        res.render('shop', { categories, businesses });
     } catch (err) {
         console.error('Error performing search:', err);
         res.status(500).send('Internal server error');
     }
 });
-
 
 router.post('/add-item-to-cart', async (req, res, next) => {
     if (!req.session.user) {
@@ -144,7 +109,7 @@ router.post('/add-item-to-cart', async (req, res, next) => {
             return res.status(400).send('Invalid quantity or price');
         }
 
-        const product = await getProductById(validProductId);
+        const product = await getProductById(req.db, validProductId);
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -194,109 +159,6 @@ router.post('/add-item-to-cart', async (req, res, next) => {
     }
 });
 
-// New route for fetching cart data
-router.get('/cart-data', async (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    const user_id = req.session.user.id;  // Retrieve user ID from session
-
-    try {
-        let cart = await req.db.collection('cart').findOne({ user_id: user_id });
-
-        // Return cart items as JSON
-        res.json(cart ? cart.items : []);
-    } catch (err) {
-        console.error('Error fetching cart items:', err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
-router.post('/decrease-quantity', async (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).send('You need to log in first');
-    }
-
-    const { productId } = req.body;
-    const user_id = req.session.user.id;  // Retrieve user ID from session
-
-    if (!productId) {
-        return res.status(400).send('Invalid product ID');
-    }
-
-    try {
-        let cart = await req.db.collection('cart').findOne({ user_id: user_id });
-        if (!cart) {
-            return res.status(404).send('Cart not found');
-        }
-
-        const itemIndex = cart.items.findIndex(item => item._id.equals(toObjectId(productId)));
-        if (itemIndex === -1) {
-            return res.status(404).send('Item not found in cart');
-        }
-
-        cart.items[itemIndex].quantity -= 1;
-        if (cart.items[itemIndex].quantity <= 0) {
-            cart.items.splice(itemIndex, 1); // Remove item if quantity is 0
-        }
-
-        cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
-        cart.total_price = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-        cart.updated_at = new Date();
-
-        await req.db.collection('cart').updateOne(
-            { _id: cart._id },
-            { $set: { items: cart.items, quantity: cart.quantity, total_price: cart.total_price, updated_at: cart.updated_at } }
-        );
-
-        res.json({ success: true, items: cart.items });
-    } catch (error) {
-        console.error('Error decreasing item quantity:', error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-router.post('/increase-quantity', async (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).send('You need to log in first');
-    }
-
-    const { productId } = req.body;
-    const user_id = req.session.user.id;  // Retrieve user ID from session
-
-    if (!productId) {
-        return res.status(400).send('Invalid product ID');
-    }
-
-    try {
-        let cart = await req.db.collection('cart').findOne({ user_id: user_id });
-        if (!cart) {
-            return res.status(404).send('Cart not found');
-        }
-
-        const itemIndex = cart.items.findIndex(item => item._id.equals(toObjectId(productId)));
-        if (itemIndex === -1) {
-            return res.status(404).send('Item not found in cart');
-        }
-
-        cart.items[itemIndex].quantity += 1;
-
-        cart.quantity = cart.items.reduce((total, item) => total + item.quantity, 0);
-        cart.total_price = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-        cart.updated_at = new Date();
-
-        await req.db.collection('cart').updateOne(
-            { _id: cart._id },
-            { $set: { items: cart.items, quantity: cart.quantity, total_price: cart.total_price, updated_at: cart.updated_at } }
-        );
-
-        res.json({ success: true, items: cart.items });
-    } catch (error) {
-        console.error('Error increasing item quantity:', error);
-        res.status(500).send('Internal server error');
-    }
-});
 
 module.exports = router;
 
