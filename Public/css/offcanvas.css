@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.offcanvas-header {
+    background-color: #FDFCFD;
+    text-align: center; /* Center the header title */
+}
+
+.offcanvas-title {
+    width: 100%;
+}
+
+.offcanvas-body {
+    background-color: #FDFCFD;
+    color: #D0A087;
+}
+
+.offcanvas-body .profile-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.offcanvas-body .profile-info img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.offcanvas-body .profile-info h5 {
+    margin: 0;
+}
+
+.offcanvas-body .profile-info p {
+    margin: 0;
+    color: #B8B8C3;
+}
+
+.offcanvas-body .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #1F2437;
+    border-radius: 5px;
+}
+
+.offcanvas-body .cart-item p {
+    margin: 0;
+}
+
+.offcanvas-body .cart-item .item-details {
+    flex: 1;
+}
+
+.offcanvas-body .cart-item .item-price {
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.offcanvas-body .cart-item .quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.offcanvas-body .cart-item .quantity-controls button {
+    margin: 0 5px;
+    background-color: #D0A087;
+    color: #1F2437;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#checkoutButton {
+    display: block;
+    margin: 0 auto; /* Center the checkout button */
+    background-color: #1F2437; /* Change this to your desired color */
+    color: #ffffff;
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+}
+
+#checkoutButton:hover {
+    background-color: #D0A087; /* Change to your desired hover color */
+}
