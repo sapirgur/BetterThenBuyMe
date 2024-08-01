@@ -1,3 +1,4 @@
+/* General body and layout styles */
 body {
     font-family: Arial, sans-serif;
     direction: rtl;
@@ -57,4 +58,182 @@ main {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.modal-header .btn-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+/* Button Styles */
+.btn-custom-save {
+    background-color: #FF6F61 !important; 
+    border-color: #FF6F61 !important; 
+    color: #ffffff !important; 
+}
+
+.btn-custom-save:hover {
+    background-color: #e95143 !important; 
+    border-color: #e95143 !important; 
+}
+
+.btn-custom-close {
+    background-color: #1D2437 !important; 
+    border-color: #1D2437 !important; 
+    color: #ffffff !important; 
+}
+
+.btn-custom-close:hover {
+    background-color: #14192c !important; 
+    border-color: #14192c !important; 
+}
+
+.btn-custom-update {
+    background-color: #1F2437 !important;
+    border-color: #1F2437 !important; 
+    color: #ffffff !important; 
+}
+
+.btn-custom-update:hover {
+    background-color: #14192c !important; 
+    border-color: #14192c !important; 
+}
+
+/* Purchase History Card */
+.history-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: none;
+    background-color: #fff;
+    padding: 0;
+}
+
+.history-card .card-body {
+    position: relative;
+    height: 250px;
+    background-image: url('/css/Images/gifty/hero.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 10px;
+    box-shadow: none;
+    border: none;
+}
+
+.history-card .card-body .overlay {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+}
+
+.history-card .card-body .overlay strong,
+.history-card .card-body .overlay p,
+.history-card .card-body .overlay ul,
+.history-card .card-body .overlay li {
+    text-shadow: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.history-card .card-body .overlay .list-group-item {
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+/* Responsive Tables */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    word-wrap: break-word;
+    table-layout: fixed; /* Ensure columns don't overflow */
+}
+
+.table th, .table td {
+    vertical-align: top;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    word-wrap: break-word;
+    max-width: 200px; /* Adjust max-width as needed */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+.table td div {
+    margin-bottom: 5px;
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.card-header {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card h3 {
+    margin: 0;
+}
+
+.card .row > .col-md-6 {
+    margin-bottom: 20px;
+}
+
+.manager-info .container {
+    padding: 0;
+}
+
+/* Chart Styles */
+.chart {
+    display: flex;
+    justify-content: space-around;
+}
+
+.bar {
+    fill: coral;
+}
+
+.axis-label {
+    font: 12px sans-serif;
+}
+
+.ltr {
+    direction: ltr;
+    text-align: left;
 }
