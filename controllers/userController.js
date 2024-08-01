@@ -367,7 +367,7 @@ router.post('/postToFacebook', async (req, res) => {
     }
 
     // Page access token and page ID of the Facebook page that I want to post on
-    const pageAccessToken = 'EAAsxuqJgRdkBO8n9f8WalUrgL26ZAGqKYZCGl8ZAkYTFT0TyGNEVmqwZA2Xmn2ew81TgsaHn9rQUCorHc39sTbSNdTax7ZAOWZC1R5fRSpVUcMGccdUmmrkrvmJ0G9ARPxHgUYj9UJZAoncWyi7AtQ3WoP4gbnwZBpKelw4AMa7X8PSmIHzf6ZC2ERUtveSVRsbfY';
+    const pageAccessToken = process.env.PAGE_ACCESS_TOKEN;
     const pageId = '364777303391493';
 
     const message = req.body.message; // Gets the message from the request
