@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
     try {
         const topReviews = await req.db.collection('reviews').find({ rating: { $gte: 4 } }).sort({ rating: -1 }).limit(5).toArray();
         const categories = await req.db.collection('categories').find().toArray();
+        const message = req.query.message || '';
         res.render('index', { topReviews, categories });
     } catch (err) {
         console.error('Error fetching top reviews and categories:', err);
@@ -251,7 +252,6 @@ router.post('/verify-coupon', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 // GET /CheckOut
 router.get('/CheckOut', async (req, res) => {
