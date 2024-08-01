@@ -43,32 +43,45 @@
             </div>
             <div class="history mt-5">
                 <h2>היסטוריית רכישות</h2>
-                <ul class="purchase-history list-group">
+                <div class="row">
                     <% if (user.order_history && user.order_history.length > 0) { %>
                         <% user.order_history.forEach(function(order) { %>
-                            <li class="list-group-item ltr">
-                                <strong>Order ID:</strong> <%= order.short_id %><br>
-                                <strong>Date:</strong> <%= new Date(order.order_date).toISOString().split('T')[0] %><br>
-                                <strong>Status:</strong> <%= order.status %><br>
-                                <strong>Total Amount:</strong> <%= order.total_amount %><br>
-                                <strong>Payment Method ID:</strong> <%= order.payment_method_id %><br>
-                                <strong>Products:</strong>
-                                <ul>
-                                    <% order.products.forEach(function(product) { %>
-                                        <li>
-                                            <strong>Product Name:</strong> <%= product.product_name %><br>
-                                            <strong>Quantity:</strong> <%= product.quantity %><br>
-                                            <strong>Price:</strong> <%= product.price %>
-                                        </li>
-                                    <% }); %>
-                                </ul>
-                            </li>
+                            <div class="col-md-4 mb-4">
+                                <div class="card history-card ltr">
+                                    <div class="card-body">
+                                        <div class="overlay">
+                                            <strong>Order ID:</strong> <%= order.short_id %><br>
+                                            <strong>Date:</strong> <%= new Date(order.order_date).toISOString().split('T')[0] %><br>
+                                            <strong>Status:</strong> <%= order.status %><br>
+                                            <strong>Total Amount:</strong> <%= order.total_amount %><br>
+                                            <strong>Payment Method ID:</strong> <%= order.payment_method_id %><br>
+                                            <strong>Products:</strong>
+                                            <ul>
+                                                <% order.products.forEach(function(product) { %>
+                                                    <li>
+                                                        <strong>Product Name:</strong> <%= product.product_name %><br>
+                                                        <strong>Quantity:</strong> <%= product.quantity %><br>
+                                                        <strong>Price:</strong> <%= product.price %>
+                                                    </li>
+                                                <% }); %>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <% }); %>
                     <% } else { %>
-                        <li class="list-group-item">אין היסטוריית רכישות</li>
+                        <div class="col-12">
+                            <div class="card history-card">
+                                <div class="card-body">
+                                    אין היסטוריית רכישות
+                                </div>
+                            </div>
+                        </div>
                     <% } %>
-                </ul>
+                </div>
             </div>
+            
             
             <% if (managerData) { %>
                 <div class="manager-info mt-5">

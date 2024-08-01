@@ -40,6 +40,65 @@
     color: #ffffff !important; 
 }
 
+/* סגנון לכרטיסי היסטוריית רכישות */
+.history-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* פינות מעוגלות קטנות יותר */
+    box-shadow: none; /* הסרת צל מהכרטיס */
+    background-color: #fff;
+    padding: 0; /* אין מרווח פנימי */
+}
+
+.history-card .card-body {
+    position: relative;
+    height: 250px; /* גובה קבוע לכרטיס */
+    background-image: url('/css/Images/gifty/hero.png'); /* תמונת רקע אחידה */
+    background-size: cover;
+    background-position: center; /* מיקום תמונת הרקע */
+    color: white; /* צבע טקסט לבן */
+    padding: 10px;
+    box-shadow: none; /* הסרת צל מהגוף של הכרטיס */
+    border: none; /* הסרת מסגרת */
+}
+
+.history-card .card-body .overlay {
+    background: rgba(0, 0, 0, 0.5); /* שכבת רקע כהה למחצה */
+    padding: 10px;
+    border-radius: 10px; /* פינות מעוגלות קטנות יותר */
+    width: 100%;
+    box-shadow: none; /* הסרת צל מהשכבה */
+    border: none; /* הסרת מסגרת */
+}
+
+/* הסרת צל מהטקסט */
+.history-card .card-body .overlay strong,
+.history-card .card-body .overlay p,
+.history-card .card-body .overlay ul,
+.history-card .card-body .overlay li {
+    text-shadow: none; /* הסרת צל מהטקסט */
+    box-shadow: none; /* הסרת צל מהמסגרות */
+    border: none; /* הסרת מסגרת מהטקסט */
+    background: transparent; /* הסרת רקע */
+    padding: 0;
+    margin: 0;
+}
+
+/* הסרת צל מרכיבי Bootstrap אם הם קיימים */
+.history-card .card-body .overlay .list-group-item {
+    box-shadow: none; /* הסרת צל מרכיבי הרשימה */
+    border: none; /* הסרת מסגרת מרכיבי הרשימה */
+    background: transparent; /* הסרת רקע */
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+
+
+
 .btn-custom-update:hover {
     background-color: #14192c !important; 
     border-color: #14192c !important; 
