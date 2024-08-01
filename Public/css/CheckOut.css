@@ -1,6 +1,7 @@
 body {
     direction: rtl;
     text-align: right;
+    margin-bottom: 70px;
 }
 
 .container {
@@ -36,12 +37,11 @@ input[type="text"] {
     text-align: right;
 }
 
-footer {
-    margin-top: 30px;
-    padding-top: 30px;
-    border-top: 1px solid #e5e5e5;
-}
 
-footer p {
-    margin-bottom: 0.25rem;
+
+
+.error {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 0.25em;
 }

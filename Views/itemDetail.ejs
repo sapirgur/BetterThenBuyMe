@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="/css/weatherCard.css">
     <link rel="stylesheet" href="/css/keepBuying.css">
     <link rel="stylesheet" href="/css/itemDetail.css">
-
 </head>
 <body>
     <%- include('partials/header') %>
@@ -50,6 +49,7 @@
                     <div class="mb-3">
                         <label for="priceInput" class="form-label">טען את כרטיס המתנה</label>
                         <input type="number" class="form-control" id="priceInput" placeholder="הכנס סכום" min="0">
+                        <div id="priceError" class="text-danger mt-2" style="display: none;">הכנס סכום תקין</div>
                     </div>
                     <div class="mb-3">
                         <label for="quantityInput" class="form-label">כמות</label>
@@ -69,8 +69,6 @@
                     <p><strong>מהירות הרוח:</strong> <span id="weatherWindSpeed"></span></p>
                 </div>
             </div>
-            
-            
         </div>
     </div>
 </div>
@@ -96,7 +94,6 @@
     </div>
   </div>
 
-
     <%- include('partials/footer') %>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -107,9 +104,13 @@
             const productId = "<%= item._id.toString() %>";  // Ensure productId is converted to string
             const price = parseFloat(document.getElementById('priceInput').value);
             const quantity = parseInt(document.getElementById('quantityInput').value, 10);
+            const priceError = document.getElementById('priceError');
+
+            // Reset error message
+            priceError.style.display = 'none';
 
             if (isNaN(price) || price <= 0) {
-                console.error('Invalid price value');
+                priceError.style.display = 'block';
                 return;
             }
 
