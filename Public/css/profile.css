@@ -1,3 +1,4 @@
+/* General body and layout styles */
 body {
     font-family: Arial, sans-serif;
     direction: rtl;
@@ -157,8 +158,10 @@ main {
     margin: 0;
 }
 
-/* Tables */
+/* Responsive Tables */
 .table-responsive {
+    width: 100%;
+    overflow-x: auto;
     margin-top: 20px;
 }
 
@@ -167,12 +170,17 @@ main {
     margin-bottom: 1rem;
     color: #212529;
     word-wrap: break-word;
+    table-layout: fixed; /* Ensure columns don't overflow */
 }
 
 .table th, .table td {
     vertical-align: top;
     padding: 10px;
     border-top: 1px solid #ddd;
+    word-wrap: break-word;
+    max-width: 200px; /* Adjust max-width as needed */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
 }
 
 .table td div {
